@@ -1,0 +1,10 @@
+:root {
+    --main-color: #00477A;
+    --primary: #00477A;
+    --main-gradient: linear-gradient(90deg, #00477A 0%, #002845 100%);
+    --product-width: 100px;
+    --product-padding: 16px;
+    --segment-width: 180px;
+    --product-gap: 10px;
+    --col-size: 420px;
+}

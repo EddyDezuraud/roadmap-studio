@@ -1,6 +1,6 @@
 <template>
-    <div :class="$style.wrapper">
-        <RoadmapTask v-for="(task, index) in line.tasks" :key="index" :task="task" />
+    <div :class="$style.wrapper" :style="{height: computedHeight}">
+        <RoadmapTask v-for="(task, index) in line.tasks" :key="index" :task="task" @init="heightCallback"/>
     </div>
 </template>
 
@@ -12,11 +12,24 @@ interface Props {
 }
 
 defineProps<Props>();
+
+const height = ref(0);
+
+const computedHeight = computed(() => {
+    return `${height.value}px`;
+})
+
+const heightCallback = (num: number) => {
+    if(num > height.value) {
+        height.value = num;
+    }
+}
+
 </script>
 
 <style module>
 .wrapper {
-    display: flex;
-    gap: 5px;
+    position: relative;
+    width: 100%;
 }
 </style>

@@ -1,12 +1,14 @@
 <template>
-    <div :class="$style.wrapper" :style="{width: size + 'px'}">
-        <span :class="$style.name">
-            {{ task.name }}
-        </span>
-        <div :class="$style.tags" v-if="task.tags && !task.tags.timeline">
-            <span v-for="(tag, index) in task.tags.list" :key="index" :class="$style.tag">
-                {{ tag.name }}
+    <div :class="$style.wrapper" :style="{width: size + 'px', left: left + 'px'}" ref="wrapper" v-if="size > 0">
+        <div :class="$style.inner">
+            <span :class="$style.name">
+                {{ task.name }}
             </span>
+            <div :class="$style.tags" v-if="task.tags && !task.tags.timeline">
+                <span v-for="(tag, index) in task.tags.list" :key="index" :class="$style.tag">
+                    {{ tag.name }}
+                </span>
+            </div>
         </div>
     </div>
 </template>
@@ -20,9 +22,13 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const emits = defineEmits(['init']);
 
 const { colSize } = useColSize()
 const size = ref(0);
+const left = ref(0);
+
+const wrapper = ref<HTMLDivElement | null>(null);
 
 const unit = computed(() => {
     return colSize.value / 8;
@@ -30,21 +36,43 @@ const unit = computed(() => {
 
 const initSize = () => {
     const diff = props.task.position.end - props.task.position.start;
-    console.log(diff, unit.value);
     return diff * unit.value;
+}
+
+const initLeft = () => {
+    return props.task.position.start * unit.value;
+}
+
+const initHeight = () => {
+    const height = wrapper.value?.clientHeight;
+    emits('init', height);
 }
 
 onMounted(() => {
     size.value = initSize();
+    left.value = initLeft();
+    initHeight();
 });
 
 watch(colSize, () => {
     size.value = initSize();
+    left.value = initLeft();
+});
+
+watch(size, async() => {
+    await nextTick();
+    initHeight();
 });
 </script>
 
 <style module>
 .wrapper {
+    padding: 3px;
+    position: absolute;
+    top: 0;
+}
+
+.inner {
     display: flex;
     flex-direction: column;
     border: solid 1px currentColor;
@@ -60,7 +88,7 @@ watch(colSize, () => {
     z-index: 2;
 }
 
-.wrapper::before {
+.inner::before {
     content: '';
     position: absolute;
     left: 0;

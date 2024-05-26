@@ -27,6 +27,7 @@ defineProps<Props>();
     display: flex;
     color: var(--primary);
     align-items: center;
+    flex: 1
 }
 
 .name {

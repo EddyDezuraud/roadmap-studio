@@ -8,28 +8,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Database } from '~/types/supabase';
+import type { Product, Column } from '~/types/roadmap';
 
 interface Props {
-    id: number; 
+    columns: Column[];
+    products: Product[]; 
 }
 
 const props = defineProps<Props>();
-
-const client = useSupabaseClient<Database>();
-
-const {data: columns, status: columnsStatus} = await useAsyncData('columns', async () => {
-    const { data } = await client.from('columns').select('*').eq('roadmap_id', props.id).order('start');
-    return data
-})
-
-const {data: products, status: productsStatus} = await useAsyncData('columns', async () => {
-    const { data } = await client.from('columns').select('*').eq('roadmap_id', props.id).order('start');
-    return data
-})
-
-const isPending = computed(() => columnsStatus.value === 'pending' || productsStatus.value === 'pending');
-
 </script>
 
 <style module>

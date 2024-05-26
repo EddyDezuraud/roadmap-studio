@@ -5,8 +5,9 @@
                 {{ product.name }}
             </span>
         </div>
-        <div :class="$style.segments">
-            <div v-for="(segment, index) in product.segments" :key="index" >
+
+        <div v-if="product.segments && product.segments.length > 0" :class="$style.segments">
+            <div v-for="(segment, index) in product.segments" :key="segment.id" >
                 <RoadmapSegment :segment="segment" :color="segmentColor(index)" />
                 <div v-if="index !== (product.segments.length - 1)" :class="$style.separator"></div>
             </div>
@@ -15,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Product } from '~/types/data';
+import type { Product } from '~/types/roadmap';
 
 interface Props {
     product: Product

@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Line } from '@/types/data';
+import type { Line } from '@/types/roadmap';
 
 interface Props {
     line: Line;

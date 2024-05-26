@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Segment } from '@/types/data';
+import type { Segment } from '~/types/roadmap';
 
 interface Props {
     segment: Segment;

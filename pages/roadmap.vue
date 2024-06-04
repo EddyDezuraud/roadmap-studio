@@ -1,6 +1,6 @@
 <template>
-    <div :class="$style.wrapper" :style="{'--col-size': roadmap.colSize + 'px'}">
-        <div v-if="roadmap">
+    <div :class="$style.wrapper">
+        <div v-if="roadmap" :style="{'--col-size': roadmap.col_size + 'px'}">
             <title>{{ roadmap.title }}</title>
             <Header :title="roadmap.title" />
             <Roadmap :products="roadmap.products" :columns="roadmap.columns" />
@@ -13,15 +13,12 @@
 import type { DataModel } from '@/types/data';
 import type { Database } from '~/types/supabase';
 
-// const { data } = useFetch<DataModel>('http://localhost:3000/data.json');
-
 const { colSize, setColSize } = useColSize()
-
 
 const client = useSupabaseClient<Database>();
 const route = useRoute();
 
-const orgId = route.query.organization_id as string;
+const roadmapId = route.query.id as string;
 
 const {data: roadmap, status} = await useAsyncData('roadmap', async () => {
     const { data } = await client.from('roadmap') .select(`
@@ -37,12 +34,12 @@ const {data: roadmap, status} = await useAsyncData('roadmap', async () => {
             *,
             tasks (
                 *,
-                task_segments (*)
+                task_stages (*)
             )
           )
         )
       )
-    `).eq('organization_id', orgId).single();
+    `).eq('id', roadmapId).single();
     return data
 })
 

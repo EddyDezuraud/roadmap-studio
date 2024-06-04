@@ -1,7 +1,9 @@
 <template>
-    <div :class="$style.wrapper" v-if="data && data.length > 0">
+  <div :class="$style.wrapper">
+    <div :class="$style.inner" v-if="data && data.length > 0">
       <Card v-for="roadmap in data" :key="roadmap.id" :id="roadmap.id" :title="roadmap.title" :subtitle="roadmap.subtitle" />        
     </div>
+  </div>
 </template>    
 
 <script setup lang="ts">
@@ -21,9 +23,13 @@ const {data, status} = await useAsyncData('roadmap', async () => {
 .wrapper {
     padding: 65px 35px;
     overflow: auto;
+}
 
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+.inner {
+    display: flex;
     gap: 20px;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
 }
 </style>

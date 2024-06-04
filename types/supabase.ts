@@ -44,6 +44,32 @@ export type Database = {
           },
         ]
       }
+      lines: {
+        Row: {
+          id: number
+          index: number
+          segment_id: number | null
+        }
+        Insert: {
+          id?: number
+          index: number
+          segment_id?: number | null
+        }
+        Update: {
+          id?: number
+          index?: number
+          segment_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lines_segment_id_fkey"
+            columns: ["segment_id"]
+            isOneToOne: false
+            referencedRelation: "product_segments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organizations: {
         Row: {
           id: number
@@ -55,6 +81,35 @@ export type Database = {
           id?: number
         }
         Relationships: []
+      }
+      product_segments: {
+        Row: {
+          id: number
+          index: number | null
+          name: string
+          product_id: number | null
+        }
+        Insert: {
+          id?: number
+          index?: number | null
+          name: string
+          product_id?: number | null
+        }
+        Update: {
+          id?: number
+          index?: number | null
+          name?: string
+          product_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "segments_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       products: {
         Row: {
@@ -90,18 +145,21 @@ export type Database = {
           col_size: number
           id: number
           organization_id: number | null
+          subtitle: string | null
           title: string
         }
         Insert: {
           col_size: number
           id?: number
           organization_id?: number | null
+          subtitle?: string | null
           title: string
         }
         Update: {
           col_size?: number
           id?: number
           organization_id?: number | null
+          subtitle?: string | null
           title?: string
         }
         Relationships: [
@@ -114,56 +172,51 @@ export type Database = {
           },
         ]
       }
-      segments: {
+      stage: {
         Row: {
+          color: string | null
           id: number
           name: string
-          product_id: number | null
         }
         Insert: {
+          color?: string | null
           id?: number
           name: string
-          product_id?: number | null
         }
         Update: {
+          color?: string | null
           id?: number
           name?: string
-          product_id?: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "segments_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
-      tags: {
+      task_stages: {
         Row: {
+          days: number
           id: number
-          name: string
-          size: number
-          start: number
+          index: number
+          infinite: boolean | null
+          names: string[]
+          stage_id: string
           task_id: number | null
-          type: string
         }
         Insert: {
+          days: number
           id?: number
-          name: string
-          size: number
-          start: number
+          index: number
+          infinite?: boolean | null
+          names: string[]
+          stage_id: string
           task_id?: number | null
-          type: string
         }
         Update: {
+          days?: number
           id?: number
-          name?: string
-          size?: number
-          start?: number
+          index?: number
+          infinite?: boolean | null
+          names?: string[]
+          stage_id?: string
           task_id?: number | null
-          type?: string
         }
         Relationships: [
           {
@@ -178,34 +231,44 @@ export type Database = {
       tasks: {
         Row: {
           id: number
+          line_id: number | null
+          logo: string | null
           name: string
           segment_id: number | null
-          size: number
           start: number
           subtitle: string | null
         }
         Insert: {
           id?: number
+          line_id?: number | null
+          logo?: string | null
           name: string
           segment_id?: number | null
-          size: number
           start: number
           subtitle?: string | null
         }
         Update: {
           id?: number
+          line_id?: number | null
+          logo?: string | null
           name?: string
           segment_id?: number | null
-          size?: number
           start?: number
           subtitle?: string | null
         }
         Relationships: [
           {
+            foreignKeyName: "tasks_line_id_fkey"
+            columns: ["line_id"]
+            isOneToOne: false
+            referencedRelation: "lines"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "tasks_segment_id_fkey"
             columns: ["segment_id"]
             isOneToOne: false
-            referencedRelation: "segments"
+            referencedRelation: "product_segments"
             referencedColumns: ["id"]
           },
         ]

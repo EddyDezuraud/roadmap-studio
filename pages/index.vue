@@ -1,6 +1,6 @@
 <template>
-    <div :class="$style.wrapper">
-      <Card v-for="roadmap in roadmaps" :key="roadmap.id" :roadmap="roadmap" />        
+    <div :class="$style.wrapper" v-if="data && data.length > 0">
+      <Card v-for="roadmap in data" :key="roadmap.id" :id="roadmap.id" :title="roadmap.title" :subtitle="roadmap.subtitle" />        
     </div>
 </template>    
 
@@ -10,7 +10,7 @@ import type { Database } from '~/types/supabase';
 
 const client = useSupabaseClient<Database>();
 
-const {data: roadmap, status} = await useAsyncData('roadmap', async () => {
+const {data, status} = await useAsyncData('roadmap', async () => {
     const { data } = await client.from('roadmap') .select(`*`);
     return data
 })
@@ -21,5 +21,9 @@ const {data: roadmap, status} = await useAsyncData('roadmap', async () => {
 .wrapper {
     padding: 65px 35px;
     overflow: auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
 }
 </style>

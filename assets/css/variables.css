@@ -2,9 +2,22 @@
     --main-color: #00477A;
     --primary: #00477A;
     --main-gradient: linear-gradient(90deg, #00477A 0%, #002845 100%);
+
+    --dark: #000;
+    --dark-100: #5A6570;
+    --grey: #F8FBFD;
+
     --product-width: 100px;
-    --product-padding: 16px;
+    --product-padding: 0px;
     --segment-width: 180px;
-    --product-gap: 10px;
+    --segment-line-height: 100px;
+    --product-gap: 0px;
     --col-size: 420px;
+    --left-col-size: calc(var(--product-width) + var(--segment-width));
+
+
+    --header-height: 72px;
+
+    --border: solid 1px #E0E0E0;
+    --header-cols-height: 60px;
 }

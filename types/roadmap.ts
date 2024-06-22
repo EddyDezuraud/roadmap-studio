@@ -32,17 +32,24 @@ interface Tag {
     id: number;
     name: string;
     color: string;
-    segments: Segment[];
+    product_segments: Segment[];
     roadmap_id: number;
+  }
+
+  interface Markers {
+    id: number;
+    name: string;
+    color: string;
+    date: string;
+    full_month: boolean;
+    show: boolean;
   }
   
   interface Column {
-    id: number;
-    name: string;
+    date: string;
     show: boolean;
     size: number;
-    start: number;
-    roadmap_id: number;
+    markers: Markers[]
   }
   
   interface Roadmap {
@@ -50,7 +57,7 @@ interface Tag {
     title: string;
     col_size: number;
     organization_id: number;
-    columns: Column[];
+    date: Column[];
     products: Product[];
   }
 

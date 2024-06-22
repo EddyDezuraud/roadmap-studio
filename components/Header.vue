@@ -12,11 +12,20 @@ defineProps<Props>();
 </script>
 
 <style module>
+.wrapper {
+    height: var(--header-height);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 24px;
+    border-bottom: solid 1px #EBEEF1;
+}
+
 .title {
-    text-align: center;
-    font-family: 'Inria Serif', serif;
-    font-size: 32px;
-    color: var(--main-color);
-    margin-bottom: 50px;
+    text-align: left;
+    font-family: 'Poppins', serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--dark);
 }
 </style>

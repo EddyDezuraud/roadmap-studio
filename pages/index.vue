@@ -7,7 +7,6 @@
 </template>    
 
 <script setup lang="ts">
-import type { DataModel } from '@/types/data';
 import type { Database } from '~/types/supabase';
 
 const client = useSupabaseClient<Database>();

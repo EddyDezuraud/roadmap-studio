@@ -70,6 +70,47 @@ export type Database = {
           },
         ]
       }
+      markers: {
+        Row: {
+          color: string | null
+          date: string | null
+          description: string | null
+          full_month: boolean | null
+          id: number
+          roadmap_id: number
+          show: boolean | null
+          title: string | null
+        }
+        Insert: {
+          color?: string | null
+          date?: string | null
+          description?: string | null
+          full_month?: boolean | null
+          id?: number
+          roadmap_id: number
+          show?: boolean | null
+          title?: string | null
+        }
+        Update: {
+          color?: string | null
+          date?: string | null
+          description?: string | null
+          full_month?: boolean | null
+          id?: number
+          roadmap_id?: number
+          show?: boolean | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "markers_roadmap_id_fkey"
+            columns: ["roadmap_id"]
+            isOneToOne: false
+            referencedRelation: "roadmap"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organizations: {
         Row: {
           id: number
@@ -143,6 +184,8 @@ export type Database = {
       roadmap: {
         Row: {
           col_size: number
+          date_end: string | null
+          date_start: string | null
           id: number
           organization_id: number | null
           subtitle: string | null
@@ -150,6 +193,8 @@ export type Database = {
         }
         Insert: {
           col_size: number
+          date_end?: string | null
+          date_start?: string | null
           id?: number
           organization_id?: number | null
           subtitle?: string | null
@@ -157,6 +202,8 @@ export type Database = {
         }
         Update: {
           col_size?: number
+          date_end?: string | null
+          date_start?: string | null
           id?: number
           organization_id?: number | null
           subtitle?: string | null

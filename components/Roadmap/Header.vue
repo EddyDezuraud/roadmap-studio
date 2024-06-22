@@ -2,7 +2,7 @@
     <div :class="$style.wrapper">
         <div v-for="column in columns" :key="column.name" :class="$style.item">
             <span>
-                {{ column.name }}
+                {{ formatMonthYear(column.date) }}
             </span>
         </div>
     </div>
@@ -17,6 +17,10 @@ interface Props {
 
 defineProps<Props>();
 
+const formatMonthYear = (dateString: string): string => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+};
 </script>
 
 <style module>
@@ -24,22 +28,24 @@ defineProps<Props>();
     display: flex;
     font-weight: 600;
     text-align: center;
-    padding-left: calc(var(--product-width) + var(--segment-width) + var(--product-gap) + var(--product-padding));
-    padding-right: 20px;
+    border-bottom: var(--border);
+    height: var(--header-cols-height);
+}
+
+.firstCol {
+    width: calc(var(--product-width) + var(--segment-width) + var(--product-gap) + var(--product-padding));
+    background: var(--grey);
+    border-right: var(--border);
 }
 
 .item {
-    padding: 0 5px;
     width: var(--col-size);
-}
-
-.item > span {
-    display: block;
-    padding: 20px 0;
-    background: #F6FAFF;
-    background: #F6FAFF;
-    border: solid 1px #00000003;
-    border-radius: 10px 10px 0 0;
+    border-right: var(--border);
     font-size: 13px;
+    height: var(--header-cols-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 </style>

@@ -1,8 +1,16 @@
 <template>
     <div :class="$style.wrapper">
-        <RoadmapHeader v-if="columns && columns.length > 0" :columns="columns"/>
-        <div :class="$style.inner" v-if="products && products.length > 0">
-            <RoadmapProduct v-for="(product, index) in products" :key="index" :product="product" />
+        <RoadmapProductsHeader :products="products" />
+        <div :class="$style.content">
+            <div :class="$style.contentInner">
+                <RoadmapHeader v-if="columns && columns.length > 0" :columns="columns"/>
+                <div :class="$style.inner" v-if="products && products.length > 0">
+                    <div :class="$style.product">
+                        <RoadmapProduct v-for="(product, index) in products" :key="index" :product="product" />
+                    </div> 
+                    <RoadmapBackground :columns="columns" />
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -20,10 +28,25 @@ const props = defineProps<Props>();
 
 <style module>
 .wrapper {
+    display: flex;
+}
+
+.leftSide {
+    width: var(--left-col-size);
+    background-color: #f0f0f0;
+}
+
+.content {
+    width: calc(100vw - var(--left-col-size));
+    overflow: auto;
+}
+
+.contentInner {
     width: fit-content;
 }
 
 .inner {
+    position: relative;
     display: flex;
     gap: var(--product-gap);
 }

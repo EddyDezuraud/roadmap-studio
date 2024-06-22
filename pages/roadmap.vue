@@ -13,8 +13,10 @@
 <script setup lang="ts">
 import type { Database } from '~/types/supabase';
 import type { Column } from '~/types/roadmap';
-
 import { computed } from '#imports'
+import { roadmapStore } from '~/store/roadmap'
+
+const store = roadmapStore();
 
 const { colSize, setColSize } = useColSize()
 
@@ -45,30 +47,28 @@ const {data: roadmap, status} = await useAsyncData('roadmap', async () => {
     return data
 })
 
-if (roadmap.value?.col_size) {
-  setColSize(roadmap.value?.col_size)
-}
 
-const columns = computed<Column[] | []>(() => {
-  const columns = []
-  const dateStart = roadmap.value ? new Date(String(roadmap.value.date_start)) : new Date();
-  const dateEnd = roadmap.value ? new Date(String(roadmap.value.date_end)) : new Date();
-
-  let currentDate = new Date(dateStart.getFullYear(), dateStart.getMonth(), 2);
-  const endDate = new Date(dateEnd.getFullYear(), dateEnd.getMonth(), 2);
-
-  while (currentDate <= endDate) {
-    columns.push({
-      date: currentDate.toISOString().split('T')[0],
-      show: true,
-      size: colSize.value ? colSize.value : 385,
-      markers: []
-    });
-    currentDate.setMonth(currentDate.getMonth() + 1);
+if(roadmap.value) {
+  if (roadmap.value.col_size) {
+    setColSize(roadmap.value.col_size);
+    store.setColSize(roadmap.value.col_size);
   }
 
-  return columns;
-})
+  if(roadmap.value.date_start) {
+    store.setStartDate(roadmap.value.date_start);
+  }
+
+  if(roadmap.value.date_end) {
+    store.setEndDate(roadmap.value.date_end);
+  }
+
+  const cols = useUseSetColumns(roadmap.value.date_start, roadmap.value.date_end, store.colSize.value);
+  store.setColumns(cols);
+
+  store.setWidth(cols.length * roadmap.value.col_size);
+}
+
+const columns = computed<Column[] | []>(() => store.columns)
 
 </script>
 
@@ -84,4 +84,4 @@ const columns = computed<Column[] | []>(() => {
   height: calc(100vh - var(--header-height));
   width: 100vw;
 }
-</style>
+</style>~/store/roadmap

@@ -1,16 +1,26 @@
 interface Tag {
     // Ajoutez les propriétés de l'objet Tag ici
   }
+
+  interface TaskStage {
+    id: number;
+    duration: number;
+    index: number;
+    task_id: number;
+    infinite: boolean;
+    stage_id: number;
+  }
   
   interface Task {
     id: number;
     name: string;
     size: number;
-    tags: Tag[];
+    task_stages: TaskStage[];
     start: number;
     subtitle: string;
     segment_id: number;
     line_id: number;
+    start_date: string;
   }
 
   interface Line {

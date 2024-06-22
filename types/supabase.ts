@@ -44,6 +44,32 @@ export type Database = {
           },
         ]
       }
+      jobs: {
+        Row: {
+          id: number
+          name: string
+          stage_id: number | null
+        }
+        Insert: {
+          id?: number
+          name: string
+          stage_id?: number | null
+        }
+        Update: {
+          id?: number
+          name?: string
+          stage_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "jobs_stage_id_fkey"
+            columns: ["stage_id"]
+            isOneToOne: false
+            referencedRelation: "stages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lines: {
         Row: {
           id: number
@@ -219,7 +245,7 @@ export type Database = {
           },
         ]
       }
-      stage: {
+      stages: {
         Row: {
           color: string | null
           id: number
@@ -237,14 +263,49 @@ export type Database = {
         }
         Relationships: []
       }
+      task_stage_jobs: {
+        Row: {
+          id: number
+          index: number | null
+          job_id: number
+          task_stage_id: number | null
+        }
+        Insert: {
+          id?: number
+          index?: number | null
+          job_id: number
+          task_stage_id?: number | null
+        }
+        Update: {
+          id?: number
+          index?: number | null
+          job_id?: number
+          task_stage_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_stage_jobs_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_stage_jobs_task_stage_id_fkey"
+            columns: ["task_stage_id"]
+            isOneToOne: false
+            referencedRelation: "task_stages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       task_stages: {
         Row: {
           days: number
           id: number
           index: number
           infinite: boolean | null
-          names: string[]
-          stage_id: string
+          stage_id: number | null
           task_id: number | null
         }
         Insert: {
@@ -252,8 +313,7 @@ export type Database = {
           id?: number
           index: number
           infinite?: boolean | null
-          names: string[]
-          stage_id: string
+          stage_id?: number | null
           task_id?: number | null
         }
         Update: {
@@ -261,8 +321,7 @@ export type Database = {
           id?: number
           index?: number
           infinite?: boolean | null
-          names?: string[]
-          stage_id?: string
+          stage_id?: number | null
           task_id?: number | null
         }
         Relationships: [
@@ -273,34 +332,44 @@ export type Database = {
             referencedRelation: "tasks"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "task_stages_stage_id_fkey"
+            columns: ["stage_id"]
+            isOneToOne: false
+            referencedRelation: "stages"
+            referencedColumns: ["id"]
+          },
         ]
       }
       tasks: {
         Row: {
           id: number
+          info: string | null
           line_id: number | null
           logo: string | null
           name: string
           segment_id: number | null
-          start: number
+          start_date: string | null
           subtitle: string | null
         }
         Insert: {
           id?: number
+          info?: string | null
           line_id?: number | null
           logo?: string | null
           name: string
           segment_id?: number | null
-          start: number
+          start_date?: string | null
           subtitle?: string | null
         }
         Update: {
           id?: number
+          info?: string | null
           line_id?: number | null
           logo?: string | null
           name?: string
           segment_id?: number | null
-          start?: number
+          start_date?: string | null
           subtitle?: string | null
         }
         Relationships: [

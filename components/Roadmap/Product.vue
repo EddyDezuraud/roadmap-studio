@@ -1,9 +1,9 @@
 <template>
-    <div :class="$style.wrapper" :style="{background: product.color + '10', color: product.color}">
+    <div :class="$style.wrapper" :style="{color: product.color, width: roadmapWidth}">
         <div v-if="product.product_segments && product.product_segments.length > 0" :class="$style.segments">
-            <div v-for="(segment, index) in product.product_segments" :key="segment.id" >
+            <div v-for="(segment, index) in product.product_segments" :key="segment.id" :style="{'--primary' : segmentColor(index)}" :class="$style.segment">
                 <div v-for="line in segment.lines" :key="line.id" :class="$style.line">
-                    {{ line }}
+                    <RoadmapLine :line="line" />
                 </div>
             </div>
         </div>
@@ -13,11 +13,24 @@
 <script setup lang="ts">
 import type { Product } from '~/types/roadmap';
 
+const store = roadmapStore();
+
 interface Props {
     product: Product
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+const segmentColor = computed(() => {
+   return (index: number) => {
+    return useSegmentColor(index, props.product.color, props.product.product_segments.length);
+   }
+});
+
+const roadmapWidth = computed(() => {
+    return `${store.width}px`;
+});
+
 </script>
 
 <style module>
@@ -27,7 +40,13 @@ defineProps<Props>();
     padding: var(--product-padding);
     border-radius: 10px;
     gap: var(--product-gap);
-    min-width: 100%;
+    width: 100%;
+}
+
+.segments,
+.segment,
+.line {
+    width: 100%;
 }
 
 
@@ -42,5 +61,30 @@ defineProps<Props>();
     background: currentColor;
     margin-top: 15px;
     opacity: 0.5;
+}
+
+.segment {
+    position: relative;
+}
+
+.segment::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary);
+    opacity: 0.05;
+    z-index: 0;
+}
+
+.segment > * {
+    position: relative;
+    z-index: 1;
+}
+
+.segment .line:not(:last-child) {
+    border-bottom: var(--border);
 }
 </style>

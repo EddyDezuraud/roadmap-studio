@@ -33,12 +33,7 @@ const gradient = computed(() => {
 
 const segmentColor = computed(() => {
    return (index: number) => {
-    // the colest to the middle is closest to the product color, the more to the edges the more it changes
-    const distance = Math.abs(index - props.product.product_segments.length / 2);
-    const maxDistance = props.product.product_segments.length / 2;
-    const maxHueChange = 20;
-    const hueChange = (distance / maxDistance) * maxHueChange;
-    return useTransformHue(hueChange, props.product.color);
+    return useSegmentColor(index, props.product.color, props.product.product_segments.length);
    }
 });
 </script>

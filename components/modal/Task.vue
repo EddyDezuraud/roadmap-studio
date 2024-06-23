@@ -1,9 +1,9 @@
 <template>
-  <Modal v-model="open" :breadcrumb>
+  <Modal v-model="open" @update:model="onClose" :breadcrumb>
     <div :class="$style.wrapper">
 
       <form>
-
+{{ modalStore }}
         <div :class="$style.titles">
           <Field v-model="task.name" mode="title" placeholder="Intitulé de la tâche" />
           <Field v-model="task.subtitle" mode="subtitle" placeholder="Sous-titre de la tâche" />
@@ -52,6 +52,29 @@ const breadcrumb = computed(() => {
   }
   return ['Tâches','Nouvelle tâche']
 })
+
+const modalStore = computed(() => store.modal);
+
+// watch store modal show
+watch(() => store.modal.show, (value) => {
+  console.log(value)
+  if(value) {
+    open.value = true;
+    task.value = {
+      name: '',
+      subtitle: '',
+      start_date: modalStore.value.data?.start_date,
+      info: '',
+      line_id: 0,
+      segment_id: 0,
+      id: 0
+    }
+  }
+})
+
+const onClose = () => {
+  store.setModal({type: 'task', show: false, data: {}});
+}
 
 </script>
 

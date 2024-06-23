@@ -2,7 +2,7 @@
   <Teleport to="body" v-if="model">
 
     <div :class="$style.wrapper">
-      <div :class="$style.overlay" @click="model = false"></div>
+      <div :class="$style.overlay" @click="onClose"></div>
       <div :class="$style.inner">
         <div v-if="breadcrumb" :class="$style.breadcrumb">
           <span v-for="(item, index) in breadcrumb" :key="index">
@@ -32,7 +32,18 @@ interface Props {
 
 const model = defineModel<Boolean>();
 
+const emits = defineEmits(['update:model']);
+
 defineProps<Props>()
+
+const onChange = (value: boolean) => {
+  emits('update:model', value);
+}
+
+const onClose = () => {
+  model.value = false;
+  onChange(false);
+}
 </script>
 
 <style module>

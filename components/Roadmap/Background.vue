@@ -31,7 +31,7 @@ defineProps<Props>();
   width: var(--col-size);
   border-right: var(--border);
   display: flex;
-  gap: 2px;
+  gap: var(--col-gap);
   padding: 0 1px;
 }
 

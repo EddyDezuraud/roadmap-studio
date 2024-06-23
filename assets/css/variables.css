@@ -23,7 +23,7 @@
     --segment-gap: 10px;
     --col-size: 420px;
     --left-col-size: calc(var(--product-width) + var(--segment-width));
-
+    --col-gap: 2px;
 
     --header-height: 72px;
 

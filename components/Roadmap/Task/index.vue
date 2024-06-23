@@ -48,6 +48,7 @@ const taskStyle = computed(() => {
 <style module>
 .wrapper {
   position: absolute;
+  z-index: 3;
   top: var(--segment-padding);
   border-radius: 10px;
   color: var(--primary);

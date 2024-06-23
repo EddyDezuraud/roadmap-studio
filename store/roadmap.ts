@@ -17,6 +17,9 @@ export const roadmapStore = defineStore({
     getDaySize(): number {
       return this.colSize / this.nbDayByMonth
     },
+    getWeekSize(): number {
+      return this.colSize / 4
+    }
   },
   actions: {
     setColSize(value: number) {

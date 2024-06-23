@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.wrapper">
-    <div v-for="stage in taskStages" :class="$style.stage" :style="{'--primary': stageRef(stage.stage_id)?.color}">
+    <div v-for="stage in orderedTaskStages" :class="$style.stage" :style="{'--primary': stageRef(stage.stage_id)?.color}">
       <div :class="$style.stageBar" :style="{width: stageBarWidth(stage.duration)}"></div>
       <div :class="$style.jobsList">
         <div v-for="taskJob in stage.task_stage_jobs" :key="taskJob.index" :class="$style.job">
@@ -27,6 +27,10 @@ interface Props {
 const props = defineProps<Props>()
 
 const stages = computed(() => store.stages);
+
+const orderedTaskStages = computed(() => {
+  return props.taskStages.sort((a, b) => a.index - b.index);
+})
 
 const stageBarWidth = computed(() => {
   return (duration: number) => {

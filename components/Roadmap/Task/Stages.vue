@@ -97,7 +97,7 @@ const jobName = computed(() => {
 
 .job {
   position: relative;
-  font-size: 10px;
+  font-size: var(--font-size-s);
   font-weight: 500;
   padding: 3px 5px;
   color: var(--primary);

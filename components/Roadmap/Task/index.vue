@@ -91,13 +91,13 @@ const taskStyle = computed(() => {
 }
 
 .title {
-  font-size: 13px;
+  font-size: var(--font-size-l);
   font-weight: 600;
   color: var(--primary);
 }
 
 .subtitle {
-  font-size: 11px;
+  font-size: var(--font-size-m);
   font-weight: 600;
   opacity: 0.75;
 }

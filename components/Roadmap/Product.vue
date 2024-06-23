@@ -92,6 +92,6 @@ const roadmapWidth = computed(() => {
 }
 
 .segment .line:not(:last-child) {
-    border-bottom: var(--border);
+    /* border-bottom: var(--border); */
 }
 </style>

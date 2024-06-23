@@ -29,7 +29,7 @@ const getHeight = computed<string>(() => {
     color: var(--primary);
     align-items: center;
     flex: 1;
-    border-bottom: var(--border);
+    /* border-bottom: var(--border); */
     position: relative;
 }
 

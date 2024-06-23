@@ -7,11 +7,20 @@
     --dark-100: #5A6570;
     --grey: #F8FBFD;
 
+    --font-size-s : 8px;
+    --font-size-m : 10px;
+    --font-size-l : 12px;
+    --font-size-xl : 14px;
+    --font-size-xxl : 16px;
+
     --product-width: 100px;
     --product-padding: 0px;
     --segment-width: 180px;
-    --segment-line-height: 100px;
+    --segment-line-height: 105px;
+    --segment-padding: 5px;
+    --product-height: calc(var(--segment-line-height) - calc(var(--segment-padding) * 2));
     --product-gap: 0px;
+    --segment-gap: 10px;
     --col-size: 420px;
     --left-col-size: calc(var(--product-width) + var(--segment-width));
 
@@ -19,5 +28,5 @@
     --header-height: 72px;
 
     --border: solid 1px #E0E0E0;
-    --header-cols-height: 60px;
+    --header-cols-height: 40px;
 }

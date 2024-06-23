@@ -44,6 +44,30 @@ export type Database = {
           },
         ]
       }
+      goals: {
+        Row: {
+          color: string | null
+          deadline: string
+          description: string | null
+          id: number
+          label: string | null
+        }
+        Insert: {
+          color?: string | null
+          deadline: string
+          description?: string | null
+          id?: number
+          label?: string | null
+        }
+        Update: {
+          color?: string | null
+          deadline?: string
+          description?: string | null
+          id?: number
+          label?: string | null
+        }
+        Relationships: []
+      }
       jobs: {
         Row: {
           id: number
@@ -267,19 +291,19 @@ export type Database = {
         Row: {
           id: number
           index: number | null
-          job_id: number
+          job_id: number | null
           task_stage_id: number | null
         }
         Insert: {
           id?: number
           index?: number | null
-          job_id: number
+          job_id?: number | null
           task_stage_id?: number | null
         }
         Update: {
           id?: number
           index?: number | null
-          job_id?: number
+          job_id?: number | null
           task_stage_id?: number | null
         }
         Relationships: [
@@ -301,7 +325,7 @@ export type Database = {
       }
       task_stages: {
         Row: {
-          days: number
+          duration: number
           id: number
           index: number
           infinite: boolean | null
@@ -309,7 +333,7 @@ export type Database = {
           task_id: number | null
         }
         Insert: {
-          days: number
+          duration: number
           id?: number
           index: number
           infinite?: boolean | null
@@ -317,7 +341,7 @@ export type Database = {
           task_id?: number | null
         }
         Update: {
-          days?: number
+          duration?: number
           id?: number
           index?: number
           infinite?: boolean | null

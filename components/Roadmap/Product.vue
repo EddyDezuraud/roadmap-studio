@@ -52,7 +52,7 @@ const roadmapWidth = computed(() => {
 
 .line {
     height: var(--segment-line-height);
-    border-bottom: var(--border);
+    /* border-bottom: var(--border); */
 }
 
 .separator {
@@ -61,6 +61,13 @@ const roadmapWidth = computed(() => {
     background: currentColor;
     margin-top: 15px;
     opacity: 0.5;
+}
+
+.segments {
+    display: flex;
+    flex-direction: column;
+    gap: var(--segment-gap);
+    flex: 1;
 }
 
 .segment {

@@ -25,7 +25,7 @@ defineProps<Props>();
     text-align: left;
     font-family: 'Poppins', serif;
     font-weight: 500;
-    font-size: 16px;
+    font-size: var(--font-size-xl);
     color: var(--dark);
 }
 </style>

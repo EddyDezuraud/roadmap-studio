@@ -1,14 +1,30 @@
-interface Tag {
-    // Ajoutez les propriétés de l'objet Tag ici
-  }
+interface TaskStageJob {
+  id: number;
+  task_stage_id: number;
+  job_id: number;
+  index: number;
+}
 
-  interface TaskStage {
+interface TaskStage {
     id: number;
     duration: number;
     index: number;
     task_id: number;
     infinite: boolean;
     stage_id: number;
+    task_stage_jobs: TaskStageJob[];
+  }
+
+  interface Stage {
+    id: number;
+    name: string;
+    color: string;
+  }
+
+  interface Job {
+    id: number;
+    name: string;
+    index: number;
   }
   
   interface Task {
@@ -71,4 +87,4 @@ interface Tag {
     products: Product[];
   }
 
-    export type { Roadmap, Column, Product, Segment, Line, Task, Tag };
+    export type { Roadmap, Column, Product, Segment, Line, Task, TaskStage, Stage, Markers, Job, TaskStageJob};

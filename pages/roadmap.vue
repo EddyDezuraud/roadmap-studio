@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import type { Database } from '~/types/supabase';
-import type { Column } from '~/types/roadmap';
+import type { Column, Stage, Jobs } from '~/types/roadmap';
 import { computed } from '#imports'
 import { roadmapStore } from '~/store/roadmap'
 
@@ -20,13 +20,13 @@ const store = roadmapStore();
 
 const { colSize, setColSize } = useColSize()
 
-const client = useSupabaseClient<Database>();
+const supabase = useSupabaseClient<Database>();
 const route = useRoute();
 
 const roadmapId = route.query.id as string;
 
 const {data: roadmap, status} = await useAsyncData('roadmap', async () => {
-    const { data } = await client.from('roadmap') .select(`
+    const { data } = await supabase.from('roadmap') .select(`
       *,
       columns (*),
       markers(*),
@@ -38,15 +38,33 @@ const {data: roadmap, status} = await useAsyncData('roadmap', async () => {
             *,
             tasks (
                 *,
-                task_stages (*)
+                task_stages (
+                  *,
+                  task_stage_jobs (
+                    *
+                  )
+                )
             )
           )
         )
       )
     `).eq('id', roadmapId).single();
     return data
-})
+});
 
+const getStages = async () => {
+    const { data: stages } = await supabase.from('stages').select('name, color, id').returns<Stage[]>()
+    return stages;
+}
+
+const { data: stages } = await useAsyncData('stages', getStages);
+
+const getJobs = async () => {
+    const { data: jobs } = await supabase.from('jobs').select('name, id, stage_id').returns<Jobs[]>()
+    return jobs;
+}
+
+const { data: jobs } = await useAsyncData('jobs', getJobs);
 
 if(roadmap.value) {
   if (roadmap.value.col_size) {
@@ -69,6 +87,14 @@ if(roadmap.value) {
 }
 
 const columns = computed<Column[] | []>(() => store.columns)
+
+if(stages.value) {
+  store.setStages(stages.value);
+}
+
+if(jobs.value) {
+  store.setJobs(jobs.value);
+}
 
 </script>
 

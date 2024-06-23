@@ -46,7 +46,7 @@ const segmentColor = computed(() => {
 
 .product {
     font-weight: 700;
-    font-size: 13px;
+    font-size: var(--font-size-l);
     color: white;
     display: flex;
     align-items: center;
@@ -54,5 +54,13 @@ const segmentColor = computed(() => {
     padding: 7px 14px;
     text-align: center;
     width: var(--product-width);
+}
+
+.segments {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--segment-gap);
+    position: relative;
 }
 </style>

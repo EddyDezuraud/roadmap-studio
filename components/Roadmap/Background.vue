@@ -1,6 +1,8 @@
 <template>
   <div :class="$style.wrapper">
-    <div v-for="col in columns" :key="col.name" :class="$style.col"></div>
+    <div v-for="col in columns" :key="col.name" :class="$style.col">
+      <div v-for="week in Array.from({ length: 4 })" :class="$style.week"></div>
+    </div>
   </div>
 </template>
 
@@ -28,6 +30,15 @@ defineProps<Props>();
 .col {
   width: var(--col-size);
   border-right: var(--border);
+  display: flex;
+  gap: 2px;
+  padding: 0 1px;
+}
+
+.week {
+  flex: 1;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 </style>

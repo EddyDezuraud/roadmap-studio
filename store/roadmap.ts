@@ -48,5 +48,8 @@ export const roadmapStore = defineStore({
     setJobs(value: Job[]) {
       this.jobs = value
     },
+    setModal(value: {type: string, show: boolean, data: any}) {
+      this.modal = value
+    }
   }
 })

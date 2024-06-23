@@ -37,6 +37,7 @@ interface TaskStage {
     segment_id: number;
     line_id: number;
     start_date: string;
+    info: string;
   }
 
   interface Line {

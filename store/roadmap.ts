@@ -11,7 +11,12 @@ export const roadmapStore = defineStore({
     width: 0,
     columns : [] as Column[],
     stages: [] as Stage[],
-    jobs: [] as Job[]
+    jobs: [] as Job[],
+    modal: {
+      type: '',
+      show: false,
+      data: null
+    }
   }),
   getters: {
     getDaySize(): number {

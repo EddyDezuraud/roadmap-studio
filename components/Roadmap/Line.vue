@@ -38,12 +38,6 @@ const cursors = computed(() => {
         const strListOfUsedDate = listOfUsedDate.value.map(date => date.toString());
         const hasTaskInWeek = listOfDays.some(date => strListOfUsedDate.includes(date));
 
-        if(index === 3) {
-            console.log('getWeekDaysList', JSON.stringify(useTaskConstraints().getWeekDaysList(index + 1, store.startDate)));
-            console.log('listOfUsedDate', JSON.stringify(listOfUsedDate.value));
-            console.log('hasTaskInWeek', hasTaskInWeek);
-        }
-
         if (!hasTaskInWeek) {
             return {
                 week: index + 1,

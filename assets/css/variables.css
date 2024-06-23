@@ -12,11 +12,12 @@
     --font-size-l : 12px;
     --font-size-xl : 14px;
     --font-size-xxl : 16px;
+    --font-size-xxxl : 24px;
 
     --product-width: 100px;
     --product-padding: 0px;
     --segment-width: 180px;
-    --segment-line-height: 100px;
+    --segment-line-height: 98px;
     --segment-padding: 5px;
     --product-height: calc(var(--segment-line-height) - calc(var(--segment-padding) * 2));
     --product-gap: 0px;

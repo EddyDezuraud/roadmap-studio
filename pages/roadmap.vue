@@ -7,6 +7,7 @@
               <Roadmap :products="roadmap.products" :columns />
             </div>
         </div>
+        <ModalTask />
     </div>
 </template>    
 

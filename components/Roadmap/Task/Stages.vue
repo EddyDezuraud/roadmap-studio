@@ -56,6 +56,8 @@ const jobName = computed(() => {
   position: relative;
   z-index: 1;
   display: flex;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .wrapper > div:first-child .stageBar {
@@ -76,14 +78,27 @@ const jobName = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  position: relative;
+}
+
+.job::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary);
+  opacity: 0.1;
+  z-index: -1;
+  border-radius: 4px;
 }
 
 .stageBar {
-  height: 5px;
+  height: 3px;
   padding-left: 3px;
   background-color: var(--primary);
   color: white;
-  
   position: relative;
   display: flex;
   align-items: center;
@@ -97,22 +112,10 @@ const jobName = computed(() => {
 
 .job {
   position: relative;
-  font-size: var(--font-size-s);
+  font-size: var(--font-size-m);
   font-weight: 500;
   padding: 3px 5px;
   color: var(--primary);
 }
 
-.job::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--primary);
-  opacity: 0.1;
-  z-index: -1;
-  border-radius: 4px;;
-}
 </style>

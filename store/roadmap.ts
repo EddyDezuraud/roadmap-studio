@@ -1,15 +1,17 @@
 import { defineStore } from 'pinia'
-import type { Column, Stage, Job } from '~/types/roadmap'
+import type { Column, Stage, Job, Week } from '~/types/roadmap'
 
 export const roadmapStore = defineStore({
   id: 'roadmapStore',
   state: () => ({ 
     colSize: 0,
+    daySize: 10,
     nbDayByMonth: 20,
     startDate: new Date('2021-01-01'),
     endDate: new Date('2021-12-31'),
     width: 0,
     columns : [] as Column[],
+    weeks: [] as Week[],
     stages: [] as Stage[],
     jobs: [] as Job[],
     modal: {
@@ -52,6 +54,12 @@ export const roadmapStore = defineStore({
       this.modal.show = value.show;
       this.modal.type = value.type;
       this.modal.data = value.data;
+    },
+    setDaySize(value: number) {
+      this.daySize = value
+    },
+    setWeeks(value: Week[]) {
+      this.weeks = value
     }
   }
 })

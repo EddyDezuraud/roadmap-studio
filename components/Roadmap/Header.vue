@@ -1,6 +1,6 @@
 <template>
     <div :class="$style.wrapper">
-        <div v-for="column in columns" :key="column.name" :class="$style.item">
+        <div v-for="column in columns" :key="column.date" :class="$style.item" :style="{width: column.size + 'px'}">
             <span>
                 {{ formatMonthYear(column.date) }}
             </span>
@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Column } from '@/types/data';
+import type { Column } from '@/types/roadmap';
 
 interface Props {
     columns: Column[];

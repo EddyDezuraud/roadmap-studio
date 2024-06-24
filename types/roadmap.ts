@@ -83,9 +83,19 @@ interface TaskStage {
     id: number;
     title: string;
     col_size: number;
+    day_size: number;
+    start_date: string;
     organization_id: number;
     date: Column[];
     products: Product[];
   }
 
-    export type { Roadmap, Column, Product, Segment, Line, Task, TaskStage, Stage, Markers, Job, TaskStageJob};
+  interface Week {
+    start: string;
+    end: string;
+    index: number;
+    xPosition: number;
+    width: number;
+  }
+
+  export type { Roadmap, Column, Product, Segment, Line, Task, TaskStage, Stage, Markers, Job, TaskStageJob, Week};

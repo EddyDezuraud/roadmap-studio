@@ -43,6 +43,7 @@ interface Product {
 
 interface Column {
     name: string;
+    size: number;
 }
 
 interface MetaData {

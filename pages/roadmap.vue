@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import type { Database } from '~/types/supabase';
-import type { Column, Stage, Jobs } from '~/types/roadmap';
+import type { Column, Stage, Job } from '~/types/roadmap';
 import { computed } from '#imports'
 import { roadmapStore } from '~/store/roadmap'
 
@@ -61,7 +61,7 @@ const getStages = async () => {
 const { data: stages } = await useAsyncData('stages', getStages);
 
 const getJobs = async () => {
-    const { data: jobs } = await supabase.from('jobs').select('name, id, stage_id').returns<Jobs[]>()
+    const { data: jobs } = await supabase.from('jobs').select('name, id, stage_id').returns<Job[]>()
     return jobs;
 }
 
@@ -73,6 +73,10 @@ if(roadmap.value) {
     store.setColSize(roadmap.value.col_size);
   }
 
+  if(roadmap.value.day_size) {
+    store.setDaySize(roadmap.value.day_size);
+  }
+
   if(roadmap.value.date_start) {
     store.setStartDate(roadmap.value.date_start);
   }
@@ -81,10 +85,15 @@ if(roadmap.value) {
     store.setEndDate(roadmap.value.date_end);
   }
 
-  const cols = useUseSetColumns(roadmap.value.date_start, roadmap.value.date_end, store.colSize.value);
+  const cols = useUseSetColumns(roadmap.value.date_start, roadmap.value.date_end, store.daySize);
   store.setColumns(cols);
 
-  store.setWidth(cols.length * roadmap.value.col_size);
+  const totalWidth = cols.reduce((acc, col) => acc + col.size, 0);
+
+  store.setWidth(totalWidth);
+
+  const weeks = useSetWeeks(roadmap.value.date_start, roadmap.value.date_end, store.daySize);
+  store.setWeeks(weeks);
 }
 
 const columns = computed<Column[] | []>(() => store.columns)

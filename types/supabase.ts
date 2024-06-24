@@ -236,6 +236,7 @@ export type Database = {
           col_size: number
           date_end: string | null
           date_start: string | null
+          day_size: number | null
           id: number
           organization_id: number | null
           subtitle: string | null
@@ -245,6 +246,7 @@ export type Database = {
           col_size: number
           date_end?: string | null
           date_start?: string | null
+          day_size?: number | null
           id?: number
           organization_id?: number | null
           subtitle?: string | null
@@ -254,6 +256,7 @@ export type Database = {
           col_size?: number
           date_end?: string | null
           date_start?: string | null
+          day_size?: number | null
           id?: number
           organization_id?: number | null
           subtitle?: string | null

@@ -1,12 +1,8 @@
 <template>
   <div :class="$style.wrapper">
-    <div v-for="col in columns" :key="col.date" :class="$style.col" :style="{width: col.size + 'px'}">
-      {{ col.size }}
-    </div>
+    <div v-for="col in columns" :key="col.date" :class="$style.col" :style="{width: col.size + 'px'}"></div>
     <div :class="$style.weeks">
-      <div v-for="week in weeks" :key="week.index" :class="$style.week" :style="{width: week.width + 'px' }" >
-        <br/>{{ week.width }}
-      </div>
+      <div v-for="week in weeks" :key="week.index" :class="$style.week" :style="{width: week.width + 'px' }" ></div>
     </div>
   </div>
 </template>
@@ -40,17 +36,14 @@ defineProps<Props>();
 }
 
 .col {
-  width: var(--col-size);
   border-right: var(--border);
   display: flex;
   gap: var(--col-gap);
-  padding: 0 1px;
 }
 
 .week {
   flex: 1;
   height: 100%;
-  /* background-color: rgba(0, 0, 0, 0.02); */
   position: relative
 }
 

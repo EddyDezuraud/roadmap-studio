@@ -8,7 +8,7 @@
                     <div :class="$style.product">
                         <RoadmapProduct v-for="(product, index) in products" :key="index" :product="product" />
                     </div> 
-                    <RoadmapBackground :columns="columns" />
+                    <RoadmapBackground :columns />
                 </div>
             </div>
         </div>

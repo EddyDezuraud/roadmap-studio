@@ -22,7 +22,7 @@ export const roadmapStore = defineStore({
   }),
   getters: {
     getDaySize(): number {
-      return this.colSize / this.nbDayByMonth
+      return this.daySize
     },
     getWeekSize(): number {
       return this.colSize / 4

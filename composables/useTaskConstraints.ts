@@ -59,16 +59,16 @@ export const useTaskConstraints = () => {
     return dates;
   }
 
-  const getWeekDaysList = (weekNumber: number, startDate: Date): Date[] => {
-    const weekDays: Date[] = [];
-    let currentDay = new Date(startDate);
-    currentDay.setDate(currentDay.getDate() + (weekNumber - 1) * 7);
-    for (let i = 0; i < 7; i++) {
-      const day = new Date(currentDay);
-      day.setDate(day.getDate() + i);
-      weekDays.push(day);
+  const getWeekDaysList = (startDate: string): Date[] => {
+    const dates: Date[] = [];
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 6);
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      if (d.getDay() !== 0 && d.getDay() !== 6) { // Skip weekends
+        dates.push(new Date(d));
+      }
     }
-    return weekDays;
+    return dates;
   }
 
   return {

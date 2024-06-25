@@ -2,11 +2,11 @@
     <div :class="$style.wrapper">
         <RoadmapTask v-for="(task, index) in line.tasks" :key="index" :task="task"/>
         <div :class="$style.cursorsList">
-            <div v-for="(cursor, index) in cursors" 
+            <div v-for="(cursor, index) in weeks" 
                 :key="index" 
                 @click="onClickCursor(cursor)"
                 :class="$style.cursor" 
-                :style="{left: cursor.left + 'px', width: (store.colSize / 4) + 'px'}">
+                :style="{width: cursor.width + 'px'}">
                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M9 12h6" /><path d="M12 9v6" /></svg>
             </div>
         </div>
@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Line } from '@/types/roadmap';
+import type { Line, Week} from '@/types/roadmap';
 import { roadmapStore } from '~/store/roadmap'
 
 const store = roadmapStore();
@@ -25,38 +25,15 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const weekSize = computed(() => store.getWeekSize);
-const totalWidth = computed(() => store.width);
+const weeks = computed(() => store.weeks)
 
-const listOfUsedDate = computed<Date[]>(() => useTaskConstraints().arrayOfDatesLine(props.line.tasks) );
-
-const cursors = computed(() => {
-    const nbOfWeeks = Math.ceil(totalWidth.value / weekSize.value);
-
-    return Array.from({ length: nbOfWeeks }, (_, index) => {
-
-        const listOfDays = useTaskConstraints().getWeekDaysList(index, store.startDate).map(date => date.toString());
-        const strListOfUsedDate = listOfUsedDate.value.map(date => date.toString());
-        const hasTaskInWeek = listOfDays.some(date => strListOfUsedDate.includes(date));
-
-        if (!hasTaskInWeek) {
-            return {
-                week: index + 1,
-                left: index * weekSize.value,
-            };
-        }
-        return null;
-    }).filter(cursor => cursor !== null);
-});
-
-const onClickCursor = (cursor: { week: number; left: number }) => {
-    const startDate = new Date(useTaskConstraints().getWeekDaysList(cursor.week - 1, store.startDate)[0].toString());
+const onClickCursor = (cursor: Week) => {
     const newModal = {
         type: 'task',
         show: true,
         data: {
             line_id: props.line.id,
-            start_date: startDate,
+            start_date: cursor.start,
         },
     };
     store.setModal(newModal);
@@ -97,20 +74,19 @@ const onClickCursor = (cursor: { week: number; left: number }) => {
     justify-content: center;
     font-size: var(--font-size-m);
     font-weight: 600;
-    position: absolute;
+    position: relative;
     gap: 5px;
 }
 
 .cursor::before {
     content: '';
     position: absolute;
-    top: 50%;
+    top: 0;
     left: calc(var(--col-gap) / 2);
     width: calc(100% - var(--col-gap));
-    aspect-ratio: 1/1;
+    height: 100%;
     background-color: currentColor;
     border-radius: 5px;
-    transform: translateY(-50%);
     border-radius: 10px;
     opacity: 0.05;
 }

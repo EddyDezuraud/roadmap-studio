@@ -20,9 +20,6 @@ export const useSetWeeks = (roadmapStartDate: string | null, roadmapEndDate: str
     const weekEnd = new Date(currentDate);
     weekEnd.setDate(weekEnd.getDate() + 4); // Friday of the same week
 
-    console.log('weekStart', weekStart);
-    console.log('weekEnd', weekEnd);
-
     let numberOfDays = 0;
 
     // If the end of the week exceeds the dateEnd, adjust it
@@ -35,10 +32,6 @@ export const useSetWeeks = (roadmapStartDate: string | null, roadmapEndDate: str
     } else {
       // Calculate the number of days in the current week
       numberOfDays = (weekEnd.getTime() - weekStart.getTime()) / (1000 * 60 * 60 * 24) + 1;
-    }
-
-    if (numberOfDays > 7) {
-      console.log('numberOfDays', numberOfDays);
     }
 
     weeks.push({
@@ -60,13 +53,11 @@ export const useSetWeeks = (roadmapStartDate: string | null, roadmapEndDate: str
     const nextDiffToMonday = (nextDayOfWeek === 0 ? -6 : 1) - nextDayOfWeek;
     currentDate.setDate(currentDate.getDate() + nextDiffToMonday);
 
-    console.log('nextDiffToMonday', nextDiffToMonday);
-
     index++;
   }
 
-  // supprimer le dernier élément du tableau
-  weeks.pop();
+  // supprimer le 1er élément du tableau
+  weeks.shift();
 
   return weeks;
 }

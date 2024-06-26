@@ -43,7 +43,7 @@ const task = ref({
   id: 0
 } as Task);
 
-const open = ref(true) as Ref<boolean>;
+const open = ref(false) as Ref<boolean>;
 
 const breadcrumb = computed(() => {
   if(task.value.id) {

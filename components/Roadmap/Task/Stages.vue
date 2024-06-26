@@ -4,9 +4,12 @@
       <div :class="$style.stageBar" :style="{width: stageBarWidth(stage.duration)}"></div>
       <div :class="$style.jobsList">
         <div v-for="taskJob in stage.task_stage_jobs" :key="taskJob.index" :class="$style.job">
-          {{ jobName(taskJob.job_id) }}
+          <span>
+            {{ jobName(taskJob.job_id) }}
+          </span>
         </div>
       </div>
+      <RoadmapTaskStageCursor v-model="stage.duration" />
     </div>
   </div>
 </template>
@@ -57,7 +60,7 @@ const jobName = computed(() => {
   z-index: 1;
   display: flex;
   border-radius: 5px;
-  overflow: hidden;
+  user-select: none;
 }
 
 .wrapper > div:first-child .stageBar {

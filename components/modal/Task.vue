@@ -8,7 +8,6 @@
           <Field v-model="task.name" label="Titre" placeholder="Intitulé de la tâche" />
           <Field v-model="task.subtitle" label="Sous-titre" placeholder="Sous-titre de la tâche" />
           <Field label="Start Date" v-model="task.start_date" type="date"/>
-            {{task.start_date}}
           <!-- <Field label="Info" v-model="task.info" /> -->
           <Field label="Ligne n°" v-model="task.line_id" />
           <Field label="Segment n°" v-model="task.segment_id" />

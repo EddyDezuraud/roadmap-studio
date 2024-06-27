@@ -18,6 +18,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: number): void
+  (e: 'change', value: number): void
 }>();
 
 const startX = ref(0);
@@ -57,6 +58,7 @@ const onDrag = (event: MouseEvent | TouchEvent) => {
 
 const stopDrag = () => {
   isDragging.value = false;
+  emit('change', currentValue.value);
   document.removeEventListener('mousemove', onDrag);
   document.removeEventListener('touchmove', onDrag);
   document.removeEventListener('mouseup', stopDrag);

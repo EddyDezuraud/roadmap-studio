@@ -9,19 +9,16 @@
           </span>
         </div>
       </div>
-      <RoadmapTaskStageCursor v-model="stage.duration" />
+      <RoadmapTaskStageCursor v-model="stage.duration" @change="onChangeDuration($event, stage)" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { TaskStage, Job } from '~/types/roadmap'
-import type { Database } from '~/types/supabase';
+import type { TaskStage } from '~/types/roadmap'
 import { roadmapStore } from '~/store/roadmap'
-
 const store = roadmapStore();
 
-const client = useSupabaseClient<Database>();
 
 interface Props {
   taskStages: TaskStage[]
@@ -52,6 +49,11 @@ const jobName = computed(() => {
     return store.jobs.find(j => j.id === taskJobId)?.name;
   }
 })
+
+const onChangeDuration = (value: number, stage: TaskStage) => {
+  stage.duration = value;
+  useFetchRoadmap().updateStageDuration(stage.id, value);
+}
 </script>
 
 <style module>

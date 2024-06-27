@@ -1,5 +1,5 @@
 <template>
-  <div :class="[$style.wrapper, {[$style.title] : mode === 'title'}, {[$style.subtitle] : mode === 'subtitle'}]">
+  <div :class="[$style.wrapper, {[$style.title] : mode === 'title'}, {[$style.large] : size === 'large'}, {[$style.subtitle] : mode === 'subtitle'}]">
     <label for="" :class="$style.label" v-if="label">
       {{ label }}
     </label>
@@ -15,6 +15,7 @@ interface FieldProps {
   label?: string;
   type?: string;
   mode?: 'title' | 'subtitle' | 'normal';
+  size?: 'small' | 'medium' | 'large';
   placeholder?: string;
 }
 defineProps<FieldProps>();
@@ -32,14 +33,25 @@ defineProps<FieldProps>();
   font-size: var(--font-size-l);
   font-weight: 500;
   color: var(--dark);
+  letter-spacing: -0.084px;
 }
 
 .input {
-  border-radius: 4px;
   border: none;
   outline: none;
-  border: var(--border);
-  padding: 8px 12px;
+  padding: 8px 10px;
+  width: 100%;
+  font-size: 14px;
+  color: var(--neutral-700, #272727);
+  height: 36px;
+  display: flex;
+  border-radius: 10px;
+  background: rgb(255, 255, 255);
+  box-shadow: rgb(235, 235, 235) 0px 0px 0px 1px, rgba(143, 143, 143, 0.2) 0px 1px 3px 0px;
+  line-height: 20px;
+  border: 1px solid transparent;
+  outline: none;
+  transition: all 125ms ease 0s;
   margin: 0;
 }
 

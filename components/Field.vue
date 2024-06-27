@@ -43,7 +43,6 @@ defineProps<FieldProps>();
   width: 100%;
   font-size: 14px;
   color: var(--neutral-700, #272727);
-  height: 36px;
   display: flex;
   border-radius: 10px;
   background: rgb(255, 255, 255);
@@ -69,5 +68,14 @@ defineProps<FieldProps>();
 .subtitle .input:hover,
 .title .input:hover {
   background: rgba(0,0,0,0.05);
+}
+
+.large .label {
+  font-size: var(--font-size-xxl);
+}
+
+.large input {
+  padding: 12px 14px;
+  font-size: var(--font-size-xxl);
 }
 </style>

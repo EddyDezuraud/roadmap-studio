@@ -19,7 +19,6 @@ import type { TaskStage } from '~/types/roadmap'
 import { roadmapStore } from '~/store/roadmap'
 const store = roadmapStore();
 
-
 interface Props {
   taskStages: TaskStage[]
 }

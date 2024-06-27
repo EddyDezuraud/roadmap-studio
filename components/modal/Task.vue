@@ -4,13 +4,15 @@
 
       <form>
         <!-- {{ modalStore }} -->
+        <div :class="$style.header">
+          <Field v-model="task.name" label="Titre" placeholder="Intitulé de la tâche" size="large" />
+        </div>
         <div :class="$style.fields">
-          <Field v-model="task.name" label="Titre" placeholder="Intitulé de la tâche" />
           <Field v-model="task.subtitle" label="Sous-titre" placeholder="Sous-titre de la tâche" />
           <Field label="Start Date" v-model="task.start_date" type="date"/>
           <!-- <Field label="Info" v-model="task.info" /> -->
-          <Field label="Ligne n°" v-model="task.line_id" />
           <Field label="Segment n°" v-model="task.segment_id" />
+          <Field label="Ligne n°" v-model="task.line_id" />
         </div>
 
        <div :class="$style.footer">
@@ -110,5 +112,11 @@ const onClose = () => {
   justify-content: flex-end;
   gap: 10px;
   margin-top: 20px;
+}
+
+.header {
+  border-bottom: var(--border);
+  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 </style>

@@ -21,6 +21,7 @@ const store = roadmapStore();
 
 interface Props {
     line: Line;
+    segmentId: number;
 }
 
 const props = defineProps<Props>();
@@ -33,6 +34,7 @@ const onClickCursor = (cursor: Week) => {
         show: true,
         data: {
             line_id: props.line.id,
+            segment_id: props.segmentId,
             start_date: cursor.start,
         },
     };

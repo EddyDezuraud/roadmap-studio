@@ -77,14 +77,10 @@ const onClose = () => {
   background-color: white;
   border-radius: 10px;
   width: 100%;
-  max-width: 500px;
-  padding: 4px;
-}
-
-.insideInner {
-  background: linear-gradient(180deg, #EFF5FF 0%, #FFFFFF 40%, #FFFFFF 100%);
+  max-width: 520px;
   padding: 20px;
-  border-radius: 9px;
+  max-height: calc(100% - 40px);
+  overflow: auto;
 }
 
 .header {

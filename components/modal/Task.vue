@@ -14,6 +14,27 @@
           <Field label="Segment n°" v-model="task.segment_id" />
           <Field label="Ligne n°" v-model="task.line_id" />
         </div>
+        <section :class="$style.section">
+          <span :class="$style.label">Stages</span>
+          <div :class="$style.innerSection">
+
+            <div :class="$style.stagesList">
+              <div v-for="(stage, index) in stages" :key="index">
+                <select>
+                  <option v-for="option in stagesOptions" :value="option.value">{{option.text}}</option>
+                </select>
+              </div>
+              
+            </div>
+
+            <Button type="button" icon="add" size="small" outline @click="onAddStage">
+              <span>Ajouter un stage</span>
+            </Button>
+
+
+          </div>
+          
+        </section>
 
        <div :class="$style.footer">
         <Button type="submit">Save</Button>
@@ -28,11 +49,14 @@
 
 <script lang="ts" setup>
 
-import type { Task } from '~/types/roadmap'
+import type { Task, TaskStage } from '~/types/roadmap'
 import { roadmapStore } from '~/store/roadmap'
-import type { Style } from '#build/components';
 
 const store = roadmapStore();
+
+const generateId = () => {
+  return Math.floor(Math.random() * 1000);
+}
 
 const task = ref({
   name: '',
@@ -41,8 +65,10 @@ const task = ref({
   info: '',
   line_id: 0,
   segment_id: 0,
-  id: 0
+  id: generateId()
 } as Task);
+
+const stages = ref([]) as Ref<TaskStage[]>;
 
 const open = ref(false) as Ref<boolean>;
 
@@ -55,6 +81,27 @@ const breadcrumb = computed(() => {
 
 const modalStore = computed(() => store.modal);
 
+const stagesOptions = computed<{value: number, text: string}[]>(() => {
+  return store.stages.map((stage) => {
+    return {
+      value: stage.id,
+      text: stage.name
+    }
+  })
+})
+
+const onAddStage = () => {
+  stages.value.push({
+    id: generateId(), 
+    index: stages.value.length, 
+    duration: 10, 
+    task_id: task.value.id,
+    stage_id: 0,
+    infinite: false,
+    task_stage_jobs: []
+  });
+}
+
 const resetData = () => {
   task.value = {
     name: '',
@@ -63,7 +110,7 @@ const resetData = () => {
     info: '',
     line_id: 0,
     segment_id: 0,
-    id: 0
+    id: generateId()
   }
 }
 
@@ -105,6 +152,8 @@ const onClose = () => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: var(--border);
 }
 
 .footer {
@@ -117,6 +166,20 @@ const onClose = () => {
 .header {
   border-bottom: var(--border);
   padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.section {
+  margin-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: var(--border);
+}
+
+.label {
+  display: block;
+  font-size: var(--font-size-xxl);
+  font-weight: 500;
+  color: var(--dark);
   margin-bottom: 20px;
 }
 </style>

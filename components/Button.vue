@@ -1,5 +1,5 @@
 <template>
-  <button :class="[$style.wrapper, {[$style.small] : size === 'small'}, {[$style.outline] : outline}]">
+  <button :class="[$style.wrapper, {[$style.small] : size === 'small'}, {[$style.outline] : outline}, {[$style.danger] : danger}]">
     <span :class="$style.inner">
       <svg v-if="icon === 'add'" :class="$style.icon" viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
       <slot />
@@ -9,9 +9,10 @@
 
 <script lang="ts" setup>
 interface Props {
-  icon?: string
-  size?: 'small' | 'medium' | 'large'
-  outline?: boolean
+  icon?: string;
+  size?: 'small' | 'medium' | 'large';
+  outline?: boolean;
+  danger?: boolean;
 }
 
 defineProps<Props>()
@@ -32,17 +33,23 @@ defineProps<Props>()
   box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgba(162, 168, 251, 0) 0px 0px 0px 3px, rgba(36, 28, 133, 0.3) 0px 0px 0px 1px inset
 }
 
-.wrapper.small {
+.small {
   padding: 8px 12px;
   font-size: var(--font-size-m);
   box-shadow: none;
 }
 
-.wrapper.outline {
+.outline {
   background: transparent;
   color: var(--dark);
   border: var(--border);
+  box-shadow: none;
   font-weight: 600;
+}
+
+.danger {
+  color : var(--danger);
+  font-size: 12px
 }
 
 .wrapper:hover {
@@ -64,7 +71,8 @@ defineProps<Props>()
   width: 12px;
 }
 
-.wrapper.outline .icon {
+.outline .icon {
   color: var(--dark-100);
 }
+
 </style>

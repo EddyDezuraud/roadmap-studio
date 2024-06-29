@@ -17,7 +17,8 @@ export const roadmapStore = defineStore({
     modal: {
       type: '',
       show: false,
-      data: null
+      data: null,
+      id: null as number | null
     }
   }),
   getters: {
@@ -50,9 +51,10 @@ export const roadmapStore = defineStore({
     setJobs(value: Job[]) {
       this.jobs = value
     },
-    setModal(value: {type: string, show: boolean, data: any}) {
+    setModal(value: {type: string, show: boolean, id: number | null, data?: any}) {
       this.modal.show = value.show;
       this.modal.type = value.type;
+      this.modal.id = value.id;
       this.modal.data = value.data;
     },
     setDaySize(value: number) {

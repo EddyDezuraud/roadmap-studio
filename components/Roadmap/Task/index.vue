@@ -1,8 +1,8 @@
 <template>
   <div :class="$style.wrapper" :style="taskStyle">
-    <div :class="$style.content">
+    <div :class="$style.content" @click="onOpenEdit">
       <span :class="$style.title">{{ task.name }}</span>
-      <span :class="$style.subtitle">{{ task.subtitle }}</span>
+      <span :class="$style.subtitle">{{ task.subtitle }} - {{task.start_date}}</span>
     </div>
     <RoadmapTaskStages :task-stages="task.task_stages" />
   </div>
@@ -20,21 +20,24 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const nbOfDays = computed<number>(() => {
-  // additionner l'ensemble des jours de props.task.task_stages[].duration
-  return props.task.task_stages.reduce((acc, stage) => acc + stage.duration, 0);
-});
-
 const daySize = computed<number>(() => store.getDaySize);
 
 const taskLeft = computed<number>(() => {
-  // compare store date start with task start date
-  const roadmapStartDate = store.startDate;
+  const roadmapStartDate = new Date(store.startDate);
   const taskStartDate = new Date(props.task.start_date);
-  // return the number of days between the two dates
-  const diffTime = Math.abs(taskStartDate.getTime() - roadmapStartDate.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays * daySize.value;
+  
+  let workingDays = 0;
+  const currentDate = new Date(roadmapStartDate);
+  
+  while (currentDate <= taskStartDate) {
+    // getDay() retourne 0 pour dimanche, 1 pour lundi, ..., 6 pour samedi
+    if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+      workingDays++;
+    }
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  
+  return workingDays * daySize.value;
 });
 
 const taskStyle = computed(() => {
@@ -42,6 +45,10 @@ const taskStyle = computed(() => {
     left: `${taskLeft.value}px`
   }
 })
+
+const onOpenEdit = () => {
+  store.setModal({type: 'task', id: props.task.id, show: true});
+}
 
 </script>
 
@@ -88,6 +95,7 @@ const taskStyle = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  cursor: pointer;
 }
 
 .title {

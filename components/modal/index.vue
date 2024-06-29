@@ -1,6 +1,5 @@
 <template>
   <Teleport to="body" v-if="model">
-
     <div :class="$style.wrapper">
       <div :class="$style.overlay" @click="onClose"></div>
       <div :class="$style.inner">

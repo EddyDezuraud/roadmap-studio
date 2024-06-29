@@ -38,6 +38,7 @@ interface TaskStage {
     line_id: number;
     start_date: string;
     info: string;
+    logo: string;
   }
 
   interface Line {

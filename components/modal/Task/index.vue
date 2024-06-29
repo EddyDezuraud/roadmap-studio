@@ -1,6 +1,11 @@
 <template>
-  <Modal v-model="open" @update:model="onClose" title="Nouvelle tâche">
+  <Modal v-model="open" @update:model="onClose" :title="mode === 'create' ? 'Nouvelle tâche' : 'Détail de la tâche'">
     <div :class="$style.wrapper">
+
+      <div v-if="pending" :class="$style.loader">
+        <Spinner />
+        <span>Chargement...</span>
+      </div>
 
       <div :class="$style.form">
 
@@ -37,12 +42,20 @@
       
     </div>
     <template v-slot:footer>
-      <Button type="button" outline @click="onClose">
-        <span>Annuler</span>
-      </Button>
-      <Button type="button" @click="onSubmitForm">
-        <span>Enregistrer</span>
-      </Button>
+      <div :class="$style.footer">
+        <Button type="button" danger outline @click="onDeleteTask">
+          <span>Supprimer</span>
+        </Button>
+        <div :class="$style.mainActions">
+          <Button type="button" outline @click="onClose">
+            <span>Annuler</span>
+          </Button>
+          <Button type="button" @click="onSubmitForm">
+            <span>Enregistrer</span>
+          </Button>
+        </div>
+      </div>
+      
     </template>
   </Modal>
 </template>
@@ -62,22 +75,17 @@ const task = ref({
   info: '',
   line_id: 0,
   segment_id: 0,
+  logo: '',
   id: useGenerateId()
 } as Task);
 
 const stages = ref([]) as Ref<TaskStage[]>;
 const isSent = ref(false) as Ref<boolean>;
 const open = ref(false) as Ref<boolean>;
-
-const breadcrumb = computed(() => {
-  if(task.value.id) {
-    return ['Tâches', task.value.name]
-  }
-  return ['Tâches','Nouvelle tâche']
-})
+const mode = ref<'create' | 'edit'>('create');
+const pending = ref<boolean>(false);
 
 const modalStore = computed(() => store.modal);
-
 
 const onAddStage = () => {
   stages.value.push({
@@ -91,39 +99,72 @@ const onAddStage = () => {
   });
 }
 
-const resetData = () => {
-  task.value = {
-    name: '',
-    subtitle: '',
-    start_date: '',
-    info: '',
-    line_id: 0,
-    segment_id: 0,
-    id: useGenerateId()
-  }
-}
+const initData = async (id: number) => {
+  mode.value = 'edit';
+  pending.value = true;
+  const data = await useFetchRoadmap().getTask(id);
 
-const initData = () => {
-  task.value.name = modalStore.value.data?.name || '';
-  task.value.subtitle = modalStore.value.data?.subtitle || '';
-  //convert date to yyy-dd-mm format
-  const date = new Date(modalStore.value.data?.start_date);
-  task.value.start_date = date.toISOString().split('T')[0];
-  task.value.info = modalStore.value.data?.info || '';
+  if(data) {
+
+    task.value.name = data.name;
+    task.value.subtitle = data.subtitle || '';
+    task.value.start_date = data.start_date || '';
+    task.value.info = data.info || '';
+    task.value.line_id = data.line_id || 0;
+    task.value.segment_id = data.segment_id || 0;
+    task.value.id = data.id;
+    task.value.logo = data.logo || '';
+
+    const taskStages = await useFetchRoadmap().getTaskStages(id);
+    if(taskStages) {
+      stages.value = taskStages.map((stage) => {
+        return {
+          id: stage.id,
+          index: stage.index,
+          duration: stage.duration,
+          task_id: stage.task_id,
+          stage_id: stage.stage_id,
+          infinite: stage.infinite,
+          task_stage_jobs: []
+        }
+      })
+    }
+  }
+
+  pending.value = false;
 }
 
 // watch store modal show
 watch(() => store.modal.show, (value) => {
-  console.log(value)
+  open.value = store.modal.show;
+
   if(value) {
-    open.value = true;
-    task.value = modalStore.value.data as Task;
-    task.value.start_date = modalStore.value.data?.start_date;
+    mode.value = 'create';
+    if(modalStore.value.id) {
+      initData(modalStore.value.id);
+    } else if(modalStore.value.data && modalStore.value.data['start_date']) {
+      task.value.segment_id = modalStore.value.data['segment_id'];
+      task.value.line_id = modalStore.value.data['line_id'];
+      task.value.start_date = modalStore.value.data['start_date'];
+    }
   }
 })
 
+const resetData = () => {
+  task.value.name = '';
+  task.value.subtitle = '';
+  task.value.start_date = '';
+  task.value.info = '';
+  task.value.line_id = 0;
+  task.value.logo = '';
+  task.value.segment_id = 0;
+  task.value.id = useGenerateId();
+  stages.value = [];
+}
+
 const onClose = () => {
-  store.setModal({type: 'task', show: false, data: {}});
+  resetData();
+  store.setModal({type: 'task', show: false, id: null});
 }
 
 const onToggleJob = (data: {jobId: number, stageId: number}) => {
@@ -148,17 +189,7 @@ const onToggleJob = (data: {jobId: number, stageId: number}) => {
 }
 
 const addNewTask = async() => {
-  const newTask = {} as Database['public']['Tables']['tasks']['Row'];
-  newTask.name = task.value.name;
-  newTask.subtitle = task.value.subtitle;
-  newTask.line_id = task.value.line_id;
-  newTask.segment_id = task.value.segment_id;
-  newTask.logo = null;
-  newTask.info = task.value.info;
-  newTask.start_date = task.value.start_date;
-  newTask.id = task.value.id;
-
-  await useFetchRoadmap().createTask(newTask);
+  await useFetchRoadmap().createTask(task.value);
 }
 
 const addNewTaskStageJobs = async() => {
@@ -195,11 +226,35 @@ const addNewTaskStages = async() => {
   await addNewTaskStageJobs();
 }
 
-const onSubmitForm = async() => {
-  await addNewTask();
-  await addNewTaskStages();
+const onDeleteTask = async() => {
+  await useFetchRoadmap().deleteTask(task.value.id);
+  onClose();
+}
 
-  resetData();
+const updateTask = async() => {
+  await useFetchRoadmap().updateTask(task.value);
+}
+
+const onSubmitForm = async() => {
+
+  if(task.value.name === '' || task.value.start_date === '' || stages.value.length === 0) {
+    isSent.value = true;
+    return;
+  }
+
+  if(mode.value === 'edit') {
+    await updateTask();
+
+    if(stages.value.length > 0){
+      await useFetchRoadmap().deleteTaskStagesFromTask(task.value.id);
+      await addNewTaskStages();
+    }
+
+  } else {
+    await addNewTask();
+    await addNewTaskStages();
+  }
+
   onClose();
 }
 
@@ -208,8 +263,26 @@ const onSubmitForm = async() => {
 <style module>
 .wrapper {
  display: block;
-
+  position: relative;
  --sideform-width: 350px;
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255,255,255,0.7);
+  backdrop-filter: blur(2px);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  font-size: 12px;
+  font-weight: 500;
+
 }
 
 .titles {
@@ -224,9 +297,13 @@ const onSubmitForm = async() => {
 
 .footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.mainActions {
+  display: flex;
   gap: 10px;
-  margin-top: 20px;
 }
 
 .header {

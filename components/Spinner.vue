@@ -6,40 +6,36 @@
 
 <style>
 .spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 3px solid #ccc;
-    animation: spin 1s linear infinite;
+    position: relative;
+    margin: 40px 0;
+    text-align: center;
+    font-weight: 600;
 }
 
 .spinner-inner {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
+    margin: 0 auto;
+    display: block;
+    position: relative;
+}
+
+.spinner-inner:after{
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    border: solid 2px #EBEEF1;
+    border-right: solid 2px currentColor;
     border-radius: 50%;
-    border-top: 3px solid #888;
-    border-right: 3px solid transparent;
-    animation: spin-inner 1s linear infinite;
+    left: 0;
+    top: 0;
+    animation: load_spinner 1.8s ease infinite;
 }
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes spin-inner {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(-360deg);
-    }
+@keyframes load_spinner {
+  100% {
+    transform: rotate(720deg);
+  }
 }
 </style>

@@ -32,6 +32,7 @@ const onClickCursor = (cursor: Week) => {
     const newModal = {
         type: 'task',
         show: true,
+        id: 0,
         data: {
             line_id: props.line.id,
             segment_id: props.segmentId,

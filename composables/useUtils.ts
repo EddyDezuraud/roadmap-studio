@@ -84,3 +84,8 @@ export function useTransformHue(percent: number, color: string): string {
 
     return newColor;
 }
+
+export function useGenerateId(): number {
+    //generate unique id based on current time but for int4
+    return parseInt(Date.now().toString().slice(-6));
+}

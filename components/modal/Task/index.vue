@@ -2,20 +2,21 @@
   <Modal v-model="open" @update:model="onClose" title="Nouvelle tâche">
     <div :class="$style.wrapper">
 
-      <form :class="$style.form">
+      <div :class="$style.form">
 
         <div :class="$style.leftSide">
           <div :class="$style.header">
-            <Field v-model="task.name" label="Intitulé" placeholder="Intitulé de la tâche" size="large" />
+            <Field v-model="task.name" label="Intitulé" placeholder="Intitulé de la tâche" size="large" :error="isSent && task.name === ''" />
           </div>
           <div :class="$style.fields">
             <Field v-model="task.subtitle" label="Sous-titre" placeholder="Sous-titre de la tâche" />
-            <Field label="Start Date" v-model="task.start_date" type="date"/>
-            <!-- <Field label="Info" v-model="task.info" /> -->
+            <Field label="Informations complémentaires" v-model="task.info" type="textarea" />
+            <Field label="Date de début" v-model="task.start_date" type="date"/>
             <Field label="Segment n°" v-model="task.segment_id" />
             <Field label="Ligne n°" v-model="task.line_id" />
           </div>
         </div>
+
         <div :class="$style.rightSide">
           <span :class="$style.label">Stages</span>
           <div :class="$style.innerSection">
@@ -24,27 +25,25 @@
               <div v-for="(stage, index) in stages" :key="index" :class="$style.stage">
                 <ModalTaskStage :id="stage.id" v-model:stage-id="stage.stage_id" v-model:duration="stage.duration" :task-jobs="stage.task_stage_jobs" @job="onToggleJob" />
               </div>
-              
             </div>
 
             <Button type="button" icon="add" size="small" outline @click="onAddStage">
               <span>Ajouter un stage</span>
             </Button>
 
-
           </div>
         </div>
-      </form>
+      </div>
       
     </div>
     <template v-slot:footer>
-        <Button type="button" outline @click="onClose">
-          <span>Annuler</span>
-        </Button>
-        <Button type="submit">
-          <span>Enregistrer</span>
-        </Button>
-      </template>
+      <Button type="button" outline @click="onClose">
+        <span>Annuler</span>
+      </Button>
+      <Button type="button" @click="onSubmitForm">
+        <span>Enregistrer</span>
+      </Button>
+    </template>
   </Modal>
 </template>
 
@@ -52,12 +51,9 @@
 
 import type { Task, TaskStage } from '~/types/roadmap'
 import { roadmapStore } from '~/store/roadmap'
+import type { Database } from '~/types/supabase';
 
 const store = roadmapStore();
-
-const generateId = () => {
-  return Math.floor(Math.random() * 1000);
-}
 
 const task = ref({
   name: '',
@@ -66,11 +62,11 @@ const task = ref({
   info: '',
   line_id: 0,
   segment_id: 0,
-  id: generateId()
+  id: useGenerateId()
 } as Task);
 
 const stages = ref([]) as Ref<TaskStage[]>;
-
+const isSent = ref(false) as Ref<boolean>;
 const open = ref(false) as Ref<boolean>;
 
 const breadcrumb = computed(() => {
@@ -85,7 +81,7 @@ const modalStore = computed(() => store.modal);
 
 const onAddStage = () => {
   stages.value.push({
-    id: generateId(), 
+    id: useGenerateId(), 
     index: stages.value.length, 
     duration: 10, 
     task_id: task.value.id,
@@ -103,7 +99,7 @@ const resetData = () => {
     info: '',
     line_id: 0,
     segment_id: 0,
-    id: generateId()
+    id: useGenerateId()
   }
 }
 
@@ -143,12 +139,68 @@ const onToggleJob = (data: {jobId: number, stageId: number}) => {
     }
 
     stage.task_stage_jobs.push({
-      id: generateId(),
+      id: useGenerateId(),
       job_id: data.jobId,
       task_stage_id: stage.id,
       index: stage.task_stage_jobs.length
     })
   }
+}
+
+const addNewTask = async() => {
+  const newTask = {} as Database['public']['Tables']['tasks']['Row'];
+  newTask.name = task.value.name;
+  newTask.subtitle = task.value.subtitle;
+  newTask.line_id = task.value.line_id;
+  newTask.segment_id = task.value.segment_id;
+  newTask.logo = null;
+  newTask.info = task.value.info;
+  newTask.start_date = task.value.start_date;
+  newTask.id = task.value.id;
+
+  await useFetchRoadmap().createTask(newTask);
+}
+
+const addNewTaskStageJobs = async() => {
+  const newJobs = [] as Database['public']['Tables']['task_stage_jobs']['Row'][];
+
+  stages.value.forEach((stage) => {
+    stage.task_stage_jobs.forEach((job) => {
+      const newJob = {} as Database['public']['Tables']['task_stage_jobs']['Row'];
+      newJob.id = job.id;
+      newJob.job_id = job.job_id;
+      newJob.task_stage_id = job.task_stage_id;
+      newJob.index = job.index;
+      newJobs.push(newJob);
+    })
+  })
+
+  await useFetchRoadmap().createTaskStageJobs(newJobs);
+}
+
+const addNewTaskStages = async() => {
+  const newStages = [] as Database['public']['Tables']['task_stages']['Row'][];
+  stages.value.forEach((stage) => {
+    const newStage = {} as Database['public']['Tables']['task_stages']['Row'];
+    newStage.id = stage.id;
+    newStage.index = stage.index;
+    newStage.task_id = task.value.id;
+    newStage.stage_id = stage.stage_id;
+    newStage.infinite = stage.infinite;
+    newStage.duration = stage.duration;
+    newStages.push(newStage);
+  })
+
+  await useFetchRoadmap().createTaskStages(newStages);
+  await addNewTaskStageJobs();
+}
+
+const onSubmitForm = async() => {
+  await addNewTask();
+  await addNewTaskStages();
+
+  resetData();
+  onClose();
 }
 
 </script>

@@ -98,7 +98,7 @@ const onClose = () => {
 
 .content {
   padding: 20px;
-  max-height: calc(100% - 80px);
+  max-height: calc(100vh - 180px);
   overflow: auto;
 }
 

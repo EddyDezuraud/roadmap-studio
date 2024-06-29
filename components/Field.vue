@@ -8,6 +8,9 @@
     </div>
     <textarea v-if="type === 'textarea'" :class="$style.input" v-model="model" />
     <input v-else :class="$style.input" :type="type ? type : 'text'" v-model="model" :placeholder />
+    <div v-if="error" :class="$style.error">
+      <span>Veuillez compléter ce champ</span>
+    </div>
   </div>
 </template>
 
@@ -21,6 +24,7 @@ interface FieldProps {
   mode?: 'title' | 'subtitle' | 'normal';
   size?: 'small' | 'medium' | 'large';
   placeholder?: string;
+  error?: boolean;
 }
 defineProps<FieldProps>();
 </script>
@@ -93,5 +97,9 @@ defineProps<FieldProps>();
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+.error {
+  color: #d30012
 }
 </style>

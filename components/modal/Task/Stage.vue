@@ -1,8 +1,9 @@
 <template>
   <div :class="$style.wrapper">
-    <select>
+    <select v-model="stageId">
       <option v-for="option in stagesOptions" :value="option.value">{{option.text}}</option>
     </select>
+    <Field v-model="duration" type="number" />
   </div>
 </template>
 
@@ -13,9 +14,17 @@ import { roadmapStore } from '~/store/roadmap'
 
 const store = roadmapStore();
 
-interface Props {
-  stage: TaskStage;
-}
+const stageId = defineModel('stageId');
+const duration = defineModel('duration')
+
+const stagesOptions = computed<{value: number, text: string}[]>(() => {
+  return store.stages.map((stage) => {
+    return {
+      value: stage.id,
+      text: stage.name
+    }
+  })
+})
 
 </script>
 

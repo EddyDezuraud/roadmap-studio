@@ -5,7 +5,7 @@
       <form>
         <!-- {{ modalStore }} -->
         <div :class="$style.header">
-          <Field v-model="task.name" label="Titre" placeholder="Intitulé de la tâche" size="large" />
+          <Field v-model="task.name" label="Création d’une nouvelle tâche" subtitle="Veuillez entrer les détails de la tâche à ajouter à votre roadmap" placeholder="Intitulé de la tâche" size="large" />
         </div>
         <div :class="$style.fields">
           <Field v-model="task.subtitle" label="Sous-titre" placeholder="Sous-titre de la tâche" />
@@ -20,9 +20,7 @@
 
             <div :class="$style.stagesList">
               <div v-for="(stage, index) in stages" :key="index">
-                <select>
-                  <option v-for="option in stagesOptions" :value="option.value">{{option.text}}</option>
-                </select>
+                <ModalTaskStage v-model:stage-id="stage.id" v-model:duration="stage.duration" />
               </div>
               
             </div>
@@ -81,14 +79,6 @@ const breadcrumb = computed(() => {
 
 const modalStore = computed(() => store.modal);
 
-const stagesOptions = computed<{value: number, text: string}[]>(() => {
-  return store.stages.map((stage) => {
-    return {
-      value: stage.id,
-      text: stage.name
-    }
-  })
-})
 
 const onAddStage = () => {
   stages.value.push({
@@ -165,7 +155,7 @@ const onClose = () => {
 
 .header {
   border-bottom: var(--border);
-  padding-bottom: 20px;
+  padding: 0 0 20px 0;
   margin-bottom: 20px;
 }
 

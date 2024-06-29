@@ -5,12 +5,19 @@
       <div :class="$style.overlay" @click="onClose"></div>
       <div :class="$style.inner">
         <div :class="$style.insideInner">
-          <div v-if="breadcrumb" :class="$style.breadcrumb">
-            <span v-for="(item, index) in breadcrumb" :key="index">
-              <span>{{ item }}</span>
-              <span v-if="index < breadcrumb.length - 1">></span>
-            </span>
-          </div>
+          <div :class="$style.preHeader">
+            <div v-if="breadcrumb" :class="$style.breadcrumb">
+              <span v-for="(item, index) in breadcrumb" :key="index">
+                <span>{{ item }}</span>
+                <span v-if="index < breadcrumb.length - 1">></span>
+              </span>
+            </div>
+            <button :class="$style.closeBtn" @click="onClose">
+              <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+            </button>
+          </div> 
+
+          
           <header :class="$style.header" v-if="title || subtitle">
             <h2 v-if="title">{{ title }}</h2>
             <p v-if="subtitle">{{ subtitle }}</p>
@@ -77,7 +84,7 @@ const onClose = () => {
   background-color: white;
   border-radius: 10px;
   width: 100%;
-  max-width: 520px;
+  max-width: 720px;
   padding: 20px;
   max-height: calc(100% - 40px);
   overflow: auto;
@@ -90,9 +97,6 @@ const onClose = () => {
 .breadcrumb {
   display: flex;
   gap: 5px;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: var(--border);
   font-size: var(--font-size-m);
   font-weight: 500;
   color: var(--dark-100);
@@ -101,5 +105,25 @@ const onClose = () => {
 .breadcrumb > * {
   display: flex;
   gap: 5px;
+}
+
+.preHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: var(--border);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+.closeBtn {
+  outline: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.closeBtn svg {
+  width: 20px;
 }
 </style>

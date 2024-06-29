@@ -1,26 +1,28 @@
 <template>
-  <Modal v-model="open" @update:model="onClose" :breadcrumb>
+  <Modal v-model="open" @update:model="onClose" title="Nouvelle tâche">
     <div :class="$style.wrapper">
 
-      <form>
-        <!-- {{ modalStore }} -->
-        <div :class="$style.header">
-          <Field v-model="task.name" label="Création d’une nouvelle tâche" subtitle="Veuillez entrer les détails de la tâche à ajouter à votre roadmap" placeholder="Intitulé de la tâche" size="large" />
+      <form :class="$style.form">
+
+        <div :class="$style.leftSide">
+          <div :class="$style.header">
+            <Field v-model="task.name" label="Intitulé" placeholder="Intitulé de la tâche" size="large" />
+          </div>
+          <div :class="$style.fields">
+            <Field v-model="task.subtitle" label="Sous-titre" placeholder="Sous-titre de la tâche" />
+            <Field label="Start Date" v-model="task.start_date" type="date"/>
+            <!-- <Field label="Info" v-model="task.info" /> -->
+            <Field label="Segment n°" v-model="task.segment_id" />
+            <Field label="Ligne n°" v-model="task.line_id" />
+          </div>
         </div>
-        <div :class="$style.fields">
-          <Field v-model="task.subtitle" label="Sous-titre" placeholder="Sous-titre de la tâche" />
-          <Field label="Start Date" v-model="task.start_date" type="date"/>
-          <!-- <Field label="Info" v-model="task.info" /> -->
-          <Field label="Segment n°" v-model="task.segment_id" />
-          <Field label="Ligne n°" v-model="task.line_id" />
-        </div>
-        <section :class="$style.section">
+        <div :class="$style.rightSide">
           <span :class="$style.label">Stages</span>
           <div :class="$style.innerSection">
 
             <div :class="$style.stagesList">
-              <div v-for="(stage, index) in stages" :key="index">
-                <ModalTaskStage v-model:stage-id="stage.stage_id" v-model:duration="stage.duration" />
+              <div v-for="(stage, index) in stages" :key="index" :class="$style.stage">
+                <ModalTaskStage :id="stage.id" v-model:stage-id="stage.stage_id" v-model:duration="stage.duration" :task-jobs="stage.task_stage_jobs" @job="onToggleJob" />
               </div>
               
             </div>
@@ -31,17 +33,18 @@
 
 
           </div>
-          
-        </section>
-
-       <div :class="$style.footer">
-        <Button type="submit">Save</Button>
-       </div>
-
-
+        </div>
       </form>
       
     </div>
+    <template v-slot:footer>
+        <Button type="button" outline @click="onClose">
+          <span>Annuler</span>
+        </Button>
+        <Button type="submit">
+          <span>Enregistrer</span>
+        </Button>
+      </template>
   </Modal>
 </template>
 
@@ -127,11 +130,34 @@ const onClose = () => {
   store.setModal({type: 'task', show: false, data: {}});
 }
 
+const onToggleJob = (data: {jobId: number, stageId: number}) => {
+  const stage = stages.value.find((stage) => stage.id === data.stageId);
+
+  if(stage) {
+
+    const index = stage.task_stage_jobs.findIndex((job) => job.job_id === data.jobId);
+
+    if(index > -1) {
+      stage.task_stage_jobs.splice(index, 1);
+      return;
+    }
+
+    stage.task_stage_jobs.push({
+      id: generateId(),
+      job_id: data.jobId,
+      task_stage_id: stage.id,
+      index: stage.task_stage_jobs.length
+    })
+  }
+}
+
 </script>
 
 <style module>
 .wrapper {
  display: block;
+
+ --sideform-width: 350px;
 }
 
 .titles {
@@ -142,8 +168,6 @@ const onClose = () => {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding-bottom: 20px;
-  border-bottom: var(--border);
 }
 
 .footer {
@@ -171,5 +195,34 @@ const onClose = () => {
   font-weight: 500;
   color: var(--dark);
   margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+}
+
+.leftSide {
+  flex: 1;
+  width: calc(100% - var(--sideform-width));
+  padding-right: 20px;
+}
+
+.rightSide {
+  width: var(--sideform-width);
+  border-left: var(--border);
+  padding-left: 20px;
+}
+
+.innerSection,
+.stagesList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.stage,
+.stagesList {
+  width: 100%;
 }
 </style>

@@ -5,8 +5,8 @@
       <div :class="$style.overlay" @click="onClose"></div>
       <div :class="$style.inner">
         <div :class="$style.insideInner">
-          <div :class="$style.preHeader">
-            <div v-if="breadcrumb" :class="$style.breadcrumb">
+          <div v-if="breadcrumb" :class="$style.preHeader">
+            <div :class="$style.breadcrumb">
               <span v-for="(item, index) in breadcrumb" :key="index">
                 <span>{{ item }}</span>
                 <span v-if="index < breadcrumb.length - 1">></span>
@@ -19,12 +19,21 @@
 
           
           <header :class="$style.header" v-if="title || subtitle">
-            <h2 v-if="title">{{ title }}</h2>
-            <p v-if="subtitle">{{ subtitle }}</p>
+            <div :class="$style.headerContent">
+              <h2 v-if="title" :class="$style.title">{{ title }}</h2>
+              <p v-if="subtitle" :class="$style.subtitle">{{ subtitle }}</p>
+            </div> 
+            <button v-if="!breadcrumb" :class="$style.closeBtn" @click="onClose">
+              <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+            </button>
+            
           </header>
           <div :class="$style.content">
             <slot />
           </div>
+          <div :class="$style.footer">
+            <slot name="footer" />
+          </div> 
         </div>
       </div> 
     </div>
@@ -84,14 +93,36 @@ const onClose = () => {
   background-color: white;
   border-radius: 10px;
   width: 100%;
-  max-width: 720px;
+  max-width: 1000px;
+}
+
+.content {
   padding: 20px;
-  max-height: calc(100% - 40px);
+  max-height: calc(100% - 80px);
   overflow: auto;
 }
 
 .header {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: var(--border);
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px;
+  border-top: var(--border);
+  gap: 20px;
+}
+
+.title {
+  font-size: 14px;
+  color: var(--dark);
+  font-weight: 500;
 }
 
 .breadcrumb {

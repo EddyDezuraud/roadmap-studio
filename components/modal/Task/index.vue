@@ -20,7 +20,7 @@
 
             <div :class="$style.stagesList">
               <div v-for="(stage, index) in stages" :key="index">
-                <ModalTaskStage v-model:stage-id="stage.id" v-model:duration="stage.duration" />
+                <ModalTaskStage v-model:stage-id="stage.stage_id" v-model:duration="stage.duration" />
               </div>
               
             </div>

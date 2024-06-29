@@ -1,8 +1,6 @@
 <template>
   <div :class="$style.wrapper">
-    <select v-model="stageId">
-      <option v-for="option in stagesOptions" :value="option.value">{{option.text}}</option>
-    </select>
+    <Select v-model="stageId" :options="stagesOptions" placeholder="Stage" />
     <Field v-model="duration" type="number" />
   </div>
 </template>
@@ -31,5 +29,9 @@ const stagesOptions = computed<{value: number, text: string}[]>(() => {
 <style module>
 .wrapper {
  display: flex;
+}
+
+.wrapper > * {
+  flex: 1;
 }
 </style>

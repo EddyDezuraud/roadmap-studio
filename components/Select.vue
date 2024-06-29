@@ -6,12 +6,20 @@
       </label>
       <span v-if="subtitle" :class="$style.subtitle">{{ subtitle }}</span>
     </div>
-    <div :class="$style.value">
-      <span>
-        {{ model ? textValue : placeholder }}
+    <div :class="$style.value" @click="open = !open">
+      <span v-if="model">
+        {{ textValue }}
       </span>
-      <div>
+      <span v-else="placeholder" :class="$style.placeholder">
+        {{ placeholder ? placeholder : '-' }}
+      </span>
+      <div :class="$style.icon">
         <svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg>
+      </div>
+    </div>
+    <div :class="$style.options" v-if="open">
+      <div v-for="option in options" :key="option.value" :class="$style.option" @click="onSelectOption(option.value)">
+        {{ option.text }}
       </div>
     </div>
   </div>
@@ -32,6 +40,13 @@ interface FieldProps {
 
 const props = defineProps<FieldProps>();
 
+const open = ref(false);
+
+const onSelectOption = (newVal: number) => {
+  model.value = newVal;
+  open.value = false;
+}
+
 const textValue = computed(() => {
   if(!model.value) return '';
   return props.options.find(option => option.value === model.value)?.text;
@@ -44,6 +59,7 @@ const textValue = computed(() => {
   flex-direction: column;
   gap: 10px;
   margin: 0;
+  position: relative;
 }
 
 .label {
@@ -70,6 +86,10 @@ const textValue = computed(() => {
   outline: none;
   transition: all 125ms ease 0s;
   margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .subtitle .value,
@@ -106,5 +126,37 @@ const textValue = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+.icon svg {
+  width: 16px;
+}
+
+.placeholder {
+  color: var(--dark-100);
+}
+
+.options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+.option {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--dark);
+}
+
+.option:hover {
+  background: rgba(0,0,0,0.05);
 }
 </style>

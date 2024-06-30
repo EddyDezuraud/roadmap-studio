@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Column, Stage, Job, Week } from '~/types/roadmap'
+import type { Column, Stage, Job, Week, Task } from '~/types/roadmap'
 
 export const roadmapStore = defineStore({
   id: 'roadmapStore',
@@ -19,7 +19,8 @@ export const roadmapStore = defineStore({
       show: false,
       data: null,
       id: null as number | null
-    }
+    },
+    tasks: [] as Task[]
   }),
   getters: {
     getDaySize(): number {
@@ -27,7 +28,7 @@ export const roadmapStore = defineStore({
     },
     getWeekSize(): number {
       return this.colSize / 4
-    }
+    },
   },
   actions: {
     setColSize(value: number) {
@@ -62,6 +63,17 @@ export const roadmapStore = defineStore({
     },
     setWeeks(value: Week[]) {
       this.weeks = value
+    },
+    setTasks (value: Task[]) {
+      this.tasks.splice(0, this.tasks.length);
+      this.tasks.push(...value);
+    },
+    updateTaskStartDate(taskId: number, newDate: string) {
+      const task = this.tasks.find(t => t.id === taskId);
+      if (task) {
+        task.start_date = newDate;
+      }
     }
+    
   }
 })

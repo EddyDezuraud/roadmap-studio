@@ -1,11 +1,18 @@
 <template>
-  <div :class="$style.wrapper" :style="taskStyle">
-    <div :class="$style.content" @click="onOpenEdit">
-      <span :class="$style.title">{{ task.name }}</span>
-      <span :class="$style.subtitle">{{ task.subtitle }} - {{task.start_date}}</span>
+  <div v-if="task" :class="$style.wrapper">
+    <div :class="$style.phantom"></div>
+    <div :class="$style.item" :style="taskStyle">
+      <div :class="$style.content" 
+          @mousedown="startDrag" 
+          @touchstart="startDrag"
+          @click="onOpenEdit">
+        <span :class="$style.title">{{ task.name }}</span>
+        <span :class="$style.subtitle">{{ task.subtitle }}</span>
+      </div>
+      <RoadmapTaskStages :task-stages="task.task_stages" />
     </div>
-    <RoadmapTaskStages :task-stages="task.task_stages" />
   </div>
+  
 </template>
 
 <script lang="ts" setup>
@@ -15,22 +22,31 @@ import { roadmapStore } from '~/store/roadmap'
 const store = roadmapStore();
 
 interface Props {
-  task: Task
+  taskId: number
 }
 
 const props = defineProps<Props>()
 
 const daySize = computed<number>(() => store.getDaySize);
 
+const task = computed<Task | undefined>(() => store.tasks.find(task => task.id === props.taskId));
+
+const dragController = ref({
+  isDragging: false,
+  startX: 0,
+  accumulatedDiff: 0,
+  lastValue: 0
+});
+
 const taskLeft = computed<number>(() => {
+  if(!task.value) return 0;
   const roadmapStartDate = new Date(store.startDate);
-  const taskStartDate = new Date(props.task.start_date);
+  const taskStartDate = new Date(task.value.start_date);
   
   let workingDays = 0;
   const currentDate = new Date(roadmapStartDate);
   
   while (currentDate <= taskStartDate) {
-    // getDay() retourne 0 pour dimanche, 1 pour lundi, ..., 6 pour samedi
     if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
       workingDays++;
     }
@@ -47,13 +63,79 @@ const taskStyle = computed(() => {
 })
 
 const onOpenEdit = () => {
-  store.setModal({type: 'task', id: props.task.id, show: true});
+  if(task.value) {
+    store.setModal({type: 'task', id: task.value.id, show: true});
+  }
+};
+
+const stopDrag = () => {
+  dragController.value.isDragging = false;
+  document.removeEventListener('mousemove', onDrag);
+  document.removeEventListener('touchmove', onDrag);
+  document.removeEventListener('mouseup', stopDrag);
+  document.removeEventListener('touchend', stopDrag);
+};
+
+const startDrag = (event: MouseEvent | TouchEvent) => {
+  dragController.value.isDragging = true;
+  dragController.value.startX = 'touches' in event ? event.touches[0].clientX : event.clientX;
+  dragController.value.accumulatedDiff = 0;
+  dragController.value.lastValue = taskLeft.value;
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('touchmove', onDrag);
+  document.addEventListener('mouseup', stopDrag);
+  document.addEventListener('touchend', stopDrag);
+};
+
+const updateDate = (diff: number) => {
+  if(task.value) {
+    const startDate = new Date(task.value.start_date);
+    let daysToMove = diff;
+
+    while (daysToMove !== 0) {
+      // Avancer ou reculer d'un jour
+      startDate.setDate(startDate.getDate() + Math.sign(daysToMove));
+      
+      // Vérifier si c'est un jour de semaine (lundi à vendredi)
+      if (startDate.getDay() !== 0 && startDate.getDay() !== 6) {
+        // Si c'est un jour de semaine, décrémenter le compteur
+        daysToMove -= Math.sign(daysToMove);
+      }
+    }
+
+    const newStartDate = startDate.toISOString().split('T')[0]; // Format YYYY-MM-DD
+    store.updateTaskStartDate(task.value.id, newStartDate);
+  }
+
 }
+
+
+const onDrag = (event: MouseEvent | TouchEvent) => {
+  if (!dragController.value.isDragging) return;
+
+  if(!task.value) return;
+  
+  const clientX = 'touches' in event ? event.touches[0].clientX : event.clientX;
+  const diffX = clientX - dragController.value.startX;
+  dragController.value.accumulatedDiff += diffX;
+  
+  const steps = Math.floor(Math.abs(dragController.value.accumulatedDiff) / daySize.value) * Math.sign(dragController.value.accumulatedDiff);
+  
+  if (steps !== 0) {
+    const newValue = dragController.value.lastValue + steps;
+    if (newValue < 0) return;
+    updateDate(newValue);
+    dragController.value.lastValue = newValue;
+    dragController.value.accumulatedDiff = dragController.value.accumulatedDiff % daySize.value;
+  }
+  
+  dragController.value.startX = clientX;
+};
 
 </script>
 
 <style module>
-.wrapper {
+.item {
   position: absolute;
   z-index: 3;
   top: var(--segment-padding);
@@ -65,8 +147,8 @@ const onOpenEdit = () => {
   gap: 10px;
 }
 
-.wrapper::after,
-.wrapper::before {
+.item::after,
+.item::before {
   content: '';
   position: absolute;
   top: 0;
@@ -79,7 +161,7 @@ const onOpenEdit = () => {
   border-radius: 10px;
 }
 
-.wrapper::after {
+.item::after {
   border-radius: 10px;
   border: solid 1px var(--primary);
   background: transparent;

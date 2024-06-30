@@ -30,15 +30,13 @@ interface TaskStage {
   interface Task {
     id: number;
     name: string;
-    size: number;
     task_stages: TaskStage[];
-    start: number;
     subtitle: string;
     segment_id: number;
     line_id: number;
     start_date: string;
     info: string;
-    logo: string;
+    logo: string | null;
   }
 
   interface Line {

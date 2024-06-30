@@ -1,6 +1,6 @@
 <template>
     <div :class="$style.wrapper">
-        <RoadmapTask v-for="(task, index) in line.tasks" :key="index" :task="task"/>
+        <RoadmapTask v-for="(task, index) in line.tasks" :key="index" :task-id="task.id"/>
         <div :class="$style.cursorsList">
             <div v-for="(cursor, index) in weeks" 
                 :key="index" 

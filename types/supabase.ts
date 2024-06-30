@@ -293,21 +293,21 @@ export type Database = {
       task_stage_jobs: {
         Row: {
           id: number
-          index: number | null
-          job_id: number | null
-          task_stage_id: number | null
+          index: number
+          job_id: number
+          task_stage_id: number
         }
         Insert: {
           id?: number
-          index?: number | null
-          job_id?: number | null
-          task_stage_id?: number | null
+          index: number
+          job_id: number
+          task_stage_id: number
         }
         Update: {
           id?: number
-          index?: number | null
-          job_id?: number | null
-          task_stage_id?: number | null
+          index?: number
+          job_id?: number
+          task_stage_id?: number
         }
         Relationships: [
           {
@@ -331,25 +331,25 @@ export type Database = {
           duration: number
           id: number
           index: number
-          infinite: boolean | null
-          stage_id: number | null
-          task_id: number | null
+          infinite: boolean
+          stage_id: number
+          task_id: number
         }
         Insert: {
           duration: number
           id?: number
           index: number
-          infinite?: boolean | null
-          stage_id?: number | null
-          task_id?: number | null
+          infinite: boolean
+          stage_id: number
+          task_id: number
         }
         Update: {
           duration?: number
           id?: number
           index?: number
-          infinite?: boolean | null
-          stage_id?: number | null
-          task_id?: number | null
+          infinite?: boolean
+          stage_id?: number
+          task_id?: number
         }
         Relationships: [
           {
@@ -371,33 +371,33 @@ export type Database = {
       tasks: {
         Row: {
           id: number
-          info: string | null
-          line_id: number | null
+          info: string
+          line_id: number
           logo: string | null
           name: string
-          segment_id: number | null
-          start_date: string | null
-          subtitle: string | null
+          segment_id: number
+          start_date: string
+          subtitle: string
         }
         Insert: {
           id?: number
-          info?: string | null
-          line_id?: number | null
+          info: string
+          line_id: number
           logo?: string | null
           name: string
-          segment_id?: number | null
-          start_date?: string | null
-          subtitle?: string | null
+          segment_id: number
+          start_date: string
+          subtitle: string
         }
         Update: {
           id?: number
-          info?: string | null
-          line_id?: number | null
+          info?: string
+          line_id?: number
           logo?: string | null
           name?: string
-          segment_id?: number | null
-          start_date?: string | null
-          subtitle?: string | null
+          segment_id?: number
+          start_date?: string
+          subtitle?: string
         }
         Relationships: [
           {

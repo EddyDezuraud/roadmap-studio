@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import type { Database } from '~/types/supabase';
-import type { Column, Stage, Job } from '~/types/roadmap';
+import type { Column, Stage, Job, Task } from '~/types/roadmap';
 import { computed } from '#imports'
 import { roadmapStore } from '~/store/roadmap'
 
@@ -67,7 +67,26 @@ const getJobs = async () => {
 
 const { data: jobs } = await useAsyncData('jobs', getJobs);
 
+const initTasks = () => {
+  if(roadmap.value) {
+    const tasks = [] as Task[];
+    roadmap.value.products.forEach(product => {
+      product.product_segments.forEach(segment => {
+        segment.lines.forEach(line => {
+          line.tasks.forEach(task => {
+            tasks.push(task);
+          });
+        });
+      });
+    });
+    store.setTasks(tasks);
+  }
+}
+
 if(roadmap.value) {
+
+  initTasks();
+
   if (roadmap.value.col_size) {
     setColSize(roadmap.value.col_size);
     store.setColSize(roadmap.value.col_size);

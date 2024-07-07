@@ -74,7 +74,7 @@ const segmentColor = computed(() => {
     background: currentColor;
     opacity: 1;
     z-index: 0;
-    border-radius: 5px 5px 0 0;
+    border-radius: 5px 0 0 0;
 }
 
 .header > span {

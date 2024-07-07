@@ -53,7 +53,7 @@ export const useFetchRoadmap = () => {
   const getTaskStages = async (taskId: number) => {
     const { data, error } = await supabase
       .from('task_stages')
-      .select('*')
+      .select(`*, task_stage_jobs(*)`)
       .eq('task_id', taskId)
     
     if (error) throw error
@@ -109,6 +109,16 @@ export const useFetchRoadmap = () => {
     const { data, error } = await supabase
       .from('task_stages')
       .insert(taskStages)
+    
+    if (error) throw error
+    return data
+  }
+
+  const getTaskStageJobs = async (taskStageId: number) => {
+    const { data, error } = await supabase
+      .from('task_stage_jobs')
+      .select('*')
+      .eq('task_stage_id', taskStageId)
     
     if (error) throw error
     return data

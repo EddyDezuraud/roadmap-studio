@@ -125,7 +125,7 @@ const initData = async (id: number) => {
           task_id: stage.task_id,
           stage_id: stage.stage_id,
           infinite: stage.infinite,
-          task_stage_jobs: []
+          task_stage_jobs: stage.task_stage_jobs || []
         }
       })
     }

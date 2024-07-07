@@ -43,6 +43,10 @@ const roadmapWidth = computed(() => {
     width: 100%;
 }
 
+.wrapper {
+    padding-top: var(--product-header-height);
+}
+
 .segments,
 .segment,
 .line {

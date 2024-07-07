@@ -21,6 +21,5 @@
 
 .main {
   width: calc(100% - var(--nav-width));
-  background: var(--background-2)
 }
 </style>

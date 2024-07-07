@@ -28,19 +28,17 @@ const formatMonthYear = (dateString: string): string => {
     display: flex;
     font-weight: 600;
     text-align: center;
-    border-bottom: var(--border);
     height: var(--header-cols-height);
 }
 
 .firstCol {
     width: calc(var(--product-width) + var(--segment-width) + var(--product-gap) + var(--product-padding));
     background: var(--grey);
-    border-right: var(--border);
 }
 
 .item {
     width: var(--col-size);
-    border-right: var(--border);
+    border-right: var(--border-dashed);
     font-size: var(--font-size-m);
     text-transform: capitalize;
     height: var(--header-cols-height);

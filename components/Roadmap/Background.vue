@@ -36,7 +36,7 @@ defineProps<Props>();
 }
 
 .col {
-  border-right: var(--border);
+  border-right: var(--border-dashed);
   display: flex;
   gap: var(--col-gap);
 }

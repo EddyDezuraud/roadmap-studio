@@ -53,7 +53,7 @@ const getHeight = computed<string>(() => {
     text-align: center;
     padding: 0 10px;
     font-weight: 600;
-    font-size: var(--font-size-l);
+    font-size: var(--font-size-m);
     height: 100%;
 }
 </style>

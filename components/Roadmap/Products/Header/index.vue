@@ -25,7 +25,5 @@ const props = defineProps<Props>();
 
 .firstEl {
   height: var(--header-cols-height);
-  border-bottom: var(--border);
-  background: var(--grey);
 }
 </style>

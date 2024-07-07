@@ -18,7 +18,7 @@ defineProps<Props>();
     flex-direction: column;
     justify-content: center;
     padding: 0 24px;
-    border-bottom: solid 1px #EBEEF1;
+    border-bottom: var(--border);
 }
 
 .title {

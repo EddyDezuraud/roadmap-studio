@@ -16,7 +16,7 @@
   display: flex;
   height: 100vh;
   /* background: var(--background) */
-  background: linear-gradient(180deg, #FFFFFF, #F6F7F8, #E8E3F3, #F4E6F2, #F4EBEE);
+  background: linear-gradient(180deg, #E8ECF2, #F6F7F8, #f0edf5, #ebf2f5, #e9edf0);
 }
 
 .main {

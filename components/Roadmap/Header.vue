@@ -41,11 +41,13 @@ const formatMonthYear = (dateString: string): string => {
 .item {
     width: var(--col-size);
     border-right: var(--border);
-    font-size: var(--font-size-l);
+    font-size: var(--font-size-m);
+    text-transform: capitalize;
     height: var(--header-cols-height);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    color: var(--dark);
 }
 </style>

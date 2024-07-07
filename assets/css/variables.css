@@ -6,7 +6,8 @@
     --main-gradient: linear-gradient(90deg, #00477A 0%, #002845 100%);
 
     --dark: #000;
-    --dark-100: #6C849C;
+    --dark-100: #39424b;
+    --dark-200: #6C849C;
     --grey: #F8FBFD;
     --danger: #E12D4B;
 
@@ -29,8 +30,13 @@
     --left-col-size: calc(var(--product-width) + var(--segment-width));
     --col-gap: 2px;
 
-    --header-height: 72px;
+    --nav-width: 200px;
+    --header-height: 64px;
 
     --border: solid 1px #E0E0E0;
     --header-cols-height: 40px;
+
+
+    --background: #f1f3f5;
+    --background-2: #ffffff;
 }

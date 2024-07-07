@@ -131,12 +131,12 @@ if(jobs.value) {
 .wrapper {
     overflow: auto;
     height: 100vh;
-    width: 100vw;
+    width: 100%;
 }
 
 .content {
   overflow: auto;
   height: calc(100vh - var(--header-height));
-  width: 100vw;
+  width: 100%;
 }
 </style>~/store/roadmap

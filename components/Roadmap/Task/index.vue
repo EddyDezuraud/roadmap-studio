@@ -145,9 +145,14 @@ const onDrag = (event: MouseEvent | TouchEvent) => {
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  background: #F8F9FB;
+    border: solid 1px white;
+    border-radius: 10px;
+    box-shadow: 0px 10px 10px -10px rgba(0, 0, 0, 0.1);
 }
 
-.item::after,
+/* .item::after,
 .item::before {
   content: '';
   position: absolute;
@@ -159,7 +164,7 @@ const onDrag = (event: MouseEvent | TouchEvent) => {
   opacity: 0.1;
   z-index: 0;
   border-radius: 10px;
-}
+} */
 
 .item::after {
   border-radius: 10px;

@@ -29,6 +29,7 @@ const props = defineProps<Props>();
 <style module>
 .wrapper {
     display: flex;
+    height: 100%;
 }
 
 .leftSide {

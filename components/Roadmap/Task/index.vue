@@ -124,7 +124,8 @@ const onDrag = (event: MouseEvent | TouchEvent) => {
   if (steps !== 0) {
     const newValue = dragController.value.lastValue + steps;
     if (newValue < 0) return;
-    updateDate(newValue);
+    console.log(newValue, steps, dragController.value.accumulatedDiff, daySize.value);
+    // updateDate(newValue);
     dragController.value.lastValue = newValue;
     dragController.value.accumulatedDiff = dragController.value.accumulatedDiff % daySize.value;
   }
@@ -186,13 +187,13 @@ const onDrag = (event: MouseEvent | TouchEvent) => {
 }
 
 .title {
-  font-size: var(--font-size-l);
+  font-size: var(--font-size-m);
   font-weight: 600;
   color: var(--primary);
 }
 
 .subtitle {
-  font-size: var(--font-size-m);
+  font-size: var(--font-size-s);
   font-weight: 600;
   opacity: 0.75;
 }

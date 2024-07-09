@@ -116,7 +116,7 @@ const onChangeDuration = (value: number, stage: TaskStage) => {
 
 .job {
   position: relative;
-  font-size: var(--font-size-m);
+  font-size: var(--font-size-s);
   font-weight: 500;
   padding: 3px 5px;
   color: var(--primary);

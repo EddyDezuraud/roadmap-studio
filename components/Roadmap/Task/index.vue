@@ -148,12 +148,11 @@ const onDrag = (event: MouseEvent | TouchEvent) => {
   gap: 10px;
 
   background: #F8F9FB;
-    border: solid 1px white;
-    border-radius: 10px;
-    box-shadow: 0px 10px 10px -10px rgba(0, 0, 0, 0.1);
+  border: solid 1px white;
+  border-radius: 10px;
+  box-shadow: 0px 10px 10px -10px rgba(0, 0, 0, 0.1);
 }
 
-/* .item::after,
 .item::before {
   content: '';
   position: absolute;
@@ -162,17 +161,15 @@ const onDrag = (event: MouseEvent | TouchEvent) => {
   width: 100%;
   height: 100%;
   background-color: var(--primary);
-  opacity: 0.1;
+  opacity: 0;
   z-index: 0;
+  transition: opacity 0.3s;
   border-radius: 10px;
-} */
+}
 
-.item::after {
-  border-radius: 10px;
-  border: solid 1px var(--primary);
-  background: transparent;
-  opacity: 0.75;
-  box-sizing: border-box;
+
+.item:hover::before {
+  opacity: 0.05;
 }
 
 .content {
@@ -185,6 +182,7 @@ const onDrag = (event: MouseEvent | TouchEvent) => {
   gap: 4px;
   cursor: pointer;
 }
+
 
 .title {
   font-size: var(--font-size-m);

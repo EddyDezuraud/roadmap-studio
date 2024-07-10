@@ -77,14 +77,14 @@ const getHeight = computed<string>(() => {
     border-radius: 5px;
     font-size: var(--font-size-s);
     gap: 5px;
-    padding: 4px 2px;
+    padding: 2px;
     transform: translateY(-50%);
     opacity: 0;
     cursor: pointer;
     font-weight: 600;
     color: currentColor;
     border: none;
-    background: white;
+    border: 1px dashed currentColor;
 }
 
 .addSegment:hover {

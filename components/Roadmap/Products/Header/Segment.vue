@@ -1,21 +1,24 @@
 <template>
     <div :class="$style.wrapper" :style="{'--primary' : color, height: getHeight}">
         <div :class="$style.name">
-            <span>
-                {{ segment.name }}
+            <span contenteditable="true" 
+                @input="updateSegmentName"
+                spellcheck="false">
+                {{ segmentName }}
             </span>
         </div>
-        <button :class="$style.addSegment">
-            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M9 12h6" /><path d="M12 9v6" /></svg>
-            <span>
-                Nouveau segment
-            </span>
+        <button :class="$style.addSegment" @click="onAddSegment">
+            <div>
+                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+            </div>
         </button>
     </div>
 </template>
 
 <script setup lang="ts">
 import type { Segment } from '~/types/roadmap';
+import { roadmapStore } from '~/store/roadmap';
+const store = roadmapStore();
 
 interface Props {
     segment: Segment;
@@ -24,9 +27,31 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const segmentName = ref(props.segment.name);
+
 const getHeight = computed<string>(() => {
     return `calc(${props.segment.lines.length} * var(--segment-line-height))`;
 });
+
+const onAddSegment = () => {
+    const newSegment = {
+        name: 'Nouveau segment',
+        product_id: props.segment.product_id,
+        index: props.segment.index + 1,
+    };
+    
+    useFetchRoadmap().addNewSegment(newSegment.name, newSegment.product_id, newSegment.index);
+};
+
+const updateSegmentName = async (event: Event) => {
+    const target = event.target as HTMLSpanElement;
+    segmentName.value = target.textContent || '';
+    const newSegment = await useFetchRoadmap().updateSegmentName(props.segment.id, segmentName.value);
+
+    if(newSegment) {
+        store.addSegment(newSegment, props.segment.product_id);
+    }
+};
 </script>
 
 <style module>
@@ -56,35 +81,47 @@ const getHeight = computed<string>(() => {
 }
 
 .name {
+    position: relative;
+    z-index: 2;
     width: var(--segment-width);
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 0 10px;
     font-weight: 600;
     font-size: var(--font-size-m);
+    line-height: 1.2;
     height: 100%;
+}
+
+.name > span {
+    padding: 10px;
+}
+
+.name > span:focus {
+    outline: none;
 }
 
 .addSegment {
     position: absolute;
     top: calc(100% + (var(--segment-gap) / 2));
-    width: 100%;
+    width: 75%;
+    left: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
+    border-radius: 6px;
     font-size: var(--font-size-s);
     gap: 5px;
     padding: 2px;
-    transform: translateY(-50%);
+    transform: translateY(-50%) translateX(-50%);
     opacity: 0;
     cursor: pointer;
     font-weight: 600;
-    color: currentColor;
+    color: black;
     border: none;
-    border: 1px dashed currentColor;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 4px;
 }
 
 .addSegment:hover {
@@ -92,7 +129,7 @@ const getHeight = computed<string>(() => {
 }
 
 .addSegment svg {
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
 }
 </style>

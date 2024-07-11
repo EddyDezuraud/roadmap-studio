@@ -1,10 +1,10 @@
 <template>
     <div :class="$style.wrapper">
-        <div v-if="roadmap" :style="{'--col-size': roadmap.col_size + 'px'}">
-            <title>{{ roadmap.title }}</title>
-            <Header :title="roadmap.title" />
+        <div v-if="roadmapData" :style="{'--col-size': roadmapData.col_size + 'px'}">
+            <title>{{ roadmapData.title }}</title>
+            <Header :title="roadmapData.title" />
             <div :class="$style.content">
-              <Roadmap :products="roadmap.products" :columns />
+              <Roadmap :products="roadmapData.products" :columns />
             </div>
         </div>
         <ModalTask />
@@ -25,6 +25,8 @@ const supabase = useSupabaseClient<Database>();
 const route = useRoute();
 
 const roadmapId = route.query.id as string;
+
+const roadmapData = computed(() => store.roadmap);
 
 const {data: roadmap, status} = await useAsyncData('roadmap', async () => {
     const { data } = await supabase.from('roadmap') .select(`
@@ -49,7 +51,9 @@ const {data: roadmap, status} = await useAsyncData('roadmap', async () => {
           )
         )
       )
-    `).eq('id', roadmapId).single();
+    `)
+    .eq('id', roadmapId)
+    .single();
     return data
 });
 
@@ -86,6 +90,8 @@ const initTasks = () => {
 if(roadmap.value) {
 
   initTasks();
+
+  store.setRoadmap(roadmap.value);
 
   if (roadmap.value.col_size) {
     setColSize(roadmap.value.col_size);

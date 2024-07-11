@@ -6,6 +6,64 @@ export const useFetchRoadmap = () => {
   const supabase = useSupabaseClient<Database>();
 
 
+  //SEGMENTS
+  const updateSegmentName = async (id: number, name: string) => {
+    await supabase
+      .from('product_segments')
+      .update({ name })
+      .eq('id', id)
+  }
+
+  const addNewSegment = async (name: string, product_id: number, index: number) => {
+
+    const { data: segments, error } = await supabase
+      .from('product_segments')
+      .select('*')
+      .eq('product_id', product_id)
+      .gte('index', index)
+
+    if (error) throw error
+
+    if(segments.length > 0) {
+      segments.forEach((segment: Database['public']['Tables']['product_segments']['Row']) => {
+        supabase
+          .from('product_segments')
+          .update({ index: segment.index + 1 })
+          .eq('id', segment.id)
+      });
+    }
+
+    const {data: newSegment} = await supabase
+      .from('product_segments')
+      .insert({ name, product_id, index })
+      .select('id')
+      .single() as { data: {id: number} };
+    
+
+    if(!newSegment.id) return null;
+
+    console.log(newSegment.id);
+
+    const {data: newLine} = await supabase
+      .from('lines')
+      .insert({ segment_id: newSegment.id, index: 0})
+      .select('id')
+      .single() as { data: {id: number} };
+
+      return {
+        id: newSegment.id,
+        name,
+        index,
+        lines: [
+          {
+            id: newLine.id, index: 0, segment_id: newSegment.id, tasks: []
+          }
+        ]
+      }
+
+  }
+
+
   //TASKS
   const getTask = async (id: number) => {
     const { data, error } = await supabase
@@ -135,6 +193,8 @@ export const useFetchRoadmap = () => {
   }
 
   return {
+    updateSegmentName,
+    addNewSegment,
     getTask,
     updateStageDuration,
     createTask,

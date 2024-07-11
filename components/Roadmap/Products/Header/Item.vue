@@ -8,8 +8,8 @@
     <div :class="$style.inner">
         <div :class="$style.product" :style="{background: gradient}"></div>
 
-        <div v-if="product.product_segments && product.product_segments.length > 0" :class="$style.segments">
-            <div v-for="(segment, index) in product.product_segments" :key="segment.id" >
+        <div v-if="segmentsOrdered && segmentsOrdered.length > 0" :class="$style.segments">
+            <div v-for="(segment, index) in segmentsOrdered" :key="segment.id" >
                 <RoadmapProductsHeaderSegment :segment="segment" :color="segmentColor(index)" />
             </div>
         </div>
@@ -33,6 +33,10 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const segmentsOrdered = computed(() => {
+    return props.product.product_segments.sort((a, b) => a.index - b.index);
+});
 
 const gradient = computed(() => {
     if(!props.product.color) return 'transparent';

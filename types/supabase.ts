@@ -176,19 +176,19 @@ export type Database = {
       product_segments: {
         Row: {
           id: number
-          index: number | null
+          index: number
           name: string
           product_id: number | null
         }
         Insert: {
           id?: number
-          index?: number | null
+          index: number
           name: string
           product_id?: number | null
         }
         Update: {
           id?: number
-          index?: number | null
+          index?: number
           name?: string
           product_id?: number | null
         }

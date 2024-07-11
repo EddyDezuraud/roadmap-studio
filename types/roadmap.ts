@@ -81,12 +81,17 @@ interface TaskStage {
   interface Roadmap {
     id: number;
     title: string;
+    date_end: string | null;
+    date_start: string | null;
+    day_size: number | null;
+    organization_id: number | null;
+    subtitle: string | null;
     col_size: number;
-    day_size: number;
     start_date: string;
-    organization_id: number;
     date: Column[];
+    columns: Column[];
     products: Product[];
+    markers?: Markers[];
   }
 
   interface Week {

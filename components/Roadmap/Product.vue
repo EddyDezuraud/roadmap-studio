@@ -2,8 +2,8 @@
     <div :class="$style.wrapper" :style="{color: product.color, width: roadmapWidth}">
         <div v-if="product.product_segments && product.product_segments.length > 0" :class="$style.segments">
             <div v-for="(segment, index) in product.product_segments" :key="segment.id" :style="{'--primary' : segmentColor(index), color: 'var(--primary)'}" :class="$style.segment">
-                <div v-for="line in segment.lines" :key="line.id" :class="$style.line">
-                    <RoadmapLine :line="line" :segment-id="segment.id" />
+                <div v-for="(line, index) in segment.lines" :key="line.id" :class="$style.line">
+                    <RoadmapLine :line="line" :segment-id="segment.id" :is-last="index === segment.lines.length - 1" />
                 </div>
             </div>
         </div>

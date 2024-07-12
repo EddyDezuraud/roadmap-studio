@@ -1,5 +1,5 @@
 <template>
-    <div :class="$style.wrapper">
+    <div :class="[$style.wrapper, {[$style.last] : isLast}]">
         <RoadmapTask v-for="(task, index) in line.tasks" :key="index" :task-id="task.id"/>
         <div :class="$style.cursorsList">
             <div v-for="(cursor, index) in weeks" 
@@ -22,6 +22,7 @@ const store = roadmapStore();
 interface Props {
     line: Line;
     segmentId: number;
+    isLast: boolean;
 }
 
 const props = defineProps<Props>();
@@ -52,17 +53,17 @@ const onClickCursor = (cursor: Week) => {
     height: 100%;
 }
 
-.wrapper::after {
+.wrapper:not(.last)::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: calc(100% + (var(--line-gap) / 2));
+    height: 100%;
     border-bottom: var(--border-dashed);
     z-index: 1;
     pointer-events: none;
-    opacity: 0.2;
+    opacity: 0.25;
 }
 
 .cursorsList {

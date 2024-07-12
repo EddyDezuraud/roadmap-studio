@@ -8,8 +8,12 @@
     --dark: #000;
     --dark-100: #39424b;
     --dark-200: #6C849C;
+    --dark-hover: #EAF4FF;
     --grey: #F8FBFD;
     --danger: #E12D4B;
+
+    --bloc-background: #F8F9FB;
+    --bloc-border: solid 1px white;
 
     --font-size-s : 9px;
     --font-size-m : 11px;
@@ -31,7 +35,7 @@
     --left-col-size: calc(var(--product-width) + var(--segment-width));
     --col-gap: 2px;
 
-    --nav-width: 200px;
+    --nav-width: 175px;
     --header-height: 64px;
 
     --border: solid 1px #E0E0E0;

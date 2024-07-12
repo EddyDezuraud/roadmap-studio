@@ -24,13 +24,13 @@ export const useFetchRoadmap = () => {
 
     if (error) throw error
 
-    if(segments.length > 0) {
-      segments.forEach((segment: Database['public']['Tables']['product_segments']['Row']) => {
+    if (segments && segments.length > 0) {
+      await Promise.all(segments.map((segment: Database['public']['Tables']['product_segments']['Row']) => 
         supabase
           .from('product_segments')
           .update({ index: segment.index + 1 })
           .eq('id', segment.id)
-      });
+      ));
     }
 
     const {data: newSegment} = await supabase
@@ -41,8 +41,6 @@ export const useFetchRoadmap = () => {
     
 
     if(!newSegment.id) return null;
-
-    console.log(newSegment.id);
 
     const {data: newLine} = await supabase
       .from('lines')
@@ -61,6 +59,29 @@ export const useFetchRoadmap = () => {
         ]
       }
 
+  }
+
+  const deleteSegment = async (id: number) => {
+    const { data: lines, error } = await supabase
+      .from('lines')
+      .select('*')
+      .eq('segment_id', id)
+    
+    if (error) throw error
+
+    if (lines && lines.length > 0) {
+      await Promise.all(lines.map((line: Database['public']['Tables']['lines']['Row']) => 
+        supabase
+          .from('lines')
+          .delete()
+          .eq('id', line.id)
+      ));
+    }
+
+    await supabase
+      .from('product_segments')
+      .delete()
+      .eq('id', id)
   }
 
 
@@ -204,6 +225,7 @@ export const useFetchRoadmap = () => {
     deleteTask,
     updateTask,
     deleteTaskStage,
-    deleteTaskStagesFromTask
+    deleteTaskStagesFromTask,
+    deleteSegment
   }
 }

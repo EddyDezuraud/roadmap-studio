@@ -79,13 +79,17 @@ export const roadmapStore = defineStore({
       }
     },
     addSegment(segment: Segment, product_id: number) {
-      const newSegment = {
-        ...segment,
-        product_id,
-        lines: []
-      }
-      this.roadmap.product_segments.push(newSegment)
+
+      const productIndex = this.roadmap.products.findIndex((p: any) => p.id === product_id);
+      console.log('addSegment', segment);
+      if(productIndex < 0) return;
+      this.roadmap.products[productIndex].product_segments.push(segment)
+    },
+    removeSegment(segmentId: number, product_id: number) {
+      const productIndex = this.roadmap.products.findIndex((p: any) => p.id === product_id);
+      if(productIndex < 0) return;
+      const index = this.roadmap.products[productIndex].product_segments.findIndex((s: any) => s.id === segmentId);
+      this.roadmap.products[productIndex].product_segments.splice(index, 1);
     }
-    
   }
 })

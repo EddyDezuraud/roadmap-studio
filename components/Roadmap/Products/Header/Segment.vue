@@ -1,10 +1,18 @@
 <template>
-    <div :class="$style.wrapper" :style="{'--primary' : color, height: getHeight}">
+    <div ref="wrapperRef" :class="[$style.wrapper, {[$style.openTools] : openTools}]" :style="{'--primary' : color, height: getHeight}">
+        <button :class="$style.toolButton" @click="openTools = !openTools">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+        </button>
+        <RoadmapProductsHeaderSegmentEditor 
+            v-if="openTools" 
+            :productId="segment.product_id"
+            :segmentId="segment.id"
+            @close="openTools = false" />
         <div :class="$style.name">
             <span contenteditable="true" 
                 @input="updateSegmentName"
+                v-text="segmentName"
                 spellcheck="false">
-                {{ segmentName }}
             </span>
         </div>
         <button :class="$style.addSegment" @click="onAddSegment">
@@ -28,40 +36,59 @@ interface Props {
 const props = defineProps<Props>();
 
 const segmentName = ref(props.segment.name);
+const openTools = ref(false);
+
+const wrapperRef = ref<HTMLElement | null>(null);
 
 const getHeight = computed<string>(() => {
     return `calc(${props.segment.lines.length} * var(--segment-line-height))`;
 });
 
-const onAddSegment = () => {
+const onAddSegment = async () => {
     const newSegment = {
         name: 'Nouveau segment',
         product_id: props.segment.product_id,
         index: props.segment.index + 1,
     };
     
-    useFetchRoadmap().addNewSegment(newSegment.name, newSegment.product_id, newSegment.index);
+    const seg = await useFetchRoadmap().addNewSegment(newSegment.name, newSegment.product_id, newSegment.index);
+
+    console.log('newSegment',seg);
+
+    if(seg) {
+        store.addSegment(seg, props.segment.product_id);
+    }
 };
 
 const updateSegmentName = async (event: Event) => {
     const target = event.target as HTMLSpanElement;
     segmentName.value = target.textContent || '';
-    const newSegment = await useFetchRoadmap().updateSegmentName(props.segment.id, segmentName.value);
 
-    if(newSegment) {
-        store.addSegment(newSegment, props.segment.product_id);
+    await useFetchRoadmap().updateSegmentName(props.segment.id, segmentName.value);
+};
+
+const handleClickOutside = (event: MouseEvent) => {
+    if (openTools.value && wrapperRef.value && !wrapperRef.value.contains(event.target as Node)) {
+        openTools.value = false;
     }
 };
+
+onMounted(() => {
+    document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+    document.removeEventListener('click', handleClickOutside);
+});
 </script>
 
 <style module>
 .wrapper {
+    position: relative;
     display: flex;
     color: var(--primary);
     align-items: center;
     flex: 1;
-    /* border-bottom: var(--border); */
-    position: relative;
 }
 
 .wrapper:hover {
@@ -166,5 +193,39 @@ const updateSegmentName = async (event: Event) => {
     color: white;
     width: 12px;
     height: 12px;
+}
+
+.toolButton {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    width: 24px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    z-index: 3;
+    background: rgba(255, 255, 255, 0.5);
+    color: var(--dark-100);
+}
+
+.toolButton svg {
+    width: 16px;
+    height: 16px;
+}
+
+.openTools .toolButton,
+.wrapper:hover .toolButton {
+    opacity: 1;
+}
+
+.openTools .toolButton,
+.toolButton:hover {
+    background: white;
 }
 </style>

@@ -84,9 +84,10 @@ const roadmapWidth = computed(() => {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: var(--primary);
-    opacity: 0.05;
+    height: calc(100% + (var(--segment-gap) / 2));
+    /* background: var(--primary); */
+    /* opacity: 0.05; */
+    border-bottom: var(--border-dashed);
     z-index: 0;
 }
 

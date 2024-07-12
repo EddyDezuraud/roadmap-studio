@@ -52,6 +52,19 @@ const onClickCursor = (cursor: Week) => {
     height: 100%;
 }
 
+.wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% + (var(--line-gap) / 2));
+    border-bottom: var(--border-dashed);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.2;
+}
+
 .cursorsList {
     position: absolute;
     top: 0;

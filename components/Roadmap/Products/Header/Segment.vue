@@ -8,8 +8,8 @@
             </span>
         </div>
         <button :class="$style.addSegment" @click="onAddSegment">
-            <div>
-                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+            <div :class="$style.innerAddSegment">
+                <svg xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
             </div>
         </button>
     </div>
@@ -74,10 +74,11 @@ const updateSegmentName = async (event: Event) => {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: var(--primary);
-    opacity: 0.05;
+    height: calc(100% + (var(--segment-gap) / 2));
+    /* background: var(--primary); */
+    /* opacity: 0.05; */
     z-index: 0;
+    border-bottom: var(--border-dashed);
 }
 
 .name {
@@ -95,8 +96,28 @@ const updateSegmentName = async (event: Event) => {
 }
 
 .name > span {
-    padding: 10px;
+    padding: 4px;
+    position: relative;
 }
+
+.name > span::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary);
+    opacity: 0;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 5px
+}
+
+.name > span:hover::before {
+    opacity: 0.05;
+}
+
 
 .name > span:focus {
     outline: none;
@@ -105,30 +126,44 @@ const updateSegmentName = async (event: Event) => {
 .addSegment {
     position: absolute;
     top: calc(100% + (var(--segment-gap) / 2));
-    width: 75%;
-    left: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
+    transform: translateY(-50%); 
+    left: 0;
     font-size: var(--font-size-s);
-    gap: 5px;
-    padding: 2px;
-    transform: translateY(-50%) translateX(-50%);
     opacity: 0;
     cursor: pointer;
     font-weight: 600;
-    color: black;
     border: none;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 4px;
+    background: transparent;
 }
 
 .addSegment:hover {
     opacity: 1;
 }
 
+.addSegment::before {
+    position: absolute;
+    content: '';
+    top: 50%;
+    left: 0;
+    width: 100%;
+    border-bottom: solid 1px var(--primary);
+}
+
+.innerAddSegment {
+    position: relative;
+    z-index: 2;
+    width: 25px;
+    aspect-ratio: 1;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+}
+
 .addSegment svg {
+    color: white;
     width: 12px;
     height: 12px;
 }

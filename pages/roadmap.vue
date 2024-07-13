@@ -71,25 +71,7 @@ const getJobs = async () => {
 
 const { data: jobs } = await useAsyncData('jobs', getJobs);
 
-const initTasks = () => {
-  if(roadmap.value) {
-    const tasks = [] as Task[];
-    roadmap.value.products.forEach(product => {
-      product.product_segments.forEach(segment => {
-        segment.lines.forEach(line => {
-          line.tasks.forEach(task => {
-            tasks.push(task);
-          });
-        });
-      });
-    });
-    store.setTasks(tasks);
-  }
-}
-
 if(roadmap.value) {
-
-  initTasks();
 
   store.setRoadmap(roadmap.value);
 

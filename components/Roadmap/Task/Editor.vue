@@ -1,9 +1,18 @@
 <template>
   <div :class="$style.wrapper">
-    <div :class="$style.item" @click="onDelete">
-      <span>
-        Supprimer
-      </span>
+    <div>
+      <div :class="$style.item" @click="onEdit">
+        <span>
+          Modifier
+        </span>
+      </div>
+    </div>
+    <div>
+      <div :class="$style.item" @click="onDelete">
+        <span>
+          Supprimer
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -13,16 +22,23 @@ import { roadmapStore } from '~/store/roadmap';
 const store = roadmapStore();
 
 interface Props {
-  segmentId: number;
-  productId: number;
+  taskId: number,
+  taskIndex: number,
+  productIndex: number,
+  segmentIndex: number,
+  lineIndex: number;
 }
 
 const props = defineProps<Props>();
 const emits = defineEmits(['close']);
 
 const onDelete = () => {
-  useFetchRoadmap().deleteSegment(props.segmentId);
-  store.removeSegment(props.segmentId, props.productId);
+  useFetchRoadmap().deleteTask(props.taskId);
+  store.removeTask(props.taskIndex, props.productIndex, props.segmentIndex, props.lineIndex);
+  emits('close');
+}
+
+const onEdit = () => {
   emits('close');
 }
 </script>
@@ -30,17 +46,14 @@ const onDelete = () => {
 <style module>
 .wrapper {
   position: absolute;
-  left: calc(100% - 28px);
+  right: 5px;
   top: 30px;
   width: 140px;
-  background: var(--bloc-background);
+  background: white;
   border: var(--bloc-border);
   border-radius: 5px;
   z-index: 8;
-}
-
-.wrapper > *:not(:last-child) {
-  border-bottom: var(--border);
+  padding: 2px;
 }
 
 .item {

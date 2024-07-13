@@ -17,5 +17,9 @@
     "pinia": "^2.1.7",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.7.0",
+    "eslint-plugin-vue": "^9.27.0"
   }
 }

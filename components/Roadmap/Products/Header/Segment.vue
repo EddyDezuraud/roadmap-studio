@@ -10,7 +10,7 @@
             @close="openTools = false" />
         <div :class="$style.name">
             <span contenteditable="true" 
-                @input="updateSegmentName"
+                @input="updateSegmentName" 
                 v-text="segmentName"
                 spellcheck="false">
             </span>
@@ -45,18 +45,12 @@ const getHeight = computed<string>(() => {
 });
 
 const onAddSegment = async () => {
-    const newSegment = {
-        name: 'Nouveau segment',
-        product_id: props.segment.product_id,
-        index: props.segment.index + 1,
-    };
-    
-    const seg = await useFetchRoadmap().addNewSegment(newSegment.name, newSegment.product_id, newSegment.index);
+    const newSegment = await useFetchRoadmap().addNewSegment('Nouveau segment', props.segment.product_id, props.segment.index + 1);
 
-    console.log('newSegment',seg);
+    console.log('newSegment',newSegment);
 
-    if(seg) {
-        store.addSegment(seg, props.segment.product_id);
+    if(newSegment) {
+        store.addSegment(newSegment, props.segment.product_id);
     }
 };
 
@@ -147,7 +141,8 @@ onUnmounted(() => {
 
 
 .name > span:focus {
-    outline: none;
+    outline: solid 1px rgba(0,0,0,0.1);
+    border-radius: 4px;
 }
 
 .addSegment {
@@ -212,6 +207,7 @@ onUnmounted(() => {
     z-index: 3;
     background: rgba(255, 255, 255, 0.5);
     color: var(--dark-100);
+    transition: opacity 0.1s;
 }
 
 .toolButton svg {

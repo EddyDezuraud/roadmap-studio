@@ -1,6 +1,7 @@
 <template>
     <div :class="[$style.wrapper, {[$style.last] : isLast}]">
-        <RoadmapTask v-for="(task, index) in line.tasks" :key="index" :task-id="task.id"/>
+        <RoadmapTask v-for="(task, index) in line.tasks" 
+            :key="index" :task="task" :task-index="index" :product-index="productIndex" :segment-index="segmentIndex" :line-index="lineIndex" />
         <div :class="$style.cursorsList">
             <div v-for="(cursor, index) in weeks" 
                 :key="index" 
@@ -23,6 +24,9 @@ interface Props {
     line: Line;
     segmentId: number;
     isLast: boolean;
+    productIndex: number;
+    segmentIndex: number;
+    lineIndex: number;
 }
 
 const props = defineProps<Props>();

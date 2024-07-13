@@ -110,15 +110,19 @@ export const useFetchRoadmap = () => {
   const deleteTask = async (id: number) => {
     const taskStages = await getTaskStages(id);
 
+    if (taskStages && taskStages.length > 0) {
+      await Promise.all(taskStages.map((stage: Database['public']['Tables']['task_stages']['Row']) => 
+        supabase
+          .from('task_stage_jobs')
+          .delete()
+          .eq('task_stage_id', stage.id)
+      ));
+    }
+    
     await supabase
       .from('task_stages')
       .delete()
       .eq('task_id', id)
-
-    await supabase
-      .from('task_stage_jobs')
-      .delete()
-      .eq('task_stage_id', taskStages.map(stage => stage.id))
 
     await supabase
       .from('tasks')

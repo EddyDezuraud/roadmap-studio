@@ -90,6 +90,20 @@ export const roadmapStore = defineStore({
       if(productIndex < 0) return;
       const index = this.roadmap.products[productIndex].product_segments.findIndex((s: any) => s.id === segmentId);
       this.roadmap.products[productIndex].product_segments.splice(index, 1);
+    },
+    removeTask(taskIndex: number, productIndex: number, segmentIndex: number, lineIndex: number) {
+      this.roadmap.products[productIndex].product_segments[segmentIndex].lines[lineIndex].tasks.splice(taskIndex, 1);
+    },
+    addTask(task: Task) {
+      this.roadmap.products.forEach((product: any) => {
+        product.product_segments.forEach((segment: any) => {
+          segment.lines.forEach((line: any) => {
+            if (line.id === task.line_id) {
+              line.tasks.push(task);
+            }
+          });
+        });
+      });
     }
   }
 })

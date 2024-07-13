@@ -29,6 +29,7 @@ const formatMonthYear = (dateString: string): string => {
     font-weight: 600;
     text-align: center;
     height: var(--header-cols-height);
+    background: var(--bloc-background);
 }
 
 .firstCol {

@@ -190,6 +190,11 @@ const onToggleJob = (data: {jobId: number, stageId: number}) => {
 
 const addNewTask = async() => {
   await useFetchRoadmap().createTask(task.value);
+  const newTask = {
+    ...task.value,
+    task_stages: stages.value
+  } as Task;
+  store.addTask(newTask);
 }
 
 const addNewTaskStageJobs = async() => {

@@ -6,7 +6,7 @@
                 <RoadmapHeader v-if="columns && columns.length > 0" :columns="columns"/>
                 <div :class="$style.inner" v-if="products && products.length > 0">
                     <div :class="$style.product">
-                        <RoadmapProduct v-for="(product, index) in products" :key="index" :product="product" />
+                        <RoadmapProduct v-for="(product, index) in products" :key="index" :product="product" :index="index" />
                     </div> 
                     <RoadmapBackground :columns />
                 </div>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="task" ref="wrapperRef" :class="$style.wrapper">
+  <div v-if="task" ref="wrapperRef" :class="[$style.wrapper, {[$style.openTools] : openTools}]">
     <div :class="$style.phantom"></div>
     <div :class="$style.item" :style="taskStyle">
       <button :class="$style.toolButton" @click="openTools = !openTools">
@@ -99,12 +99,6 @@ const taskStyle = computed(() => {
   }
 })
 
-const onOpenEdit = () => {
-  if(props.task) {
-    store.setModal({type: 'task', id: props.task.id, show: true});
-  }
-};
-
 const stopDrag = () => {
   dragController.value.isDragging = false;
   document.removeEventListener('mousemove', onDrag);
@@ -198,6 +192,11 @@ watch(() => props.task.name, (newName) => {
 </script>
 
 <style module>
+.open {
+  z-index: 4;
+  position: relative;
+}
+
 .item {
   position: absolute;
   z-index: 3;

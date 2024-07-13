@@ -38,7 +38,9 @@ const onDelete = () => {
   emits('close');
 }
 
+
 const onEdit = () => {
+  store.setModal({type: 'task', id: props.taskId, show: true});
   emits('close');
 }
 </script>

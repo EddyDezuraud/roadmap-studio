@@ -238,6 +238,7 @@ const onDeleteTask = async() => {
 
 const updateTask = async() => {
   await useFetchRoadmap().updateTask(task.value);
+  store.updateTask(task.value);
 }
 
 const onSubmitForm = async() => {

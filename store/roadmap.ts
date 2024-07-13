@@ -104,6 +104,9 @@ export const roadmapStore = defineStore({
           });
         });
       });
+    },
+    updateTask(task: Task) {
+      // todo add things
     }
   }
 })

@@ -47,8 +47,6 @@ const getHeight = computed<string>(() => {
 const onAddSegment = async () => {
     const newSegment = await useFetchRoadmap().addNewSegment('Nouveau segment', props.segment.product_id, props.segment.index + 1);
 
-    console.log('newSegment',newSegment);
-
     if(newSegment) {
         store.addSegment(newSegment, props.segment.product_id);
     }

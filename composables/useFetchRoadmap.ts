@@ -59,6 +59,7 @@ export const useFetchRoadmap = () => {
         id: newSegment.id,
         name,
         index,
+        product_id,
         lines: [
           {
             id: newLine.id, index: 0, segment_id: newSegment.id, tasks: []

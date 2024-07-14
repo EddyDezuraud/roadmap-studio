@@ -21,7 +21,6 @@
             Nouveau produit
         </span>
     </button>
-
   </div>
 </template>
 

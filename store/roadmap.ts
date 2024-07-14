@@ -79,17 +79,33 @@ export const roadmapStore = defineStore({
       }
     },
     addSegment(segment: Segment, product_id: number) {
-
       const productIndex = this.roadmap.products.findIndex((p: any) => p.id === product_id);
-      console.log('addSegment', segment);
+
+      // loop on all segments to update position
+      for (let i = 0; i < this.roadmap.products[productIndex].product_segments.length; i++) {
+        const segm = this.roadmap.products[productIndex].product_segments[i];
+        if(segm.index >= segment.index) {
+          segm.position++;
+        }
+      }
+
       if(productIndex < 0) return;
       this.roadmap.products[productIndex].product_segments.push(segment)
     },
     removeSegment(segmentId: number, product_id: number) {
-      const productIndex = this.roadmap.products.findIndex((p: any) => p.id === product_id);
+      const productIndex = this.roadmap.products.findIndex((p: any) => p.id === product_id);     
+
       if(productIndex < 0) return;
-      const index = this.roadmap.products[productIndex].product_segments.findIndex((s: any) => s.id === segmentId);
-      this.roadmap.products[productIndex].product_segments.splice(index, 1);
+      const segIndex = this.roadmap.products[productIndex].product_segments.findIndex((s: any) => s.id === segmentId);
+      this.roadmap.products[productIndex].product_segments.splice(segIndex, 1);
+
+      // loop on all segments to update position
+      for (let i = 0; i < this.roadmap.products[productIndex].product_segments.length; i++) {
+        const segm = this.roadmap.products[productIndex].product_segments[i];
+        if(segm.index > segmentId) {
+          segm.position--;
+        }
+      }
     },
     removeTask(taskIndex: number, productIndex: number, segmentIndex: number, lineIndex: number) {
       this.roadmap.products[productIndex].product_segments[segmentIndex].lines[lineIndex].tasks.splice(taskIndex, 1);

@@ -107,6 +107,20 @@ export const roadmapStore = defineStore({
     },
     updateTask(task: Task) {
       // todo add things
+      this.roadmap.products.forEach((product: any) => {
+        product.product_segments.forEach((segment: any) => {
+          segment.lines.forEach((line: any) => {
+            if (line.id === task.line_id) {
+              const index = line.tasks.findIndex((t: any) => t.id === task.id);
+              line.tasks[index].name = task.name;
+              line.tasks[index].info = task.info;
+              line.tasks[index].subtitle = task.subtitle;
+              line.tasks[index].start_date = task.start_date;
+              line.tasks[index].logo = task.logo;
+            }
+          });
+        });
+      });
     }
   }
 })

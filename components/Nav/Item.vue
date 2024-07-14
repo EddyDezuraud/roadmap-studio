@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to :class="$style.wrapper">
+  <NuxtLink :to :class="[$style.wrapper, {[$style.color] : color}]">
     <div :class="$style.icon">
       <slot name="icon"></slot>
     </div>
@@ -12,6 +12,7 @@
 <script lang="ts" setup>
 interface Props {
   to: string;
+  color: string;
 }
 
 defineProps<Props>();
@@ -32,6 +33,17 @@ defineProps<Props>();
 
 .wrapper:hover {
   background-color: var(--grey);
+}
+
+.color .icon {
+  background: var(--dark);
+  width: 24px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  color: white;
 }
 
 .icon svg {

@@ -2,7 +2,7 @@
     <div :class="$style.wrapper">
         <div v-if="roadmapData" :style="{'--col-size': roadmapData.col_size + 'px'}">
             <title>{{ roadmapData.title }}</title>
-            <Header :title="roadmapData.title" />
+            <RoadmapPageHeader :title="roadmapData.title" />
             <div :class="$style.content">
               <Roadmap :products="roadmapData.products" :columns />
             </div>

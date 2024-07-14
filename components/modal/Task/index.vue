@@ -27,7 +27,7 @@
           <div :class="$style.innerSection">
 
             <div :class="$style.stagesList">
-              <div v-for="(stage, index) in stages" :key="index" :class="$style.stage">
+              <div v-for="(stage, index) in stagesList" :key="index" :class="$style.stage">
                 <ModalTaskStage :id="stage.id" v-model:stage-id="stage.stage_id" v-model:duration="stage.duration" :task-jobs="stage.task_stage_jobs" @job="onToggleJob" />
               </div>
             </div>
@@ -86,6 +86,11 @@ const mode = ref<'create' | 'edit'>('create');
 const pending = ref<boolean>(false);
 
 const modalStore = computed(() => store.modal);
+
+const stagesList = computed(() => {
+  // stages ordred by index
+  return stages.value.sort((a, b) => a.index - b.index);
+})
 
 const onAddStage = () => {
   stages.value.push({
@@ -239,6 +244,7 @@ const onDeleteTask = async() => {
 const updateTask = async() => {
   await useFetchRoadmap().updateTask(task.value);
   store.updateTask(task.value);
+  onClose();
 }
 
 const onSubmitForm = async() => {

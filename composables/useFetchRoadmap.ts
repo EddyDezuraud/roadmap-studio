@@ -5,6 +5,13 @@ export const useFetchRoadmap = () => {
 
   const supabase = useSupabaseClient<Database>();
 
+  const updateRoadmapName = async (id: number, title: string) => {
+    await supabase
+      .from('roadmap')
+      .update({ title })
+      .eq('id', id)
+  }
+
 
   //SEGMENTS
   const updateSegmentName = async (id: number, name: string) => {
@@ -218,6 +225,7 @@ export const useFetchRoadmap = () => {
   }
 
   return {
+    updateRoadmapName,
     updateSegmentName,
     addNewSegment,
     getTask,

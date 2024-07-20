@@ -82,6 +82,35 @@ const props = defineProps<Props>();
     display: flex;
     flex-direction: column;
     gap: 10px;
+    position: relative;
+    border-left: 1px dashed #E0E0E075;
+    border-right: 1px dashed #E0E0E075;
+}
+
+
+.timeline::after {
+    content: '';
+    width: 1px;
+    height: calc(100% + 10px);
+    position: absolute;
+    top: -5px;
+    bottom: 0;
+    left: 50%;
+    border-left: 1px dashed #E0E0E0;
+    opacity: 0.45;
+}
+
+.timeline::before {
+    content: '';
+    width: calc(50% - 1px);
+    height: calc(100% + 10px);
+    position: absolute;
+    top: -5px;
+    bottom: 0;
+    left: 25%;
+    border-left: 1px dashed #E0E0E0;
+    border-right: 1px dashed #E0E0E0;
+    opacity: 0.45;
 }
 
 .timeline > div {

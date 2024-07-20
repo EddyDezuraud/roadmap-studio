@@ -40,6 +40,7 @@ const roadmaps = store.roadmapList;
   width: var(--nav-width);
   border-right: var(--border);
   padding: 10px;
+  background: var(--dark-100)
 }
 
 .user {

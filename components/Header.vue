@@ -1,6 +1,7 @@
 <template>
     <div :class="$style.wrapper">
         <h1 :class="$style.title">{{ title }}</h1>
+        <slot></slot>
     </div>
 </template>
 
@@ -15,8 +16,8 @@ defineProps<Props>();
 .wrapper {
     height: var(--header-height);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     padding: 0 24px;
     border-bottom: var(--border);
 }

@@ -38,22 +38,21 @@ const roadmaps = store.roadmapList;
 <style module>
 .wrapper {
   width: var(--nav-width);
-  border-right: var(--border);
   padding: 10px;
-  background: var(--dark-100)
+  background: var(--dark-background)
 }
 
 .user {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--dark);
+  color: white;
   font-size: 12px;
   font-weight: 600;
   width: 100%;
   padding: 10px;
-  background: #F8F9FB;
-  border: solid 1px white;
+  background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.08));
+  border: solid 1px rgba(255,255,255,0.05);
   border-radius: 10px;
   box-shadow: 0px 10px 10px -10px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
@@ -65,7 +64,7 @@ const roadmaps = store.roadmapList;
   font-size: 10px;
   font-weight: 600;
   border-radius: 50%;
-  background: var(--dark);
+  background: var(--primary);
   color: white;
   display: flex;
   align-items: center;
@@ -77,7 +76,7 @@ const roadmaps = store.roadmapList;
 }
 
 .groupTitle {
-  color: var(--dark-200);
+  color: rgba(255,255,255,0.75);
   font-size: 11px;
   font-weight: 500;
   padding: 10px;

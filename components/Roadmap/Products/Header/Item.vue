@@ -4,6 +4,7 @@
         <span>
             {{ product.name }}
         </span>
+        <GdvIcon icon="chevron-down" size="s" />
     </div>
     <div :class="$style.inner">
         <div :class="$style.product" :style="{background: gradient}"></div>
@@ -26,6 +27,7 @@
 
 <script lang="ts" setup>
 import type { Product } from '~/types/roadmap';
+import { GdvAvatar, GdvIcon } from "@gedivote/gedivote-ui-vuejs";
 
 interface Props {
     product: Product
@@ -68,12 +70,12 @@ const segmentColor = computed(() => {
     position: relative;
     display: flex;
     align-items: center;
-    padding-left: 5px;
+    padding: 0 15px;
     font-weight: 600;
-    font-size: 10px;
-    text-align: center;
-    text-transform: uppercase;
-    justify-content: center;
+    font-size: 12px;
+    text-align: left;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .header::before {
@@ -83,15 +85,32 @@ const segmentColor = computed(() => {
     left: 0;
     width: 100%;
     height: 100%;
-    background: currentColor;
+    border-top: solid 4px currentColor;
+    border-left: solid 4px currentColor;
     opacity: 1;
     z-index: 0;
     border-radius: 5px 0 0 0;
+    box-sizing: border-box;
+    border-bottom: var(--border);
+}
+
+.header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: currentColor;
+    opacity: 0.1;
+    z-index: 0;
+    border-radius: 5px 0 0 0;
+    box-sizing: border-box;
+    border-bottom: var(--border);
 }
 
 .header > span {
     position: relative;
-    color: white;
     z-index: 1;
 }
 

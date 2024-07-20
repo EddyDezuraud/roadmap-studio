@@ -26,13 +26,16 @@ defineProps<Props>();
   padding: 8px 12px;
   border-radius: 8px;
   transition: background-color 0.2s;
-  color: var(--dark-100);
+  color: white;
   font-size: 12px;
   font-weight: 500;
+  background-color: rgba(255,255,255,0);
 }
 
+.wrapper:focus,
 .wrapper:hover {
-  background-color: var(--grey);
+  background-color: rgba(255,255,255,0.05);
+  color: white;
 }
 
 .color .icon {

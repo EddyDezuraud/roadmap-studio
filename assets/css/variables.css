@@ -6,7 +6,7 @@
     --main-gradient: linear-gradient(90deg, #00477A 0%, #002845 100%);
 
     --dark: #000;
-    --dark-background: #1A1A1A;
+    --dark-background: #212839;
     --dark-100: #39424b;
     --dark-200: #6C849C;
     --dark-hover: #ECF0F3;
@@ -23,7 +23,7 @@
     --font-size-xxl : 16px;
     --font-size-xxxl : 24px;
 
-    --product-header-height: 20px;
+    --product-header-height: 50px;
     --product-width: 5px;
     --product-padding: 0px;
     --segment-width: 140px;

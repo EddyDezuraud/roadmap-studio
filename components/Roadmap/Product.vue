@@ -39,13 +39,21 @@ const roadmapWidth = computed(() => {
     display: flex;
     gap: var(--product-gap);
     padding: var(--product-padding);
-    border-radius: 10px;
+    /* border-radius: 10px; */
     gap: var(--product-gap);
     width: 100%;
+    padding-top: var(--product-header-height);
 }
 
-.wrapper {
-    padding-top: var(--product-header-height);
+.wrapper::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--product-header-height);
+    background-color: currentColor;
+    opacity: 0.05;
 }
 
 .segments,

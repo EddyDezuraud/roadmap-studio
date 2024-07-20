@@ -4,7 +4,7 @@
         <span>
             {{ product.name }}
         </span>
-        <GdvIcon icon="chevron-down" size="s" />
+        <GdvIcon icon="chevron-down" size="s" color="white" />
     </div>
     <div :class="$style.inner">
         <div :class="$style.product" :style="{background: gradient}"></div>
@@ -85,32 +85,16 @@ const segmentColor = computed(() => {
     left: 0;
     width: 100%;
     height: 100%;
-    border-top: solid 4px currentColor;
-    border-left: solid 4px currentColor;
     opacity: 1;
     z-index: 0;
     border-radius: 5px 0 0 0;
     box-sizing: border-box;
-    border-bottom: var(--border);
-}
-
-.header::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background-color: currentColor;
-    opacity: 0.1;
-    z-index: 0;
-    border-radius: 5px 0 0 0;
-    box-sizing: border-box;
-    border-bottom: var(--border);
 }
 
 .header > span {
     position: relative;
+    color: white;
     z-index: 1;
 }
 

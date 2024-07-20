@@ -63,7 +63,7 @@ const props = defineProps<Props>();
 
 .title {
     color: var(--dark);
-    font-weight: 600;
+    font-weight: 500;
     font-size: 14px;
 }
 

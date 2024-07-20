@@ -1,12 +1,15 @@
 <template>
     <NuxtLink :to="`roadmap?id=${id}`" :class="$style.wrapper">
-        <div :class="$style.picture"></div>
         <div :class="$style.content">
             <div :class="$style.text">
                 <span :class="$style.title">{{ title }}</span>
                 <span v-if="subtitle" :class="$style.subtitle">{{ subtitle }}</span>
             </div>
-            <svg :class="$style.icon" viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+            <div :class="$style.timeline">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
     </NuxtLink>
 </template>
@@ -24,47 +27,76 @@ const props = defineProps<Props>();
 <style module>
 .wrapper {
     border: solid 1px #EBEEF1;
-    border-radius: 5px;
-    padding: 20px;
-    background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%);
+    border-radius: 10px;
+    padding: 0px 16px 0 16px;
+    /* background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%); */
+    background: linear-gradient(90deg, #FFE1E6, #E6CEFF, #D4FCFF, #E7FFCA);
+    background: linear-gradient(90deg, #E8ECFF, #E3FFF7);
     display: flex;
     align-items: center;
     flex-direction: column;
+    justify-content: flex-end;
+    height: 180px;
+    width: 400px;
+    overflow: hidden;
 }
 
 .content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     width: 100%;
-}
-
-.picture {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #EBEEF1;
+    background: white;
+    height: calc(100% - 16px);
+    /* border: solid 1px #EBEEF1; */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: height 0.3s;
 }
 
 .text {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    font-size: 13px;
+    gap: 5px;
 }
 
 .title {
-    font-weight: 500;
+    color: var(--dark);
+    font-weight: 600;
     font-size: 14px;
 }
 
 .subtitle {
-    font-weight: 500;
-    opacity: 0.75;
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--dark-100);
 }
 
 .icon {
     width: 20px;
     height: 20px;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.timeline > div {
+    height: 10px;
+    width: 50%;
+    border-radius: 10px;
+    background: var(--dark-100);
+    opacity: 0.1;
+}
+
+.timeline > div:nth-child(2) {
+    align-self: center;
+}
+
+.timeline > div:nth-child(3) {
+    align-self: flex-end;
 }
 </style>

@@ -4,30 +4,23 @@
         <span>
             {{ product.name }}
         </span>
-        <GdvIcon icon="chevron-down" size="s" color="white" />
+        <!-- <GdvButtonIcon icon="dots-vertical" size="s" /> -->
     </div>
     <div :class="$style.inner">
         <div :class="$style.product" :style="{background: gradient}"></div>
 
-        <div v-if="segmentsOrdered && segmentsOrdered.length > 0" :class="$style.segments">
+        <div v-if="props.product.product_segments && props.product.product_segments.length > 0" :class="$style.segments">
             <div v-for="(segment, index) in segmentsOrdered" :key="segment.id" >
                 <RoadmapProductsHeaderSegment :segment="segment" :color="segmentColor(index)" />
             </div>
         </div>
     </div>
-
-    <button :class="$style.addProduct">
-        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M9 12h6" /><path d="M12 9v6" /></svg>
-        <span>
-            Nouveau produit
-        </span>
-    </button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import type { Product } from '~/types/roadmap';
-import { GdvAvatar, GdvIcon } from "@gedivote/gedivote-ui-vuejs";
+import { GdvButtonIcon } from "@gedivote/gedivote-ui-vuejs";
 
 interface Props {
     product: Product
@@ -62,7 +55,6 @@ const segmentColor = computed(() => {
 .inner {
     display: flex;
     width: 100%;
-    padding-bottom: 20px;
 }
 
 .header {
@@ -87,7 +79,6 @@ const segmentColor = computed(() => {
     height: 100%;
     opacity: 1;
     z-index: 0;
-    border-radius: 5px 0 0 0;
     box-sizing: border-box;
     background-color: currentColor;
 }

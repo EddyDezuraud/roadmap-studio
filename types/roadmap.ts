@@ -60,6 +60,7 @@ interface TaskStage {
     color: string;
     product_segments: Segment[];
     roadmap_id: number;
+    index: number;
   }
 
   interface Markers {

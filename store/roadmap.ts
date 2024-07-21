@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Roadmap, Segment, Column, Stage, Job, Week, Task } from '~/types/roadmap'
+import type { Roadmap, Segment, Column, Stage, Job, Week, Task, Product } from '~/types/roadmap'
 
 export const roadmapStore = defineStore({
   id: 'roadmapStore',
@@ -137,6 +137,20 @@ export const roadmapStore = defineStore({
           });
         });
       });
+    },
+    updateTaskName(field: string, newName: string, taskIndex: number,  productIndex: number, segmentIndex: number, lineIndex: number) {
+      this.roadmap.products[productIndex].product_segments[segmentIndex].lines[lineIndex].tasks[taskIndex][field] = newName;
+    },
+    addProduct(product: Product) {
+      this.roadmap.products.push(product);
+    },
+    updateProduct(productId: number) {
+      const productIndex = this.roadmap.products.findIndex((p: any) => p.id === productId);
+      this.roadmap.products[productIndex].name = 'updated';
+    },
+    removeProduct(productId: number) {
+      const productIndex = this.roadmap.products.findIndex((p: any) => p.id === productId);
+      this.roadmap.products.splice(productIndex, 1);
     }
   }
 })

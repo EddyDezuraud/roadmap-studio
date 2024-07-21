@@ -23,7 +23,7 @@ interface Props {
     products: Product[]; 
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <style module>
@@ -50,5 +50,11 @@ const props = defineProps<Props>();
     position: relative;
     display: flex;
     gap: var(--product-gap);
+}
+
+.product {
+    display: flex; 
+    flex-direction: column;
+    gap: var(--products-gap);
 }
 </style>

@@ -1,8 +1,10 @@
 <template>
   <div :class="$style.wrapper">
     <div :class="$style.firstEl"></div>
-    <div v-for="product in products" :key="product.id">
-      <RoadmapProductsHeaderItem :product="product" />
+    <div :class="$style.list">
+      <div v-for="product in products" :key="product.id">
+        <RoadmapProductsHeaderItem :product="product" />
+      </div>
     </div>
   </div>
 </template>
@@ -25,5 +27,11 @@ const props = defineProps<Props>();
 
 .firstEl {
   height: var(--header-cols-height);
+}
+
+.list {
+  display: flex; 
+  flex-direction: column;
+  gap: var(--products-gap);
 }
 </style>

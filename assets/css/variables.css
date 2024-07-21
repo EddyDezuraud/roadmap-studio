@@ -17,16 +17,17 @@
     --bloc-border: solid 1px white;
 
     --font-size-s : 9px;
-    --font-size-m : 11px;
-    --font-size-l : 12px;
-    --font-size-xl : 14px;
+    --font-size-m : 10px;
+    --font-size-l : 11px;
+    --font-size-xl : 13px;
     --font-size-xxl : 16px;
     --font-size-xxxl : 24px;
 
+    --products-gap: 10px;
     --product-header-height: 40px;
     --product-width: 5px;
     --product-padding: 0px;
-    --segment-width: 160px;
+    --segment-width: 150px;
     --segment-line-height: 98px;
     --segment-padding: 5px;
     --product-height: calc(var(--segment-line-height) - calc(var(--segment-padding) * 2));

@@ -1,20 +1,26 @@
 <template>
-  <GdvModal v-if="open" @close="onClose()" :title="mode === 'create' ? 'Nouvelle tâche' : 'Détail de la tâche'">
-    <div>
-      df
-    </div>
+  <GdvModal v-if="open" @close="onClose()" 
+    :title="mode === 'create' ? 'Nouveau produit' : 'Détail du produit'" buttonConfirmLabel="Valider"
+    @click="onValidate">
+    <form :class="$style.form">
+      <GdvInput label="Nom du produit" v-model="product.name" />  
+      <ColorsList v-model="product.color" />
+    </form>
   </GdvModal>
 </template>
 
 <script lang="ts" setup>
-import { GdvModal } from "@gedivote/gedivote-ui-vuejs";
-import type { Product } from '~/types/roadmap'
+import { GdvModal, GdvInput } from "@gedivote/gedivote-ui-vuejs";
 import { roadmapStore } from '~/store/roadmap'
 const store = roadmapStore();
 
-const open = ref(false) as Ref<boolean>;
+const open = ref(true) as Ref<boolean>;
 const mode = ref<'create' | 'edit'>('create');
-const product = ref({}) as Product;
+const product = ref<{name: string, color: string}>({
+  name: '',
+  color: ''
+});
+
 
 const onClose = () => {
   open.value = false;
@@ -22,7 +28,18 @@ const onClose = () => {
   product.value = {};
 }
 
+const onValidate = () => {
+  console.log('onValidate', mode.value, product.value);
+  if(mode.value === 'create') {
+    store.addProduct(product.value);
+  } else {
+    store.updateProduct(product.value);
+  }
+}
+
 watch(() => store.modal.show, (value) => {
+  if(store.modal.type !== 'product') return;
+
   open.value = store.modal.show;
 
   if(value) {
@@ -38,6 +55,11 @@ watch(() => store.modal.show, (value) => {
 })
 </script>
 
-<style>
-
+<style module>
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 0.5rem 1rem;
+}
 </style>

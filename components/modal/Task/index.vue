@@ -141,6 +141,7 @@ const initData = async (id: number) => {
 
 // watch store modal show
 watch(() => store.modal.show, (value) => {
+  if(store.modal.type !== 'task') return;
   open.value = store.modal.show;
 
   if(value) {

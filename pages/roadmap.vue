@@ -8,6 +8,7 @@
             </div>
         </div>
         <ModalTask />
+        <ModalProduct />
     </div>
 </template>    
 

@@ -50,9 +50,9 @@ const daySize = computed<number>(() => store.getDaySize);
 const openTools = ref(false);
 const taskName = ref();
 const updateTaskName = (event: InputEvent) => {
-  // if(props.task) {
-  //   store.updateTaskName(props.task.id, taskName.value);
-  // }
+  if(props.task) {
+    store.updateTaskField('title',taskName.value, props.taskIndex, props.productIndex, props.segmentIndex, props.lineIndex);
+  }
 };
 
 const taskSubtitle = ref();

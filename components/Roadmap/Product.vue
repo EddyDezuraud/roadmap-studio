@@ -43,6 +43,7 @@ const roadmapWidth = computed(() => {
     gap: var(--product-gap);
     width: 100%;
     padding-top: var(--product-header-height);
+    position: relative;
 }
 
 .wrapper::before {

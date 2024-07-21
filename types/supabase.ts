@@ -206,18 +206,21 @@ export type Database = {
         Row: {
           color: string
           id: number
+          index: number | null
           name: string
           roadmap_id: number | null
         }
         Insert: {
           color: string
           id?: number
+          index?: number | null
           name: string
           roadmap_id?: number | null
         }
         Update: {
           color?: string
           id?: number
+          index?: number | null
           name?: string
           roadmap_id?: number | null
         }

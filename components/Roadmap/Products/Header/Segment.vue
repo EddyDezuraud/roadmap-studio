@@ -1,8 +1,9 @@
 <template>
     <div ref="wrapperRef" :class="[$style.wrapper, {[$style.openTools] : openTools}]" :style="{'--primary' : color, height: getHeight}">
-        <button :class="$style.toolButton" @click="openTools = !openTools">
+        <!-- <button :class="$style.toolButton" @click="openTools = !openTools">
             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
-        </button>
+        </button> -->
+        <GdvButtonIcon :class="$style.toolButton" @click="openTools = !openTools" icon="dots-vertical" size="s" />
         <RoadmapProductsHeaderSegmentEditor 
             v-if="openTools" 
             :productId="segment.product_id"
@@ -24,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import { GdvButtonIcon } from "@gedivote/gedivote-ui-vuejs";
 import type { Segment } from '~/types/roadmap';
 import { roadmapStore } from '~/store/roadmap';
 const store = roadmapStore();
@@ -94,8 +96,8 @@ onUnmounted(() => {
     left: 0;
     width: 100%;
     height: calc(100% + (var(--segment-gap) / 2));
-    /* background: var(--primary); */
-    /* opacity: 0.05; */
+    background: var(--primary);
+    opacity: 0.05;
     z-index: 0;
     border-bottom: var(--border-dashed);
 }
@@ -192,19 +194,19 @@ onUnmounted(() => {
     position: absolute;
     top: 2px;
     right: 2px;
-    background: transparent;
+    /* background: transparent;
     border: none;
-    cursor: pointer;
+    cursor: pointer; */
     opacity: 0;
-    width: 24px;
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
+    /* width: 24px; */
+    /* aspect-ratio: 1; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* border-radius: 5px; */
     z-index: 3;
-    background: rgba(255, 255, 255, 0.5);
-    color: var(--dark-100);
+    /* background: rgba(255, 255, 255, 0.5); */
+    /* color: var(--dark-100); */
     transition: opacity 0.1s;
 }
 

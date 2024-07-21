@@ -1,12 +1,13 @@
 <template>
-  <Modal v-model="open" @update:model="onClose" :title="mode === 'create' ? 'Nouvelle tâche' : 'Détail de la tâche'">
+  <GdvModal v-if="open" @close="onClose()" :title="mode === 'create' ? 'Nouvelle tâche' : 'Détail de la tâche'">
     <div>
       df
     </div>
-  </Modal>
+  </GdvModal>
 </template>
 
 <script lang="ts" setup>
+import { GdvModal } from "@gedivote/gedivote-ui-vuejs";
 import type { Product } from '~/types/roadmap'
 import { roadmapStore } from '~/store/roadmap'
 const store = roadmapStore();
@@ -14,6 +15,12 @@ const store = roadmapStore();
 const open = ref(false) as Ref<boolean>;
 const mode = ref<'create' | 'edit'>('create');
 const product = ref({}) as Product;
+
+const onClose = () => {
+  open.value = false;
+  mode.value = 'create';
+  product.value = {};
+}
 
 watch(() => store.modal.show, (value) => {
   open.value = store.modal.show;

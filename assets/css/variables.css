@@ -26,7 +26,7 @@
     --product-header-height: 40px;
     --product-width: 5px;
     --product-padding: 0px;
-    --segment-width: 140px;
+    --segment-width: 160px;
     --segment-line-height: 98px;
     --segment-padding: 5px;
     --product-height: calc(var(--segment-line-height) - calc(var(--segment-padding) * 2));

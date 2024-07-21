@@ -70,7 +70,7 @@ const segmentColor = computed(() => {
     position: relative;
     display: flex;
     align-items: center;
-    padding: 0 15px;
+    padding: 0 10px;
     font-weight: 600;
     font-size: 12px;
     text-align: left;

@@ -53,7 +53,7 @@ const roadmapWidth = computed(() => {
     width: 100%;
     height: var(--product-header-height);
     background-color: currentColor;
-    opacity: 0.05;
+    opacity: 0.1;
 }
 
 .segments,
@@ -94,18 +94,13 @@ const roadmapWidth = computed(() => {
     left: 0;
     width: 100%;
     height: calc(100% + (var(--segment-gap) / 2));
-    /* background: var(--primary); */
-    /* opacity: 0.05; */
-    border-bottom: var(--border-dashed);
+    background: var(--primary);
+    opacity: 0.05;
     z-index: 0;
 }
 
 .segment > * {
     position: relative;
     z-index: 1;
-}
-
-.segment .line:not(:last-child) {
-    /* border-bottom: var(--border); */
 }
 </style>

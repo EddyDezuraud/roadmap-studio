@@ -254,6 +254,9 @@ watch(() => props.task.name, (newName) => {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  align-self: flex-start;
+  position: sticky;
+  left: 0;
 }
 
 

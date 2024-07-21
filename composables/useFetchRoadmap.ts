@@ -12,6 +12,27 @@ export const useFetchRoadmap = () => {
       .eq('id', id)
   }
 
+  // PRODUCTS
+
+  const addProduct = async (product: Database['public']['Tables']['products']['Row']) => {
+    const { data: newProduct, error } = await supabase
+      .from('products')
+      .insert(product)
+
+    
+    if (error) throw error
+
+    if(newProduct && newProduct.length > 0) {
+      const newSegment = await addNewSegment('Priorité 1', newProduct[0].id, 0);
+    
+      if (error) throw error
+      return newProduct
+    }
+
+    return null
+
+  }
+
 
   //SEGMENTS
   const updateSegmentName = async (id: number, name: string) => {
@@ -239,6 +260,7 @@ export const useFetchRoadmap = () => {
     updateTask,
     deleteTaskStage,
     deleteTaskStagesFromTask,
-    deleteSegment
+    deleteSegment,
+    addProduct
   }
 }

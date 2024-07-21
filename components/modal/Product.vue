@@ -14,7 +14,7 @@ import { GdvModal, GdvInput } from "@gedivote/gedivote-ui-vuejs";
 import { roadmapStore } from '~/store/roadmap'
 const store = roadmapStore();
 
-const open = ref(true) as Ref<boolean>;
+const open = ref(false) as Ref<boolean>;
 const mode = ref<'create' | 'edit'>('create');
 const product = ref<{name: string, color: string}>({
   name: '',
@@ -25,19 +25,24 @@ const product = ref<{name: string, color: string}>({
 const onClose = () => {
   open.value = false;
   mode.value = 'create';
-  product.value = {};
+  product.value = {name: '', color: ''};
+  store.setModal({type: '', show: false, id: null});
 }
 
 const onValidate = () => {
   console.log('onValidate', mode.value, product.value);
   if(mode.value === 'create') {
+    useFetchRoadmap().addNewSegment(product.value);
     store.addProduct(product.value);
   } else {
     store.updateProduct(product.value);
   }
+  onClose();
 }
 
 watch(() => store.modal.show, (value) => {
+  open.value = false;
+
   if(store.modal.type !== 'product') return;
 
   open.value = store.modal.show;

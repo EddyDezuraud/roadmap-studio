@@ -136,6 +136,13 @@ export const useFetchRoadmap = () => {
     return data
   };
 
+  const updateTaskName = async (id: number, name: string) => {
+    await supabase
+      .from('tasks')
+      .update({ name })
+      .eq('id', id)
+  }
+
   const deleteTask = async (id: number) => {
     const taskStages = await getTaskStages(id);
 
@@ -258,6 +265,7 @@ export const useFetchRoadmap = () => {
     getTaskStages,
     deleteTask,
     updateTask,
+    updateTaskName,
     deleteTaskStage,
     deleteTaskStagesFromTask,
     deleteSegment,

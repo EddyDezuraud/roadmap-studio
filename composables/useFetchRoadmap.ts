@@ -100,10 +100,7 @@ export const useFetchRoadmap = () => {
 
     if (lines && lines.length > 0) {
       await Promise.all(lines.map((line: Database['public']['Tables']['lines']['Row']) => 
-        supabase
-          .from('lines')
-          .delete()
-          .eq('id', line.id)
+        deleteLine(line.id)
       ));
     }
 
@@ -111,6 +108,32 @@ export const useFetchRoadmap = () => {
       .from('product_segments')
       .delete()
       .eq('id', id)
+  }
+
+
+  //LINES
+  const deleteLine = async (id: number) => {
+
+    const { data: tasks, error } = await supabase
+      .from('tasks')
+      .select('*')
+      .eq('line_id', id)
+
+    if (error) throw error
+
+    if (tasks && tasks.length > 0) {
+      await Promise.all(tasks.map((task: Database['public']['Tables']['tasks']['Row']) => 
+        deleteTask(task.id)
+      ));
+    }
+
+    const { data, error: linesError } = await supabase
+      .from('lines')
+      .delete()
+      .eq('id', id)
+    
+    if (linesError) throw linesError
+    return data
   }
 
 

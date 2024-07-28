@@ -15,12 +15,16 @@ export const useFetchRoadmap = () => {
   // PRODUCTS
 
   const addProduct = async (product: Database['public']['Tables']['products']['Row']) => {
+
     const { data: newProduct, error } = await supabase
       .from('products')
       .insert(product)
+      .select('id')
 
     
     if (error) throw error
+
+    console.log(newProduct);
 
     if(newProduct && newProduct.length > 0) {
       const newSegment = await addNewSegment('Priorité 1', newProduct[0].id, 0);

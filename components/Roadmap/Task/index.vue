@@ -51,6 +51,8 @@ const openTools = ref(false);
 const taskName = ref();
 const updateTaskName = (event: InputEvent) => {
 
+  taskName.value = (event.target as HTMLSpanElement).innerText;
+
   useFetchRoadmap().updateTaskName(props.task.id, taskName.value);
 
   if(props.task) {

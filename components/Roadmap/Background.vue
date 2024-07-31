@@ -1,5 +1,6 @@
 <template>
   <div :class="$style.wrapper">
+    {{ useDatePosition(new Date(), store.roadmap.start_date, store.getDaySize) }}
     <div :class="$style.currentDay" :style="currentDayStyle"></div>
     <div v-for="col in columns" :key="col.date" :class="$style.col" :style="{width: col.size + 'px'}"></div>
     <div :class="$style.weeks">
@@ -18,10 +19,10 @@ const store = roadmapStore();
 const weeks = computed<Week[]>(() => store.weeks);
 
 const currentDayStyle = computed(() => {
-  const leftPosition = useDatePosition(new Date(), store.roadmap.start_date, store.getDaySize);
+  const leftPosition = useDatePosition(new Date(), store.roadmap.date_start, store.getDaySize);
   return {
     width: store.getDaySize + 'px',
-    left: leftPosition + 'px'
+    left: leftPosition.value + 'px'
   }
 })
 

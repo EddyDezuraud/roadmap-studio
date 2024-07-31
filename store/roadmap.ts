@@ -78,6 +78,10 @@ export const roadmapStore = defineStore({
         task.start_date = newDate;
       }
     },
+    removeProduct(productId: number) {
+      const productIndex = this.roadmap.products.findIndex((p: any) => p.id === productId);
+      this.roadmap.products.splice(productIndex, 1);
+    },
     addSegment(segment: Segment, product_id: number) {
       const productIndex = this.roadmap.products.findIndex((p: any) => p.id === product_id);
 

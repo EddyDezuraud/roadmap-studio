@@ -194,19 +194,8 @@ onUnmounted(() => {
     position: absolute;
     top: 2px;
     right: 2px;
-    /* background: transparent;
-    border: none;
-    cursor: pointer; */
     opacity: 0;
-    /* width: 24px; */
-    /* aspect-ratio: 1; */
-    /* display: flex; */
-    /* align-items: center; */
-    /* justify-content: center; */
-    /* border-radius: 5px; */
     z-index: 3;
-    /* background: rgba(255, 255, 255, 0.5); */
-    /* color: var(--dark-100); */
     transition: opacity 0.1s;
 }
 

@@ -1,9 +1,9 @@
 <template>
   <nav :class="$style.wrapper">
     <div :class="$style.user">
-      <span :class="$style.avatar">E</span>
+      <span :class="$style.avatar">G</span>
       <span :class="$style.username">
-        John Doz
+        Gedivote
       </span>
     </div>
     <NavItem to="/">
@@ -64,7 +64,7 @@ const roadmaps = store.roadmapList;
   font-size: 10px;
   font-weight: 600;
   border-radius: 50%;
-  background: var(--primary);
+  background: #FF3D6D;
   color: white;
   display: flex;
   align-items: center;

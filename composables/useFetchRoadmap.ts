@@ -37,6 +37,26 @@ export const useFetchRoadmap = () => {
 
   }
 
+  const deleteProduct = async (id: number) => {
+    const { data: segments, error } = await supabase
+      .from('product_segments')
+      .select('*')
+      .eq('product_id', id)
+    
+    if (error) throw error
+
+    if (segments && segments.length > 0) {
+      await Promise.all(segments.map((segment: Database['public']['Tables']['product_segments']['Row']) => 
+        deleteSegment(segment.id)
+      ));
+    }
+
+    await supabase
+      .from('products')
+      .delete()
+      .eq('id', id)
+  }
+
 
   //SEGMENTS
   const updateSegmentName = async (id: number, name: string) => {
@@ -281,6 +301,7 @@ export const useFetchRoadmap = () => {
   }
 
   return {
+    deleteProduct,
     updateRoadmapName,
     updateSegmentName,
     addNewSegment,

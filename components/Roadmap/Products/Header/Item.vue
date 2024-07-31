@@ -4,12 +4,16 @@
         <span>
             {{ product.name }}
         </span>
-        <!-- <GdvButtonIcon icon="dots-vertical" size="s" /> -->
+        <GdvButtonIcon :class="$style.toolButton" @click="openTools = !openTools" icon="dots-vertical" size="s" />
+        <RoadmapProductsHeaderItemEditor 
+            v-if="openTools" 
+            :productId="product.id"
+            @close="openTools = false" />
     </div>
     <div :class="$style.inner">
         <div :class="$style.product" :style="{background: gradient}"></div>
 
-        <div v-if="props.product.product_segments && props.product.product_segments.length > 0" :class="$style.segments">
+        <div v-if="product.product_segments && product.product_segments.length > 0" :class="$style.segments">
             <div v-for="(segment, index) in segmentsOrdered" :key="segment.id" >
                 <RoadmapProductsHeaderSegment :segment="segment" :color="segmentColor(index)" />
             </div>
@@ -27,6 +31,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const openTools = ref(false);
 
 const segmentsOrdered = computed(() => {
     return props.product.product_segments.sort((a, b) => a.index - b.index);
@@ -136,5 +141,30 @@ const segmentColor = computed(() => {
 .addProduct svg {
     width: 16px;
     height: 16px;
+}
+
+.toolButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 5px;
+    opacity: 0;
+    z-index: 3;
+    transition: opacity 0.1s;
+}
+
+.toolButton svg {
+    width: 16px;
+    height: 16px;
+}
+
+.openTools .toolButton,
+.header:hover .toolButton {
+    opacity: 1;
+}
+
+.openTools .toolButton,
+.toolButton:hover {
+    background: white;
 }
 </style>

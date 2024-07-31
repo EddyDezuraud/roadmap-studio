@@ -1,5 +1,6 @@
 <template>
   <div :class="$style.wrapper">
+    <div :class="$style.currentDay" :style="currentDayStyle"></div>
     <div v-for="col in columns" :key="col.date" :class="$style.col" :style="{width: col.size + 'px'}"></div>
     <div :class="$style.weeks">
       <div v-for="week in weeks" :key="week.index" :class="$style.week" :style="{width: week.width + 'px' }" ></div>
@@ -15,6 +16,14 @@ import { roadmapStore} from '~/store/roadmap';
 const store = roadmapStore();
 
 const weeks = computed<Week[]>(() => store.weeks);
+
+const currentDayStyle = computed(() => {
+  const leftPosition = useDatePosition(new Date(), store.roadmap.start_date, store.getDaySize);
+  return {
+    width: store.getDaySize + 'px',
+    left: leftPosition + 'px'
+  }
+})
 
 interface Props {
     columns: Column[];
@@ -56,5 +65,16 @@ defineProps<Props>();
   height: 100%;
   background-color: rgba(0, 0, 0, 0.02);
   z-index: 1;
+}
+
+.currentDay {
+  position: absolute;
+  top: 0;
+  left: 300px;
+  width: 1px;
+  height: 100%;
+  background-color: rgb(34, 34, 37);
+  z-index: 2;
+  opacity: 0.05;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.wrapper">
-    {{ useDatePosition(new Date(), store.roadmap.start_date, store.getDaySize) }}
+    <!-- {{ useDatePosition(new Date(), store.roadmap.start_date, store.getDaySize) }} -->
     <div :class="$style.currentDay" :style="currentDayStyle"></div>
     <div v-for="col in columns" :key="col.date" :class="$style.col" :style="{width: col.size + 'px'}"></div>
     <div :class="$style.weeks">

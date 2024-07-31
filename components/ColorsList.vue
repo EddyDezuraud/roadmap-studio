@@ -11,19 +11,19 @@
 const model = defineModel();
 
 const colors = [
+  "#4939FE", // Violet Bleu
   "#0E98D5", // Bleu vif
-  "#E70037", // Rouge vif
-  "#76CD32", // Vert vif
-  "#9C1EFF", // Violet vif
-  "#FFDD44", // Jaune vif
-  "#FF7F50", // Corail
-  "#7B68EE", // Bleu moyen
-  "#FF1493", // Rose profond
-  "#32CD99", // Vert d'eau
-  "#A52A2A", // Marron
+  "#00D3C7", // Bleu Vert
   "#40E0D0", // Turquoise
+  "#4AD333", // Vert clair
+  "#BCE31C", // Vert jaune
+  "#FFDD44", // Jaune vif
+  "#FF80A6", // Rose clair
   "#FF4500",  // Orange rouge
-  "#1E222C"  // Orange rouge
+  "#E70037", // Rose profond
+  "#D34CF4", // Violet vif
+  "#7B68EE", // Bleu moyen
+  "#1E222C"  // Noir rouge
 ];
 
 const onSelect = (color: string) => {

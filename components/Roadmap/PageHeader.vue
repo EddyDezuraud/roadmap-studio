@@ -22,18 +22,22 @@
             @input="updateTitle"
             v-text="roadmapTitle"
             spellcheck="false"></h1>
+
         <div :class="$style.rightPart">
             <GdvDropdown size="s">
                 <template #button>
                     <button :class="$style.viewButton">
                         <div :class="$style.innerViewButton">
-                            <span :class="$style.viewButtonTxt">Roadmap produit 2024-2026</span>
+                            <span :class="$style.viewButtonTxt">{{ selectedView.name }}</span>
                         </div> 
                         <GdvIcon size="s" icon="chevron-down" /> 
                     </button>
                 </template>
                 <template v-slot="scope">
-                    <GdvDropdownItem v-for="view in viewsList" :key="view.id">{{ view.name }}</GdvDropdownItem>
+                    <div v-for="view in viewsList" :key="view.id" :class="$style.viewListItem">
+                        <span>{{ view.name }}</span>
+                        <GdvButtonIcon size="s" icon="pencil" />
+                    </div>
                     <GdvSeparator />
                     <GdvDropdownItem>
                         <GdvIcon icon="plus" />
@@ -64,6 +68,7 @@ const roadmapTitle = ref(props.title);
 const view = ref('lr');
 
 const viewsList = computed(() => store.roadmap.roadmap_views);
+const selectedView = computed(() => store.getSelectedView);
 
 const updateTitle = (event: InputEvent) => {
     roadmapTitle.value = (event.target as HTMLDivElement).innerText;
@@ -101,6 +106,10 @@ const updateTitle = (event: InputEvent) => {
 .leftPart {
     display: flex;
     align-items: center;
+}
+
+.leftPart :global(.gdv-icon) {
+    color: currentColor;
 }
 
 .rightPart {
@@ -210,5 +219,26 @@ const updateTitle = (event: InputEvent) => {
     display: flex;
     align-items: center;
     gap: 4px;
+}
+
+.viewListItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    font-size: var(--font-size-l);
+    cursor: pointer;
+}
+
+.viewListItem:hover {
+    background: var(--dark-hover);
+}
+
+.viewListItem :global(.gdv-button-icon) {
+    opacity: 0;
+}
+
+.viewListItem:hover :global(.gdv-button-icon) {
+    opacity: 1;
 }
 </style>

@@ -25,18 +25,18 @@ export const roadmapStore = defineStore({
     selectedView: 0 as number
   }),
   getters: {
-    getDaySize(): number {
-      return this.roadmap.day_size
-    },
-    getWeekSize(): number {
-      return this.colSize / 4
-    },
     getSelectedView(): any {
       if(!this.selectedView) return null;
       const views = this.roadmap.roadmap_views;
       const selected = views.find((v: any) => v.id === this.selectedView);
       return selected;
-    }
+    },
+    getDaySize(): number {
+      return this.getSelectedView.day_width
+    },
+    getWeekSize(): number {
+      return this.getDaySize * 5
+    },
   },
   actions: {
     setRoadmap(value: any) {

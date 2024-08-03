@@ -73,7 +73,14 @@ const getJobs = async () => {
 
 const { data: jobs } = await useAsyncData('jobs', getJobs);
 
+const initRoadmapView = () => {
+  const roadmapView = roadmap.value.roadmap_views.find(view => view.default);
+  store.setView(roadmapView.id);
+}
+
 if(roadmap.value) {
+
+  initRoadmapView();
 
   store.setRoadmap(roadmap.value);
 

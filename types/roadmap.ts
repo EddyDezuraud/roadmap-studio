@@ -5,6 +5,18 @@ interface TaskStageJob {
   index: number;
 }
 
+interface View {
+  id: number;
+  name: string;
+  roadmap_id: number;
+  date_start: string;
+  date_end: string;
+  day_width: number;
+  default: boolean;
+  archived: boolean;
+  task_size: string;
+}
+
 interface TaskStage {
     id: number;
     duration: number;
@@ -103,4 +115,4 @@ interface TaskStage {
     width: number;
   }
 
-  export type { Roadmap, Column, Product, Segment, Line, Task, TaskStage, Stage, Markers, Job, TaskStageJob, Week};
+  export type { Roadmap, Column, Product, Segment, Line, Task, TaskStage, Stage, Markers, Job, TaskStageJob, Week, View};

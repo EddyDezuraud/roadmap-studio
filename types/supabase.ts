@@ -285,6 +285,7 @@ export type Database = {
           id: number
           name: string | null
           roadmap_id: number | null
+          task_size: string
         }
         Insert: {
           archived?: boolean
@@ -295,6 +296,7 @@ export type Database = {
           id?: number
           name?: string | null
           roadmap_id?: number | null
+          task_size?: string
         }
         Update: {
           archived?: boolean
@@ -305,6 +307,7 @@ export type Database = {
           id?: number
           name?: string | null
           roadmap_id?: number | null
+          task_size?: string
         }
         Relationships: [
           {

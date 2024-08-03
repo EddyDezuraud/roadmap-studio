@@ -27,9 +27,6 @@
                 <template #button>
                     <button :class="$style.viewButton">
                         <div :class="$style.innerViewButton">
-                            <span :class="$style.viewButtonPre">
-                                Vue :
-                            </span>
                             <span :class="$style.viewButtonTxt">Roadmap produit 2024-2026</span>
                         </div> 
                         <GdvIcon size="s" icon="chevron-down" /> 
@@ -110,7 +107,7 @@ const updateTitle = (event: InputEvent) => {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 16px;
+    gap: 8px;
 }
 
 .tabs {

@@ -21,7 +21,8 @@ export const roadmapStore = defineStore({
       id: null as number | null
     },
     tasks: [] as Task[],
-    roadmap: {} as any
+    roadmap: {} as any,
+    selectedView: 0 as number
   }),
   getters: {
     getDaySize(): number {
@@ -30,6 +31,12 @@ export const roadmapStore = defineStore({
     getWeekSize(): number {
       return this.colSize / 4
     },
+    getSelectedView(): any {
+      if(!this.selectedView) return null;
+      const views = this.roadmap.roadmap_views;
+      const selected = views.find((v: any) => v.id === this.selectedView);
+      return selected;
+    }
   },
   actions: {
     setRoadmap(value: any) {
@@ -77,10 +84,6 @@ export const roadmapStore = defineStore({
       if (task) {
         task.start_date = newDate;
       }
-    },
-    removeProduct(productId: number) {
-      const productIndex = this.roadmap.products.findIndex((p: any) => p.id === productId);
-      this.roadmap.products.splice(productIndex, 1);
     },
     addSegment(segment: Segment, product_id: number) {
       const productIndex = this.roadmap.products.findIndex((p: any) => p.id === product_id);
@@ -155,6 +158,9 @@ export const roadmapStore = defineStore({
     removeProduct(productId: number) {
       const productIndex = this.roadmap.products.findIndex((p: any) => p.id === productId);
       this.roadmap.products.splice(productIndex, 1);
+    },
+    setView(viewId: number) {
+      this.selectedView = viewId;
     }
   }
 })

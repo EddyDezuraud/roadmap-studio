@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Roadmap, Segment, Column, Stage, Job, Week, Task, Product } from '~/types/roadmap'
+import type { Roadmap, Segment, Column, Stage, Job, Week, Task, Product, View } from '~/types/roadmap'
 
 export const roadmapStore = defineStore({
   id: 'roadmapStore',
@@ -161,6 +161,17 @@ export const roadmapStore = defineStore({
     },
     setView(viewId: number) {
       this.selectedView = viewId;
+    },
+    addView(view: View) {
+      this.roadmap.roadmap_views.push(view);
+    },
+    removeView(viewId: number) {
+      const viewIndex = this.roadmap.roadmap_views.findIndex((v: any) => v.id === viewId);
+      this.roadmap.roadmap_views.splice(viewIndex, 1);
+    },
+    updateView(view: View) {
+      const viewIndex = this.roadmap.roadmap_views.findIndex((v: any) => v.id === view.id);
+      this.roadmap.roadmap_views[viewIndex] = view;
     }
   }
 })

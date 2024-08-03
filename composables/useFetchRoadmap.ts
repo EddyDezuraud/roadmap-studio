@@ -300,6 +300,16 @@ export const useFetchRoadmap = () => {
     return data
   }
 
+  // VIEWS
+  const addView = async (view: Database['public']['Tables']['roadmap_views']['Row']) => {
+    const { data, error } = await supabase
+      .from('roadmap_views')
+      .insert(view)
+    
+    if (error) throw error
+    return data
+  }
+
   return {
     deleteProduct,
     updateRoadmapName,
@@ -317,6 +327,7 @@ export const useFetchRoadmap = () => {
     deleteTaskStage,
     deleteTaskStagesFromTask,
     deleteSegment,
-    addProduct
+    addProduct,
+    addView
   }
 }

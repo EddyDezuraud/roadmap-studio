@@ -1,5 +1,5 @@
 <template>
-  <div v-if="task" ref="wrapperRef" :class="[$style.wrapper, {[$style.openTools] : openTools}]">
+  <div v-if="task" ref="wrapperRef" :class="[$style.wrapper, {[$style.openTools] : openTools}, $style[styleSize]]">
     <div :class="$style.phantom"></div>
     <div :class="$style.item" :style="taskStyle">
       <button :class="$style.toolButton" @click="openTools = !openTools">
@@ -21,7 +21,7 @@
           v-text="taskSubtitle"
           spellcheck="false"></span>
       </div>
-      <RoadmapTaskStages :task-stages="task.task_stages" />
+      <RoadmapTaskStages :class="$style.stages" :task-stages="task.task_stages" />
       <RoadmapTaskEditor v-if="openTools" :task-id="task.id" :line-index="lineIndex" :product-index="productIndex" :segment-index="segmentIndex" :task-index="taskIndex" @close="openTools = false" />
     </div>
   </div>
@@ -59,6 +59,19 @@ const updateTaskName = (event: InputEvent) => {
     store.updateTaskField('title',taskName.value, props.taskIndex, props.productIndex, props.segmentIndex, props.lineIndex);
   }
 };
+
+const styleSize = computed(() => {
+  switch(store.getSelectedView.task_size) {
+    case 's':
+      return 'small';
+    case 'm':
+      return 'medium';
+    case 'l':
+      return 'large';
+    default:
+      return 'medium';
+  }
+});
 
 const taskSubtitle = ref();
 const updateTaskSubtitle = (event: InputEvent) => {
@@ -196,7 +209,7 @@ watch(() => props.task.name, (newName) => {
 }, { immediate: true });
 </script>
 
-<style module>
+<style module lang="scss">
 .open {
   z-index: 4;
   position: relative;
@@ -339,5 +352,13 @@ watch(() => props.task.name, (newName) => {
 }
 .editable:hover::before {
   opacity: 0.05;
+}
+
+
+.small {
+  .stages,
+  .subtitle {
+    display: none;
+  }
 }
 </style>

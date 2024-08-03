@@ -34,12 +34,12 @@
                     </button>
                 </template>
                 <template v-slot="scope">
-                    <div v-for="view in viewsList" :key="view.id" :class="$style.viewListItem">
+                    <GdvDropdownItem v-for="view in viewsList" :key="view.id" :class="$style.viewListItem" @click="onActiveView(view)">
                         <span>{{ view.name }}</span>
                         <GdvButtonIcon size="s" icon="pencil" />
-                    </div>
+                    </GdvDropdownItem>
                     <GdvSeparator />
-                    <GdvDropdownItem>
+                    <GdvDropdownItem @click="onAddView">
                         <GdvIcon icon="plus" />
                         <span>Nouvelle vue</span>
                     </GdvDropdownItem>
@@ -74,6 +74,14 @@ const updateTitle = (event: InputEvent) => {
     roadmapTitle.value = (event.target as HTMLDivElement).innerText;
     useFetchRoadmap().updateRoadmapName(store.roadmap.id, roadmapTitle.value);
     gstore.updateRoadmapTitle(store.roadmap.id, roadmapTitle.value);
+}
+
+const onAddView = () => {
+    store.setModal({type: 'view', show: true, id: null});
+}
+
+const onActiveView = (view: any) => {
+    store.setView(view.id);
 }
 </script>
 
@@ -183,7 +191,7 @@ const updateTitle = (event: InputEvent) => {
     color: var(--dark-100);
     font-weight: 500;
     position: relative;
-    width: 220px;
+    width: 180px;
     justify-content: space-between;
     padding-right: 5px;
     box-shadow: inset 0 .2rem #fff, inset 0 -.1rem 0 .1rem #dce1ea80;
@@ -225,13 +233,9 @@ const updateTitle = (event: InputEvent) => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
     font-size: var(--font-size-l);
     cursor: pointer;
-}
-
-.viewListItem:hover {
-    background: var(--dark-hover);
+    gap: 4px;
 }
 
 .viewListItem :global(.gdv-button-icon) {

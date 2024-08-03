@@ -9,6 +9,7 @@
         </div>
         <ModalTask />
         <ModalProduct />
+        <ModalView />
     </div>
 </template>    
 

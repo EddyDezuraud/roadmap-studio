@@ -7,12 +7,12 @@ interface TaskStageJob {
 
 interface View {
   id: number;
-  name: string;
-  roadmap_id: number;
-  date_start: string;
-  date_end: string;
-  day_width: number;
-  default: boolean;
+  name: string | null;
+  roadmap_id: number | null;
+  date_start: string | null;
+  date_end: string | null;
+  day_width: number | null;
+  default: boolean | null;
   archived: boolean;
   task_size: string;
 }

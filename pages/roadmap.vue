@@ -32,6 +32,7 @@ const roadmapData = computed(() => store.roadmap);
 const {data: roadmap, status} = await useAsyncData('roadmap', async () => {
     const { data } = await supabase.from('roadmap') .select(`
       *,
+      roadmap_views(*),
       columns (*),
       markers(*),
       products (

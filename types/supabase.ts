@@ -275,6 +275,47 @@ export type Database = {
           },
         ]
       }
+      roadmap_views: {
+        Row: {
+          archived: boolean
+          date_end: string | null
+          date_start: string
+          day_width: number | null
+          default: boolean | null
+          id: number
+          name: string | null
+          roadmap_id: number | null
+        }
+        Insert: {
+          archived?: boolean
+          date_end?: string | null
+          date_start: string
+          day_width?: number | null
+          default?: boolean | null
+          id?: number
+          name?: string | null
+          roadmap_id?: number | null
+        }
+        Update: {
+          archived?: boolean
+          date_end?: string | null
+          date_start?: string
+          day_width?: number | null
+          default?: boolean | null
+          id?: number
+          name?: string | null
+          roadmap_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "roadmap_views_roadmap_id_fkey"
+            columns: ["roadmap_id"]
+            isOneToOne: false
+            referencedRelation: "roadmap"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       stages: {
         Row: {
           color: string | null

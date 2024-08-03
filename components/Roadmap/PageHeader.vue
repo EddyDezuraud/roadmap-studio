@@ -3,13 +3,13 @@
         <div :class="$style.leftPart">
             <div :class="$style.tabs">
                 <div :class="[$style.tab, $style.current]">
-                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-map"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" /><path d="M9 4v13" /><path d="M15 7v13" /></svg>
+                    <GdvIcon icon="directions" /> 
                     <span>
                         Timeline
                     </span>
                 </div>
                 <div :class="$style.tab">
-                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-calendar"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 2a1 1 0 0 1 .993 .883l.007 .117v1h1a3 3 0 0 1 2.995 2.824l.005 .176v12a3 3 0 0 1 -2.824 2.995l-.176 .005h-12a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-12a3 3 0 0 1 2.824 -2.995l.176 -.005h1v-1a1 1 0 0 1 1.993 -.117l.007 .117v1h6v-1a1 1 0 0 1 1 -1zm3 7h-14v9.625c0 .705 .386 1.286 .883 1.366l.117 .009h12c.513 0 .936 -.53 .993 -1.215l.007 -.16v-9.625z" /><path d="M12 12a1 1 0 0 1 .993 .883l.007 .117v3a1 1 0 0 1 -1.993 .117l-.007 -.117v-2a1 1 0 0 1 -.117 -1.993l.117 -.007h1z" /></svg>
+                    <GdvIcon icon="calendar" /> 
                     <span>
                         Agenda
                     </span>
@@ -22,13 +22,37 @@
             @input="updateTitle"
             v-text="roadmapTitle"
             spellcheck="false"></h1>
-        <div></div>
+        <div :class="$style.rightPart">
+            <GdvDropdown size="s">
+                <template #button>
+                    <button :class="$style.viewButton">
+                        <div :class="$style.innerViewButton">
+                            <span :class="$style.viewButtonPre">
+                                Vue :
+                            </span>
+                            <span :class="$style.viewButtonTxt">Roadmap produit 2024-2026</span>
+                        </div> 
+                        <GdvIcon size="s" icon="chevron-down" /> 
+                    </button>
+                </template>
+                <template v-slot="scope">
+                    <GdvDropdownItem v-for="view in viewsList" :key="view.id">{{ view.name }}</GdvDropdownItem>
+                    <GdvSeparator />
+                    <GdvDropdownItem>
+                        <GdvIcon icon="plus" />
+                        <span>Nouvelle vue</span>
+                    </GdvDropdownItem>
+                </template>
+            </GdvDropdown>
+            <GdvButtonIcon icon="link" />
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { roadmapStore } from '#imports';
 import { globalStore } from '#imports';
+import { GdvSeparator, GdvIcon, GdvDropdown, GdvDropdownItem, GdvButtonIcon } from '@gedivote/gedivote-ui-vuejs';
 
 const store = roadmapStore();
 const gstore = globalStore();
@@ -40,6 +64,9 @@ interface Props {
 const props = defineProps<Props>();
 
 const roadmapTitle = ref(props.title);
+const view = ref('lr');
+
+const viewsList = computed(() => store.roadmap.roadmap_views);
 
 const updateTitle = (event: InputEvent) => {
     roadmapTitle.value = (event.target as HTMLDivElement).innerText;
@@ -50,6 +77,8 @@ const updateTitle = (event: InputEvent) => {
 
 <style module>
 .wrapper {
+    position: relative;
+    z-index: 9;
     height: var(--header-height);
     display: flex;
     justify-content: space-between;
@@ -58,12 +87,12 @@ const updateTitle = (event: InputEvent) => {
     border-bottom: var(--border);
 }
 
-.wrapper > div {
+.wrapper > * {
     flex: 1;
 }
 
 .title {
-    text-align: left;
+    text-align: center;
     font-family: 'Poppins', serif;
     font-weight: 500;
     font-size: var(--font-size-xl);
@@ -77,11 +106,19 @@ const updateTitle = (event: InputEvent) => {
     align-items: center;
 }
 
+.rightPart {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
 .tabs {
     display: flex;
     border: var(--border);
     border-radius: 5px;
     overflow: hidden;
+    box-shadow: inset 0 .2rem #fff, inset 0 -.1rem 0 .1rem #dce1ea80;
 }
 
 .tabs > *:not(:last-child) {
@@ -123,5 +160,58 @@ const updateTitle = (event: InputEvent) => {
 .tab svg {
     width: 16px;
     opacity: 0.75;
+}
+
+.select {
+    width: 200px;
+}
+
+.viewButton {
+    border: var(--border);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--font-size-l);
+    cursor: pointer;
+    color: var(--dark-100);
+    font-weight: 500;
+    position: relative;
+    width: 220px;
+    justify-content: space-between;
+    padding-right: 5px;
+    box-shadow: inset 0 .2rem #fff, inset 0 -.1rem 0 .1rem #dce1ea80;
+}
+
+.viewButtonTxt {
+    font-weight: 500;
+    color: var(--dark-200);
+}
+
+.innerViewButton {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: calc(100% - 16px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px;
+}
+
+.viewButtonPre {
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.viewButtonPre svg {
+    width: 18px;
+    max-width: none;
+}
+
+:global(.gdv-dropdown-item__wrapper) p {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 </style>

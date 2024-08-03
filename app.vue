@@ -23,7 +23,7 @@ store.setRoadmapList(data);
 
 <style>
 body {
-  color: var(--main-color);
+  color: var(--dark);
   font-family: 'Poppins', sans-serif;
   line-height: 1;
 }

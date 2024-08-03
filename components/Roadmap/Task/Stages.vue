@@ -1,8 +1,8 @@
 <template>
-  <div :class="$style.wrapper">
+  <div :class="[$style.wrapper, $style['size-'+store.getSelectedView.task_size]]">
     <div v-for="stage in orderedTaskStages" :class="$style.stage" :style="{'--primary': stageRef(stage.stage_id)?.color}">
       <div :class="$style.stageBar" :style="{width: stageBarWidth(stage.duration)}"></div>
-      <div :class="$style.jobsList">
+      <div :class="$style.jobsList" v-if="store.getSelectedView.task_size !== 's'">
         <div v-for="taskJob in stage.task_stage_jobs" :key="taskJob.index" :class="$style.job">
           <span>
             {{ jobName(taskJob.job_id) }}

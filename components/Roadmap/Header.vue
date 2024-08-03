@@ -1,6 +1,6 @@
 <template>
     <div :class="$style.wrapper">
-        <div v-for="column in columns" :key="column.date" :class="$style.item" :style="{width: column.size + 'px'}">
+        <div v-for="column in columns" :key="column.date" :class="$style.item" :style="{width: (column.nbDays * daySize ) + 'px'}">
             <span>
                 {{ formatMonthYear(column.date) }}
             </span>
@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import type { Column } from '@/types/roadmap';
+import { roadmapStore } from '~/store/roadmap'
 
 interface Props {
     columns: Column[];
@@ -17,10 +18,14 @@ interface Props {
 
 defineProps<Props>();
 
+const store = roadmapStore();
+
 const formatMonthYear = (dateString: string): string => {
     const date = new Date(dateString);
     return date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
 };
+
+const daySize = computed(() => store.getDaySize)
 </script>
 
 <style module>

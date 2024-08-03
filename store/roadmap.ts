@@ -36,7 +36,7 @@ export const roadmapStore = defineStore({
     },
     getWeekSize(): number {
       return this.getDaySize * 5
-    },
+    }
   },
   actions: {
     setRoadmap(value: any) {

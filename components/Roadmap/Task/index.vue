@@ -21,7 +21,7 @@
           v-text="taskSubtitle"
           spellcheck="false"></span>
       </div>
-      <RoadmapTaskStages :class="$style.stages" :task-stages="task.task_stages" />
+      <RoadmapTaskStages :task-stages="task.task_stages" />
       <RoadmapTaskEditor v-if="openTools" :task-id="task.id" :line-index="lineIndex" :product-index="productIndex" :segment-index="segmentIndex" :task-index="taskIndex" @close="openTools = false" />
     </div>
   </div>
@@ -356,7 +356,6 @@ watch(() => props.task.name, (newName) => {
 
 
 .small {
-  .stages,
   .subtitle {
     display: none;
   }

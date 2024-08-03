@@ -25,7 +25,7 @@ export const useUseSetColumns = (roadmapStartDate: string | null, roadmapEndDate
     columns.push({
       date: currentDate.toISOString().split('T')[0],
       show: true,
-      size: daySize ? (daySize * workdaysInMonth) : (10 * workdaysInMonth),
+      nbDays: workdaysInMonth,
       markers: []
     });
     currentDate.setMonth(currentDate.getMonth() + 1);

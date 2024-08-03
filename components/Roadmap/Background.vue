@@ -5,7 +5,7 @@
         {{ new Date().getDate() }}
       </span>
     </div>
-    <div v-for="col in columns" :key="col.date" :class="$style.col" :style="{width: col.size + 'px'}"></div>
+    <div v-for="col in columns" :key="col.date" :class="$style.col" :style="{width: (col.nbDays * daySize ) + 'px'}"></div>
     <div :class="$style.weeks">
       <div v-for="week in weeks" :key="week.index" :class="$style.week" :style="{width: week.width + 'px' }" ></div>
     </div>
@@ -27,6 +27,8 @@ const currentDayStyle = computed(() => {
     left: leftPosition.value + 'px'
   }
 })
+
+const daySize = computed(() => store.getDaySize);
 
 interface Props {
     columns: Column[];

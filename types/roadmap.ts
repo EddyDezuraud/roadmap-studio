@@ -87,7 +87,7 @@ interface TaskStage {
   interface Column {
     date: string;
     show: boolean;
-    size: number;
+    nbDays: number;
     markers: Markers[]
   }
   
